@@ -25,10 +25,7 @@ public class PersonService implements IsPersonService {
 			return personList;
 		}
 
-		return personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getName() != null && person.getAge() > 0)
-				.filter(person -> StringUtils.startsWithIgnoreCase(person.getName(), prefix))
+		return getFilteredPersonStream(personList).filter(person -> StringUtils.startsWithIgnoreCase(person.getName(), prefix))
 				.collect(Collectors.toList());
 
 	}
@@ -40,10 +37,7 @@ public class PersonService implements IsPersonService {
 			return Collections.emptyMap();
 		}
 
-		return personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getName() != null && person.getAge() >= 0)
-				.collect(Collectors.groupingBy(person -> person.getAge()));
+		return getFilteredPersonStream(personList).collect(Collectors.groupingBy(person -> person.getAge()));
 
 	}
 
@@ -53,10 +47,7 @@ public class PersonService implements IsPersonService {
 			return 0.0;
 		}
 
-		return personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getAge() >= 0)
-				.collect(Collectors.averagingInt(person -> person.getAge()));
+		return getFilteredPersonStream(personList).collect(Collectors.averagingInt(person -> person.getAge()));
 	}
 
 	@Override
@@ -66,15 +57,9 @@ public class PersonService implements IsPersonService {
 		}
 
 		long count = getFilteredPersonStream(personList).count();
-
-		long sum = getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
-				.sum();
-		int min = getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
-				.min()
-				.orElse(0);
-		int max = getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
-				.max()
-				.orElse(0);
+		long sum = getPersonSummaryStatistics(personList).getSum();
+		int min = getPersonSummaryStatistics(personList).getMin();
+		int max = getPersonSummaryStatistics(personList).getMax();
 
 		return new IntSummaryStatistics(count, min, max, sum);
 
@@ -84,6 +69,11 @@ public class PersonService implements IsPersonService {
 		return personList.stream()
 				.filter(Objects::nonNull)
 				.filter(person -> person.getAge() != null && person.getAge() >= 0);
+	}
+
+	private IntSummaryStatistics getPersonSummaryStatistics(List<IsPerson> personList) {
+		return getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
+				.summaryStatistics();
 	}
 
 }
