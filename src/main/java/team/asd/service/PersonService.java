@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PersonService implements IsPersonService {
 	@Override
@@ -64,30 +65,25 @@ public class PersonService implements IsPersonService {
 			return new IntSummaryStatistics();
 		}
 
-		long count = personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getAge() >= 0)
-				.count();
-		long sum = personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getAge() >= 0)
-				.mapToInt(person -> person.getAge())
+		long count = getFilteredPersonStream(personList).count();
+
+		long sum = getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
 				.sum();
-		int min = personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getAge() >= 0)
-				.mapToInt(person -> person.getAge())
+		int min = getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
 				.min()
 				.orElse(0);
-		int max = personList.stream()
-				.filter(Objects::nonNull)
-				.filter(person -> person.getAge() != null && person.getAge() >= 0)
-				.mapToInt(person -> person.getAge())
+		int max = getFilteredPersonStream(personList).mapToInt(person -> person.getAge())
 				.max()
 				.orElse(0);
 
 		return new IntSummaryStatistics(count, min, max, sum);
 
+	}
+
+	private Stream<IsPerson> getFilteredPersonStream(List<IsPerson> personList) {
+		return personList.stream()
+				.filter(Objects::nonNull)
+				.filter(person -> person.getAge() != null && person.getAge() >= 0);
 	}
 
 }
