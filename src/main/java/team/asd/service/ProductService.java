@@ -31,7 +31,6 @@ public class ProductService implements IsProductService {
 		return productList.stream()
 				.filter(Objects::nonNull)
 				.map(IsProduct::getName)
-				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
 	}
 
