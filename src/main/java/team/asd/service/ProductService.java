@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toMap;
 
 public class ProductService implements IsProductService {
@@ -64,21 +65,10 @@ public class ProductService implements IsProductService {
 			throw new WrongProductException("Wrong product.");
 		}
 
-		for (var entry : mapState.entrySet()) {
-			entry.setValue(getProductCountByState(entry.getKey(), productList));
-		}
+		mapState.putAll(productList.stream()
+				.collect(groupingBy(IsProduct::getState, Collectors.summingInt(e -> 1))));
 
 		return mapState;
-	}
-
-	private Integer getProductCountByState(ProductState state, List<IsProduct> productList) {
-
-		return productList.stream()
-				.filter(Objects::nonNull)
-				.filter(prodState -> prodState.getState() != null && prodState.getState()
-						.equals(state))
-				.map(e -> 1)
-				.reduce(0, Integer::sum);
 
 	}
 
