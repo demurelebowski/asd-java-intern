@@ -102,9 +102,6 @@ public class PriceService implements IsPriceService {
 			return BigDecimal.ZERO;
 		}
 
-		System.out.println(sum);
-		System.out.println(count);
-
 		return sum.divide(count, 0, RoundingMode.HALF_UP);
 
 	}
