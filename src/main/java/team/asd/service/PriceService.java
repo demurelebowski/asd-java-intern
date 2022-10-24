@@ -37,7 +37,6 @@ public class PriceService implements IsPriceService {
 
 		if (mapByDate.values()
 				.stream()
-				.mapToInt(i -> i)
 				.anyMatch(i -> i > 1)) {
 			throw new WrongPriceException("Date of two prices are equal");
 		}
