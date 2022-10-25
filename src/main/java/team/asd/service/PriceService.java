@@ -1,6 +1,7 @@
 package team.asd.service;
 
 import lombok.NonNull;
+import org.apache.commons.collections4.CollectionUtils;
 import team.asd.entities.IsPerDayPrice;
 import team.asd.entities.IsPrice;
 import team.asd.exceptions.WrongPriceException;
@@ -19,25 +20,23 @@ import static java.util.stream.Collectors.groupingBy;
 public class PriceService implements IsPriceService {
 	@Override
 	public @NonNull BigDecimal defineAverageValueFromPerDayPrice(List<IsPerDayPrice> prices) throws WrongPriceException {
-		if (prices == null) {
+		if (CollectionUtils.isEmpty(prices)) {
 			return BigDecimal.ZERO;
 		}
 
 		if (prices.stream()
 				.filter(Objects::nonNull)
-				.anyMatch(date -> date.getPrice() == null) || prices.stream()
-				.filter(Objects::nonNull)
-				.anyMatch(date -> date.getDate() == null)) {
+				.anyMatch(date -> date.getPrice() == null || date.getDate() == null)) {
 			throw new WrongPriceException("Wrong price item was provided");
 		}
 
 		Map<LocalDate, Integer> mapByDate = prices.stream()
 				.filter(price -> price.getPrice() != null)
-				.collect(groupingBy(IsPerDayPrice::getDate, Collectors.summingInt(e -> 1)));
+				.collect(groupingBy(IsPerDayPrice::getDate, Collectors.summingInt(price -> 1)));
 
 		if (mapByDate.values()
 				.stream()
-				.anyMatch(i -> i > 1)) {
+				.anyMatch(pricePerDay -> pricePerDay > 1)) {
 			throw new WrongPriceException("Date of two prices are equal");
 		}
 
@@ -57,13 +56,11 @@ public class PriceService implements IsPriceService {
 		}
 
 		return sum.divide(new BigDecimal(count), 0, RoundingMode.HALF_UP);
-
 	}
 
 	@Override
 	public @NonNull BigDecimal defineAverageValueFromPrices(List<IsPrice> prices) throws WrongPriceException {
-
-		if (prices == null) {
+		if (CollectionUtils.isEmpty(prices)) {
 			return BigDecimal.ZERO;
 		}
 
@@ -73,11 +70,7 @@ public class PriceService implements IsPriceService {
 		}
 		if (prices.stream()
 				.filter(Objects::nonNull)
-				.anyMatch(date -> date.getPrice() == null) || prices.stream()
-				.filter(Objects::nonNull)
-				.anyMatch(date -> date.getFromDate() == null) || prices.stream()
-				.filter(Objects::nonNull)
-				.anyMatch(date -> date.getToDate() == null)) {
+				.anyMatch(date -> date.getPrice() == null || date.getFromDate() == null || date.getToDate() == null)) {
 			throw new WrongPriceException("Wrong price item was provided");
 		}
 
@@ -102,17 +95,13 @@ public class PriceService implements IsPriceService {
 		}
 
 		return sum.divide(count, 0, RoundingMode.HALF_UP);
-
 	}
 
 	private boolean overlaps(IsPrice price, List<IsPrice> prices) {
-
 		return prices.stream()
-				.filter(prc -> !prc.equals(price))
-				.anyMatch(prc -> prc.getFromDate()
-						.isBefore(price.getToDate()) && prc.getToDate()
+				.filter(priceInList -> !priceInList.equals(price))
+				.anyMatch(priceInList -> priceInList.getFromDate()
+						.isBefore(price.getToDate()) && priceInList.getToDate()
 						.isAfter(price.getFromDate()));
-
 	}
-
 }
