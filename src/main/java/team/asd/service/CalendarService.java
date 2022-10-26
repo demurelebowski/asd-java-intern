@@ -87,23 +87,24 @@ public class CalendarService implements IsCalendarService {
 		}
 		String[] arrDate = dateString.split(" ");
 
-		if (arrDate.length == 3) {
-			try {
-				arrDate[0] = arrDate[0].replaceAll("[^\\d.]", "");
-				String stringDate = arrDate[0] + arrDate[1] + arrDate[2];
-				int year = Integer.parseInt(arrDate[2]);
+		if (arrDate.length != 3) {
+			throw new DateTimeException("Wrong parameter");
+		}
 
-				if (year < 1000 || year > 3000) {
-					throw new DateTimeException("Wrong parameter");
-				}
+		try {
+			arrDate[0] = arrDate[0].replaceAll("[^\\d.]", "");
+			String stringDate = arrDate[0] + arrDate[1] + arrDate[2];
+			int year = Integer.parseInt(arrDate[2]);
 
-				return LocalDate.parse(stringDate, DateTimeFormatter.ofPattern("dMMMyyyy")
-						.withLocale(Locale.ENGLISH));
-
-			} catch (Exception e) {
+			if (year < 1000 || year > 3000) {
 				throw new DateTimeException("Wrong parameter");
 			}
+
+			return LocalDate.parse(stringDate, DateTimeFormatter.ofPattern("dMMMyyyy")
+					.withLocale(Locale.ENGLISH));
+
+		} catch (Exception e) {
+			throw new DateTimeException("Wrong parameter");
 		}
-		throw new DateTimeException("Wrong parameter");
 	}
 }
