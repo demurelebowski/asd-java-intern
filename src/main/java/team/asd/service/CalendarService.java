@@ -42,12 +42,8 @@ public class CalendarService implements IsCalendarService {
 			throw new WrongArgumentException("Parameter is wrong");
 		}
 
-		if (unit.equals(ChronoUnit.SECONDS)) {
-			return ChronoUnit.DAYS.between(fromDate, toDate) * 24 * 60 * 60;
-		}
-
 		try {
-			return unit.between(fromDate, toDate);
+			return unit.between(fromDate.atStartOfDay(), toDate.atStartOfDay());
 		} catch (Exception e) {
 			throw new WrongArgumentException("unit parameter is wrong");
 		}
@@ -59,19 +55,17 @@ public class CalendarService implements IsCalendarService {
 			throw new WrongArgumentException("Parameter is wrong");
 		}
 
-		if (dateElement.equals(DateElement.DAY_OF_WEEK)) {
+		switch (dateElement) {
+		case DAY_OF_WEEK:
 			return date.getDayOfWeek()
 					.toString();
-		}
-		if (dateElement.equals(DateElement.WEEK_NUMBER)) {
-			return String.valueOf(date.get(WeekFields.of(Locale.getDefault())
-					.weekOfWeekBasedYear()));
-		}
-		if (dateElement.equals(DateElement.MONTH)) {
+		case MONTH:
 			return date.getMonth()
 					.toString();
-		}
-		if (dateElement.equals(DateElement.IS_LEAP_YEAR)) {
+		case WEEK_NUMBER:
+			return String.valueOf(date.get(WeekFields.of(Locale.getDefault())
+					.weekOfWeekBasedYear()));
+		case IS_LEAP_YEAR:
 			return date.isLeapYear() ? "Yes" : "No";
 		}
 
