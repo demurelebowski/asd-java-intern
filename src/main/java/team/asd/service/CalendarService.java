@@ -12,17 +12,15 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CalendarService implements IsCalendarService {
+	final private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 	@Override
 	public String toString(LocalDate date) {
 		if (Objects.isNull(date)) {
 			return null;
 		}
 
-		return date.format(getFormatter());
-	}
-
-	private DateTimeFormatter getFormatter() {
-		return DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return date.format(dateFormatter);
 	}
 
 	@Override
@@ -32,7 +30,7 @@ public class CalendarService implements IsCalendarService {
 		}
 
 		try {
-			return LocalDate.parse(stringDate, getFormatter());
+			return LocalDate.parse(stringDate, dateFormatter);
 		} catch (Exception e) {
 			return null;
 		}
