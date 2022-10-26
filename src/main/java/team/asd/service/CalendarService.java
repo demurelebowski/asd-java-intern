@@ -67,9 +67,9 @@ public class CalendarService implements IsCalendarService {
 					.weekOfWeekBasedYear()));
 		case IS_LEAP_YEAR:
 			return date.isLeapYear() ? "Yes" : "No";
+		default:
+			throw new WrongArgumentException("Parameter is wrong");
 		}
-
-		throw new WrongArgumentException("Parameter is wrong");
 	}
 
 	@Override
