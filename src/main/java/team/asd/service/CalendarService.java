@@ -1,5 +1,6 @@
 package team.asd.service;
 
+import org.apache.commons.lang3.ObjectUtils;
 import team.asd.constants.DateElement;
 import team.asd.exceptions.WrongArgumentException;
 
@@ -38,7 +39,7 @@ public class CalendarService implements IsCalendarService {
 
 	@Override
 	public long defineCountInRange(LocalDate fromDate, LocalDate toDate, ChronoUnit unit) {
-		if (Objects.isNull(unit) || Objects.isNull(toDate) || Objects.isNull(fromDate)) {
+		if (ObjectUtils.anyNull(unit, toDate, fromDate)) {
 			throw new WrongArgumentException("Parameter is wrong");
 		}
 
@@ -51,7 +52,7 @@ public class CalendarService implements IsCalendarService {
 
 	@Override
 	public String getInfo(LocalDate date, DateElement dateElement) {
-		if (Objects.isNull(dateElement) || Objects.isNull(date)) {
+		if (ObjectUtils.anyNull(dateElement, date)) {
 			throw new WrongArgumentException("Parameter is wrong");
 		}
 
