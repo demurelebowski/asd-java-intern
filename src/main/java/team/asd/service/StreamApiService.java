@@ -73,14 +73,6 @@ public class StreamApiService implements IsStreamApiService {
 
 	@Override
 	public @NonNull BigDecimal sumAllValues(List<BigDecimal> values) {
-		if (Objects.isNull(values)) {
-			throw new NullPointerException();
-		}
-
-		if (CollectionUtils.isEmpty(values)) {
-			return BigDecimal.ZERO;
-		}
-
 		return values.stream()
 				.filter(Objects::nonNull)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
