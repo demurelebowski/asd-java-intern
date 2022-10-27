@@ -3,6 +3,7 @@ package team.asd.service;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ public class StreamApiService implements IsStreamApiService {
 
 	@Override
 	public @NonNull List<Integer> defineListFromRange(Integer start, Integer end) throws NumberFormatException {
-		if (Objects.isNull(start) || Objects.isNull(end)) {
+		if (ObjectUtils.anyNull(start, end)) {
 			return Collections.emptyList();
 		}
 
@@ -47,9 +48,17 @@ public class StreamApiService implements IsStreamApiService {
 
 		return stringList.stream()
 				.filter(Objects::nonNull)
-				.filter(str -> str.matches("-?[0-9]+"))
-				.map(Integer::valueOf)
+				.map(this::toInt)
+				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
+	}
+
+	private Integer toInt(String str) {
+		try {
+			return Integer.valueOf(str);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -90,7 +99,7 @@ public class StreamApiService implements IsStreamApiService {
 
 	@Override
 	public @NonNull Stream<LocalDate> skipDaysFromSpecifiedDate(List<LocalDate> listOfDates, LocalDate date, Integer daysToSkip) {
-		if (CollectionUtils.isEmpty(listOfDates) || Objects.isNull(date) || Objects.isNull(daysToSkip) || daysToSkip < 0) {
+		if (CollectionUtils.isEmpty(listOfDates) || ObjectUtils.anyNull(date, daysToSkip) || daysToSkip < 0) {
 			return Stream.empty();
 		}
 		counter = daysToSkip;
