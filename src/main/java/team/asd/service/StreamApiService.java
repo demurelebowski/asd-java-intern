@@ -18,7 +18,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StreamApiService implements IsStreamApiService {
-	private Integer counter = 0;
 
 	@Override
 	public @NonNull Stream<?> getNonNullStreamItems(Collection<?> collection) {
@@ -94,16 +93,9 @@ public class StreamApiService implements IsStreamApiService {
 		if (CollectionUtils.isEmpty(listOfDates) || ObjectUtils.anyNull(date, daysToSkip) || daysToSkip < 0) {
 			return Stream.empty();
 		}
-		counter = daysToSkip;
-
+		
 		return sortLocalDateList(listOfDates).filter(dayIn -> dayIn.isAfter(date) || dayIn.equals(date))
-				.filter(dayIn -> {
-					if (counter <= 0) {
-						return true;
-					}
-					counter--;
-					return false;
-				});
+				.skip(daysToSkip);
 	}
 
 	@Override
