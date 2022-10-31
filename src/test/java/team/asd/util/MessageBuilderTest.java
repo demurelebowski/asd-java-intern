@@ -22,12 +22,6 @@ class MessageBuilderTest {
 
 	@Test
 	void testChangeBaseLocation() throws IllegalAccessException, InvocationTargetException {
-		/*
-		Class<MessageBuilder> mbClass = MessageBuilder.class;
-		Method changeBaseLocation = mbClass.getDeclaredMethod("changeBaseLocation");
-		changeBaseLocation.setAccessible(true);
-		*/
-
 		BaseLocation baseLocation = new BaseLocation();
 		MessageBuilder messageBuilder = new MessageBuilder();
 		String changeTo = "Mars";
