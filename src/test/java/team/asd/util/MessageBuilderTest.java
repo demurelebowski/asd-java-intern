@@ -2,6 +2,8 @@ package team.asd.util;
 
 import org.junit.jupiter.api.Test;
 import team.asd.entities.BaseLocation;
+import team.asd.entities.IsLocation;
+import team.asd.entities.TestLocation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,6 +20,20 @@ class MessageBuilderTest {
 				.getMessage());
 		assertEquals("123", new MessageBuilder().add(123, null)
 				.getMessage());
+	}
+
+	@Test
+	void testAddWithNull() {
+		MessageBuilder messageBuilder = new MessageBuilder().add(null, null);
+		assertNotNull(messageBuilder.getMessage(), "Should not be null");
+	}
+
+	@Test
+	void testAddLocation() {
+		IsLocation location = new TestLocation("Tschernikow", "Main", "12v");
+		String locationText = "Tschernikow Main, 12v";
+		MessageBuilder message = new MessageBuilder().add(location);
+		assertEquals(locationText, message.getMessage());
 	}
 
 	@Test
