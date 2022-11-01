@@ -23,7 +23,7 @@ public class JavaInternApplication {
 	}
 
 	@GetMapping("/test/message")
-	public TestMessageController test_message() {
+	public TestMessageController testMessage() {
 		return new TestMessageController(LocalDate.now(), "Test message from Spring Boot Application!");
 	}
 }
