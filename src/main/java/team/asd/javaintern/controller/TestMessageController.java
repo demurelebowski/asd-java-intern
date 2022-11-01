@@ -11,11 +11,21 @@ public class TestMessageController {
 		this.content = content;
 	}
 
+	public TestMessageController(String content) {
+		this.date = LocalDate.now();
+		this.content = content;
+	}
+
 	public LocalDate getDate() {
 		return date;
 	}
 
 	public String getContent() {
 		return content;
+	}
+
+	@Override
+	public String toString() {
+		return "TestMessageController{" + "date=" + date + ", content='" + content + '\'' + '}';
 	}
 }
