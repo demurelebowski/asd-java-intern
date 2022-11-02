@@ -14,6 +14,7 @@ import team.asd.javaintern.controller.TestMessageController;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @SpringBootApplication
 @RestController
@@ -37,11 +38,11 @@ public class JavaInternApplication {
 	public ResponseEntity postTestMessageController(HttpServletRequest request) {
 		var content = request.getParameter("content");
 		try {
-			LocalDate date = java.time.LocalDate.parse(request.getParameter("date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			LocalDate date = LocalDate.parse(request.getParameter("date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			TestMessageController testMessageController = new TestMessageController(date, content);
 			return ResponseEntity.status(200)
 					.body(testMessageController.toString());
-		} catch (Exception e) {
+		} catch (DateTimeParseException e) {
 			return ResponseEntity.status(400)
 					.body("Check date(pattern: yyyy-MM-dd)");
 		}
