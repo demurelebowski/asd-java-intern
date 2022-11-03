@@ -3,25 +3,26 @@ package javaintern.service;
 import javaintern.dao.ReservationDao;
 import javaintern.entity.Reservation;
 
-public class ReservationService implements ReservationDao {
+public class ReservationService {
+	private final ReservationDao reservationDao;
 
-	@Override
+	public ReservationService(ReservationDao reservationDao) {
+		this.reservationDao = reservationDao;
+	}
+
 	public Reservation readById(Integer id) {
-		return null;
+		return reservationDao.readById(id);
 	}
 
-	@Override
-	public Reservation create(Integer id) {
-		return null;
+	public Reservation create(Reservation reservation) {
+		return reservationDao.create(reservation);
 	}
 
-	@Override
-	public Reservation update(Integer id) {
-		return null;
+	public Reservation update(Reservation reservation) {
+		return reservationDao.update(reservation);
 	}
 
-	@Override
-	public Boolean delete(Integer id) {
-		return null;
+	public void delete(Reservation reservation) {
+		reservationDao.delete(reservation);
 	}
 }

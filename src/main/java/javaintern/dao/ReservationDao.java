@@ -5,9 +5,9 @@ import javaintern.entity.Reservation;
 public interface ReservationDao {
 	Reservation readById(Integer id);
 
-	Reservation create(Integer id);
+	Reservation create(Reservation reservation);
 
-	Reservation update(Integer id);
+	Reservation update(Reservation reservation);
 
-	Boolean delete(Integer id);
+	void delete(Reservation reservation);
 }
