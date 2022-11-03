@@ -1,0 +1,26 @@
+package javaintern.entity;
+
+import java.time.LocalDate;
+
+public class TestMessage {
+	private final LocalDate date;
+	private final String content;
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public TestMessage(LocalDate date, String content) {
+		this.date = date;
+		this.content = content;
+	}
+
+	public TestMessage(String content) {
+		this.date = LocalDate.now();
+		this.content = content;
+	}
+}
