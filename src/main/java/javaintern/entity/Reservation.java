@@ -21,13 +21,7 @@ public class Reservation {
 	private String notes;
 	private Date version;
 
-	public Reservation(Integer id, Integer organizationId, Integer agentId, Integer customerId, Integer productId, ReservationState state) {
-		this.id = id;
-		this.organizationId = organizationId;
-		this.agentId = agentId;
-		this.customerId = customerId;
-		this.productId = productId;
-		this.state = state;
+	public Reservation() {
 	}
 
 	public Integer getId() {
