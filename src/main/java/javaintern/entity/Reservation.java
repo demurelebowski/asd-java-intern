@@ -21,9 +21,6 @@ public class Reservation {
 	private String notes;
 	private Date version;
 
-	public Reservation() {
-	}
-
 	public Integer getId() {
 		return id;
 	}
