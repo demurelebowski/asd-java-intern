@@ -2,12 +2,15 @@ package javaintern.service;
 
 import javaintern.dao.TestReservationDao;
 import javaintern.entity.Reservation;
+import javaintern.exceptions.MissingParameterException;
 import javaintern.exceptions.NonValidIdException;
-import javaintern.exceptions.ReservationService;
+import javaintern.exceptions.WrongParameterException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,6 +28,22 @@ class ReservationServiceTest {
 	@Test
 	void testCreateInCaseWhenParameterIsNull() {
 		assertThrows(MissingParameterException.class, () -> reservationService.create(reservation));
+	}
+
+	@Test
+	void testCreateInCaseWhenParameterIsInvalid() {
+		reservation.setAgentId(11);
+		reservation.setId(110);
+		reservation.setCustomerId(2);
+		reservation.setOrganizationId(6);
+		reservation.setProductId(-6);
+		reservation.setPrice(666.50);
+		reservation.setQuote(666.33);
+		reservation.setCurrency("USD");
+		reservation.setFromDate(LocalDateTime.now());
+		reservation.setToDate(LocalDateTime.now());
+
+		assertThrows(WrongParameterException.class, () -> reservationService.create(reservation));
 	}
 
 	@Test
