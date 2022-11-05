@@ -1,4 +1,4 @@
-package javaintern.service;
+package javaintern.exceptions;
 
 public class NonValidIdException extends Exception {
 	public NonValidIdException(String errorMessage) {

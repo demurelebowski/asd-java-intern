@@ -1,7 +1,8 @@
-package javaintern.service;
+package javaintern.exceptions;
 
 import javaintern.dao.ReservationDao;
 import javaintern.entity.Reservation;
+import javaintern.service.MissingParameterException;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Objects;

@@ -2,6 +2,8 @@ package javaintern.service;
 
 import javaintern.dao.TestReservationDao;
 import javaintern.entity.Reservation;
+import javaintern.exceptions.NonValidIdException;
+import javaintern.exceptions.ReservationService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
