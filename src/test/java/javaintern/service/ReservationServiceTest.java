@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayName("Test methods for ReservationService")
 class ReservationServiceTest {
 	private Reservation reservation;
-	private ReservationService reservationService;
-	private TestReservationDao testReservationDao = new TestReservationDao();
+	private static ReservationService reservationService;
+	private static TestReservationDao testReservationDao = new TestReservationDao();
 
 	@Test
 	void testReadByIdInCaseWhenIdParameterIsNull() {
@@ -22,7 +22,7 @@ class ReservationServiceTest {
 
 	@Test
 	void testCreateInCaseWhenParameterIsNull() {
-		assertThrows(MissingParameterException.class, () -> reservationService.delete(reservation));
+		assertThrows(MissingParameterException.class, () -> reservationService.create(reservation));
 	}
 
 	@Test
@@ -32,16 +32,16 @@ class ReservationServiceTest {
 
 	@Test
 	void testDeleteInCaseWhenIdParameterIsNull() {
-		assertThrows(NonValidIdException.class, () -> reservationService.update(reservation));
+		assertThrows(NonValidIdException.class, () -> reservationService.delete(reservation));
 	}
 
 	@BeforeEach
-	private void initReservation() {
+	public void initReservation() {
 		reservation = new Reservation();
 	}
 
 	@BeforeAll
-	private void initReservationService() {
+	public static void initReservationService() {
 		reservationService = new ReservationService(testReservationDao);
 	}
 }
