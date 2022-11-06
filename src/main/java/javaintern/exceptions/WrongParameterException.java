@@ -6,7 +6,7 @@ public class WrongParameterException extends Exception {
 	}
 
 	public WrongParameterException() {
-		super("One or more required Parameters is wrong.");
+		super("One or more required Parameters is invalid.");
 	}
 
 }

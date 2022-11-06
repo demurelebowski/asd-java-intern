@@ -47,26 +47,9 @@ public class ReservationService {
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new MissingParameterException();
 		}
-		if (reservation.getId() < 0) {
-			throw new WrongParameterException("id is invalid");
-		}
-		if (reservation.getOrganizationId() < 0) {
-			throw new WrongParameterException("Organization id is invalid");
-		}
-		if (reservation.getAgentId() < 0) {
-			throw new WrongParameterException("Agent id is invalid");
-		}
-		if (reservation.getPrice() < 0) {
-			throw new WrongParameterException("Price is invalid");
-		}
-		if (reservation.getQuote() < 0) {
-			throw new WrongParameterException("Quote is invalid");
-		}
-		if (reservation.getCustomerId() < 0) {
-			throw new WrongParameterException("Customer id is invalid");
-		}
-		if (reservation.getProductId() < 0) {
-			throw new WrongParameterException("Product id is invalid");
+		if (reservation.getId() < 0 || reservation.getOrganizationId() < 0 || reservation.getAgentId() < 0 || reservation.getPrice() < 0
+				|| reservation.getQuote() < 0 || reservation.getCustomerId() < 0 || reservation.getProductId() < 0) {
+			throw new WrongParameterException();
 		}
 	}
 }
