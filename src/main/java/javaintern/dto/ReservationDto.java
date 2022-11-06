@@ -1,46 +1,76 @@
-package javaintern.entity;
+package javaintern.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import javaintern.constant.ReservationState;
-import javaintern.dto.ReservationDto;
+import javaintern.entity.Reservation;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Reservation {
+public class ReservationDto {
+
+	@JsonProperty("id")
 	private Integer id;
+
+	@JsonProperty("organization_id")
 	private Integer organizationId;
+
+	@JsonProperty("agent_id")
 	private Integer agentId;
+
+	@JsonProperty("customer_id")
 	private Integer customerId;
+
+	@JsonProperty("product_id")
 	private Integer productId;
+
+	@JsonProperty("state")
 	private ReservationState state;
+
+	@JsonProperty("from_date")
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime fromDate;
+
+	@JsonProperty("to_date")
 	private LocalDateTime toDate;
+
+	@JsonProperty("price")
 	private Double price;
+
+	@JsonProperty("quote")
 	private Double quote;
+
+	@JsonProperty("currency")
 	private String currency;
+
+	@JsonProperty("guests")
 	private Integer guests;
+
+	@JsonProperty("notes")
 	private String notes;
+
+	@JsonProperty("version")
+	@JsonSerialize(using = DateSerializer.class)
 	private Date version;
 
-	public Reservation(ReservationDto reservationDto) {
-		this.id = reservationDto.getId();
-		this.organizationId = reservationDto.getOrganizationId();
-		this.agentId = reservationDto.getAgentId();
-		this.customerId = reservationDto.getCustomerId();
-		this.productId = reservationDto.getProductId();
-		this.state = reservationDto.getState();
-		this.fromDate = reservationDto.getFromDate();
-		this.toDate = reservationDto.getToDate();
-		this.price = reservationDto.getPrice();
-		this.quote = reservationDto.getQuote();
-		this.currency = reservationDto.getCurrency();
-		this.guests = reservationDto.getGuests();
-		this.notes = reservationDto.getNotes();
-		this.version = reservationDto.getVersion();
-	}
-
-	public Reservation() {
-
+	public ReservationDto(Reservation reservation) {
+		this.id = reservation.getId();
+		this.organizationId = reservation.getOrganizationId();
+		this.agentId = reservation.getAgentId();
+		this.customerId = reservation.getCustomerId();
+		this.productId = reservation.getProductId();
+		this.state = reservation.getState();
+		this.fromDate = reservation.getFromDate();
+		this.toDate = reservation.getToDate();
+		this.price = reservation.getPrice();
+		this.quote = reservation.getQuote();
+		this.currency = reservation.getCurrency();
+		this.guests = reservation.getGuests();
+		this.notes = reservation.getNotes();
+		this.version = reservation.getVersion();
 	}
 
 	public Integer getId() {
@@ -99,12 +129,12 @@ public class Reservation {
 		return version;
 	}
 
-	public void setOrganizationId(Integer organizationId) {
-		this.organizationId = organizationId;
-	}
-
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public void setOrganizationId(Integer organizationId) {
+		this.organizationId = organizationId;
 	}
 
 	public void setAgentId(Integer agentId) {
