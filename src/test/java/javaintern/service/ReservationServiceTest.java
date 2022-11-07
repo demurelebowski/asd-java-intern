@@ -10,8 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Test methods for ReservationService")
@@ -23,25 +24,35 @@ class ReservationServiceTest {
 	@Test
 	void testReadByIdInCaseWhenIdParameterIsNull() {
 		assertThrows(NonValidIdException.class, () -> reservationService.readById(null));
+		assertThrows(NonValidIdException.class, () -> reservationService.readById(-11));
 	}
 
 	@Test
-	void testCreateInCaseWhenParameterIsNull() {
+	void testCreateInCaseWhenOneOfParametersIsNull() {
 		assertThrows(MissingParameterException.class, () -> reservationService.create(reservation));
 	}
 
 	@Test
+	void testMethodsInCaseWhenParameterIsNull() throws NonValidIdException, MissingParameterException, WrongParameterException {
+		assertNull(reservationService.create(null));
+		assertNull(reservationService.delete(null));
+		assertNull(reservationService.update(null));
+	}
+
+	@Test
 	void testCreateInCaseWhenParameterIsInvalid() {
-		reservation.setAgentId(11);
-		reservation.setId(110);
-		reservation.setCustomerId(2);
-		reservation.setOrganizationId(6);
-		reservation.setProductId(-6);
-		reservation.setPrice(666.50);
-		reservation.setQuote(666.33);
-		reservation.setCurrency("USD");
-		reservation.setFromDate(LocalDateTime.now());
-		reservation.setToDate(LocalDateTime.now());
+		reservation = Reservation.builder()
+				.agentId(11)
+				.id(11)
+				.customerId(2)
+				.organizationId(6)
+				.productId(-6)
+				.price(666.50)
+				.quote(666.33)
+				.currency("USD")
+				.fromDate(LocalDate.now())
+				.toDate(LocalDate.now())
+				.build();
 
 		assertThrows(WrongParameterException.class, () -> reservationService.create(reservation));
 	}

@@ -22,16 +22,25 @@ public class ReservationService {
 	}
 
 	public Reservation create(Reservation reservation) throws MissingParameterException, WrongParameterException {
+		if (Objects.isNull(reservation)) {
+			return null;
+		}
 		validateReservation(reservation);
 		return reservationDao.create(reservation);
 	}
 
 	public Reservation update(Reservation reservation) throws NonValidIdException {
+		if (Objects.isNull(reservation)) {
+			return null;
+		}
 		validateId(reservation.getId());
 		return reservationDao.update(reservation);
 	}
 
 	public Boolean delete(Reservation reservation) throws NonValidIdException {
+		if (Objects.isNull(reservation)) {
+			return null;
+		}
 		validateId(reservation.getId());
 		return reservationDao.delete(reservation);
 	}
