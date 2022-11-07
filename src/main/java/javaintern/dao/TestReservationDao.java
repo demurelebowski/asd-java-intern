@@ -19,7 +19,7 @@ public class TestReservationDao implements ReservationDao {
 	}
 
 	@Override
-	public Boolean delete(Reservation reservation) {
+	public Boolean delete(Integer id) {
 		return null;
 	}
 }

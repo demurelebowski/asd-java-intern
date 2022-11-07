@@ -9,5 +9,5 @@ public interface ReservationDao {
 
 	Reservation update(Reservation reservation);
 
-	Boolean delete(Reservation reservation);
+	Boolean delete(Integer id);
 }

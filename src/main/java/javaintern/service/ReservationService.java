@@ -37,12 +37,9 @@ public class ReservationService {
 		return reservationDao.update(reservation);
 	}
 
-	public Boolean delete(Reservation reservation) throws NonValidIdException {
-		if (Objects.isNull(reservation)) {
-			return null;
-		}
-		validateId(reservation.getId());
-		return reservationDao.delete(reservation);
+	public Boolean delete(Integer id) throws NonValidIdException {
+		validateId(id);
+		return reservationDao.delete(id);
 	}
 
 	private void validateId(Integer id) throws NonValidIdException {

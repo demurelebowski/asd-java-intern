@@ -35,7 +35,6 @@ class ReservationServiceTest {
 	@Test
 	void testMethodsInCaseWhenParameterIsNull() throws NonValidIdException, MissingParameterException, WrongParameterException {
 		assertNull(reservationService.create(null));
-		assertNull(reservationService.delete(null));
 		assertNull(reservationService.update(null));
 	}
 
@@ -63,8 +62,9 @@ class ReservationServiceTest {
 	}
 
 	@Test
-	void testDeleteInCaseWhenIdParameterIsNull() {
-		assertThrows(NonValidIdException.class, () -> reservationService.delete(reservation));
+	void testDeleteInCaseWhenIdParameterIsInvalid() {
+		assertThrows(NonValidIdException.class, () -> reservationService.delete(null));
+		assertThrows(NonValidIdException.class, () -> reservationService.delete(-1));
 	}
 
 	@BeforeEach
