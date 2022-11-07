@@ -2,7 +2,7 @@ package javaintern.dao;
 
 import javaintern.entity.Reservation;
 
-public class TestReservationDao implements ReservationDao{
+public class TestReservationDao implements ReservationDao {
 	@Override
 	public Reservation readById(Integer id) {
 		return null;
