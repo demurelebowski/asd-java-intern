@@ -31,7 +31,6 @@ public class ConverterUtil {
 				.version(dateFromString(reservationDto.getVersion()))
 				.state(reservationStateFromString(reservationDto.getState()))
 				.build();
-
 	}
 
 	public static ReservationDto convertToReservationDto(Reservation reservation) {
