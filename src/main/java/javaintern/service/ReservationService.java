@@ -53,8 +53,8 @@ public class ReservationService {
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new MissingParameterException();
 		}
-		if (reservation.getOrganizationId() < 0 || reservation.getAgentId() < 0 || reservation.getPrice() < 0
-				|| reservation.getQuote() < 0 || reservation.getCustomerId() < 0 || reservation.getProductId() < 0) {
+		if (reservation.getOrganizationId() < 1 || reservation.getAgentId() < 1 || reservation.getPrice() < 0
+				|| reservation.getQuote() < 0 || reservation.getCustomerId() < 1 || reservation.getProductId() < 1) {
 			throw new WrongParameterException();
 		}
 	}
