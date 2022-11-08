@@ -7,6 +7,7 @@ import javaintern.entity.Reservation;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -77,7 +78,11 @@ public class ConverterUtil {
 
 	private static ReservationState reservationStateFromString(String str) {
 		try {
-			return ReservationState.valueOf(str);
+			return Arrays.stream(ReservationState.values())
+					.filter(e -> e.name()
+							.equalsIgnoreCase(str))
+					.findAny()
+					.orElse(ReservationState.Initial);
 		} catch (Exception e) {
 			return ReservationState.Initial;
 		}

@@ -15,11 +15,11 @@ public class TestReservationDao implements ReservationDao {
 
 	@Override
 	public Reservation update(Reservation reservation) {
-		return null;
+		return reservation;
 	}
 
 	@Override
 	public Boolean delete(Integer id) {
-		return null;
+		return false;
 	}
 }
