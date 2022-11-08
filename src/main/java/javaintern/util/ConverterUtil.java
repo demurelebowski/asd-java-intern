@@ -52,7 +52,7 @@ public class ConverterUtil {
 				.price(reservation.getPrice())
 				.quote(reservation.getQuote())
 				.currency(reservation.getCurrency())
-				.guests(reservation.getGuests())
+				.guests(getGuests(reservation.getGuests()))
 				.notes(reservation.getNotes())
 				.version(reservation.getVersion()
 						.toString())
@@ -62,6 +62,13 @@ public class ConverterUtil {
 
 	private static LocalDate localDateFromString(String str) {
 		return LocalDate.parse(str, dateFormatter);
+	}
+
+	private static Integer getGuests(Integer guest) {
+		if (Objects.isNull(guest) || guest < 1) {
+			return 1;
+		}
+		return guest;
 	}
 
 	private static String stringFromLocalDate(LocalDate localDate) {
