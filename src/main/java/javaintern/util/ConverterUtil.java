@@ -9,11 +9,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ConverterUtil {
 	static final private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	public static Reservation convertToReservation(ReservationDto reservationDto) {
+		if (Objects.isNull(reservationDto)) {
+			return null;
+		}
 		return Reservation.builder()
 				.id(reservationDto.getId())
 				.agentId(reservationDto.getAgentId())
@@ -33,6 +37,9 @@ public class ConverterUtil {
 	}
 
 	public static ReservationDto convertToReservationDto(Reservation reservation) {
+		if (Objects.isNull(reservation)) {
+			return null;
+		}
 		return ReservationDto.builder()
 				.id(reservation.getId())
 				.agentId(reservation.getAgentId())
@@ -48,8 +55,7 @@ public class ConverterUtil {
 				.notes(reservation.getNotes())
 				.version(reservation.getVersion()
 						.toString())
-				.state(reservation.getState()
-						.toString())
+				.state(stringFromReservationState(reservation.getState()))
 				.build();
 	}
 
@@ -75,5 +81,12 @@ public class ConverterUtil {
 		} catch (Exception e) {
 			return ReservationState.Initial;
 		}
+	}
+
+	private static String stringFromReservationState(ReservationState reservationState) {
+		if (Objects.isNull(reservationState)) {
+			return ReservationState.Initial.toString();
+		}
+		return reservationState.toString();
 	}
 }
