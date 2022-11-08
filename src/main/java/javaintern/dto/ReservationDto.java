@@ -54,5 +54,5 @@ public class ReservationDto {
 	private String notes;
 
 	@JsonProperty("version")
-	private Date version;
+	private String version;
 }
