@@ -25,7 +25,7 @@ public class ReservationService {
 		if (Objects.isNull(reservation)) {
 			return null;
 		}
-		validateReservation(reservation);
+		validateReservationCreation(reservation);
 		return reservationDao.create(reservation);
 	}
 
@@ -48,12 +48,12 @@ public class ReservationService {
 		}
 	}
 
-	private void validateReservation(Reservation reservation) throws MissingParameterException, WrongParameterException {
+	private void validateReservationCreation(Reservation reservation) throws MissingParameterException, WrongParameterException {
 		if (ObjectUtils.anyNull(reservation.getOrganizationId(), reservation.getCustomerId(), reservation.getAgentId(), reservation.getProductId(),
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new MissingParameterException();
 		}
-		if (reservation.getId() < 0 || reservation.getOrganizationId() < 0 || reservation.getAgentId() < 0 || reservation.getPrice() < 0
+		if (reservation.getOrganizationId() < 0 || reservation.getAgentId() < 0 || reservation.getPrice() < 0
 				|| reservation.getQuote() < 0 || reservation.getCustomerId() < 0 || reservation.getProductId() < 0) {
 			throw new WrongParameterException();
 		}

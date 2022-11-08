@@ -34,17 +34,38 @@ public class ConverterUtil {
 	}
 
 	public static ReservationDto convertToReservationDto(Reservation reservation) {
-		return new ReservationDto();
+		return ReservationDto.builder()
+				.id(reservation.getId())
+				.agentId(reservation.getAgentId())
+				.organizationId(reservation.getOrganizationId())
+				.customerId(reservation.getCustomerId())
+				.productId(reservation.getProductId())
+				.fromDate(stringFromLocalDate(reservation.getFromDate()))
+				.toDate(stringFromLocalDate(reservation.getToDate()))
+				.price(reservation.getPrice())
+				.quote(reservation.getQuote())
+				.currency(reservation.getCurrency())
+				.guests(reservation.getGuests())
+				.notes(reservation.getNotes())
+				.version(reservation.getVersion()
+						.toString())
+				.state(reservation.getState()
+						.toString())
+				.build();
 	}
 
 	private static LocalDate localDateFromString(String str) {
 		return LocalDate.parse(str, dateFormatter);
 	}
 
+	private static String stringFromLocalDate(LocalDate localDate) {
+		return localDate.format(dateFormatter);
+	}
+
 	private static Date dateFromString(String str) {
 		try {
 			return new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", Locale.ENGLISH).parse(str);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			return new Date();
 		}
 	}
@@ -52,7 +73,7 @@ public class ConverterUtil {
 	private static ReservationState reservationStateFromString(String str) {
 		try {
 			return ReservationState.valueOf(str);
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 			return ReservationState.Initial;
 		}
 	}

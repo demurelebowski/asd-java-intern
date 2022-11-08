@@ -10,7 +10,7 @@ public class TestReservationDao implements ReservationDao {
 
 	@Override
 	public Reservation create(Reservation reservation) {
-		return null;
+		return reservation;
 	}
 
 	@Override
