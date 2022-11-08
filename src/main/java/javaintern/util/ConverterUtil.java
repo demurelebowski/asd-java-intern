@@ -90,8 +90,8 @@ public class ConverterUtil {
 
 	private static String stringFromReservationState(ReservationState reservationState) {
 		if (Objects.isNull(reservationState)) {
-			return ReservationState.Initial.toString();
+			return ReservationState.Initial.name();
 		}
-		return reservationState.toString();
+		return reservationState.name();
 	}
 }
