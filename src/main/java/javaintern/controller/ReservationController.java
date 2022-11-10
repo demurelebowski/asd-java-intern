@@ -14,17 +14,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/reservation")
 public class ReservationController {
 	private final ReservationService reservationService;
+
 	public ReservationController(@Autowired ReservationService reservationService) {
 		this.reservationService = reservationService;
 	}
-	@ResponseBody
+
 	@GetMapping("/{reservationId}")
 	public ResponseEntity<Object> readById(@PathVariable Integer reservationId) {
 		try {
@@ -35,18 +37,12 @@ public class ReservationController {
 		}
 	}
 
-	@ResponseBody
 	@PostMapping("/")
-	public ResponseEntity<Object> createReservation(@RequestBody ReservationDto reservationDto) {
-		try {
-			Reservation reservation = reservationService.create(ConverterUtil.convertToReservation(reservationDto));
-			return new ResponseEntity<>(ConverterUtil.convertToReservationDto(reservation), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	public ReservationDto createReservation(@RequestBody @Valid ReservationDto reservationDto) {
+		Reservation reservation = reservationService.create(ConverterUtil.convertToReservation(reservationDto));
+		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
-	@ResponseBody
 	@PutMapping("/")
 	public ResponseEntity<Object> updateReservation(@RequestBody ReservationDto reservationDto) {
 		try {
@@ -57,7 +53,6 @@ public class ReservationController {
 		}
 	}
 
-	@ResponseBody
 	@DeleteMapping("/{reservationId}")
 	public ResponseEntity<Object> deleteReservation(@PathVariable Integer reservationId) {
 		try {

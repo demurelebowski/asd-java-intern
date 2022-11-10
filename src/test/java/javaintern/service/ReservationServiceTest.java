@@ -2,9 +2,7 @@ package javaintern.service;
 
 import javaintern.dao.TestReservationDao;
 import javaintern.entity.Reservation;
-import javaintern.exceptions.MissingParameterException;
-import javaintern.exceptions.NonValidIdException;
-import javaintern.exceptions.WrongParameterException;
+import javaintern.exceptions.ValidationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,17 +21,17 @@ class ReservationServiceTest {
 
 	@Test
 	void testReadByIdInCaseWhenIdParameterIsNull() {
-		assertThrows(NonValidIdException.class, () -> reservationService.readById(null));
-		assertThrows(NonValidIdException.class, () -> reservationService.readById(-11));
+		assertThrows(ValidationException.class, () -> reservationService.readById(null));
+		assertThrows(ValidationException.class, () -> reservationService.readById(-11));
 	}
 
 	@Test
 	void testCreateInCaseWhenOneOfParametersIsNull() {
-		assertThrows(MissingParameterException.class, () -> reservationService.create(reservation));
+		assertThrows(ValidationException.class, () -> reservationService.create(reservation));
 	}
 
 	@Test
-	void testMethodsInCaseWhenParameterIsNull() throws NonValidIdException, MissingParameterException, WrongParameterException {
+	void testMethodsInCaseWhenParameterIsNull() {
 		assertNull(reservationService.create(null));
 		assertNull(reservationService.update(null));
 	}
@@ -53,18 +51,18 @@ class ReservationServiceTest {
 				.toDate(LocalDate.now())
 				.build();
 
-		assertThrows(WrongParameterException.class, () -> reservationService.create(reservation));
+		assertThrows(ValidationException.class, () -> reservationService.create(reservation));
 	}
 
 	@Test
 	void testUpdateInCaseWhenIdParameterIsNull() {
-		assertThrows(NonValidIdException.class, () -> reservationService.update(reservation));
+		assertThrows(ValidationException.class, () -> reservationService.update(reservation));
 	}
 
 	@Test
 	void testDeleteInCaseWhenIdParameterIsInvalid() {
-		assertThrows(NonValidIdException.class, () -> reservationService.delete(null));
-		assertThrows(NonValidIdException.class, () -> reservationService.delete(-1));
+		assertThrows(ValidationException.class, () -> reservationService.delete(null));
+		assertThrows(ValidationException.class, () -> reservationService.delete(-1));
 	}
 
 	@BeforeEach

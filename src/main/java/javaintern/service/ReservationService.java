@@ -2,10 +2,6 @@ package javaintern.service;
 
 import javaintern.dao.ReservationDao;
 import javaintern.entity.Reservation;
-import javaintern.exceptions.MissingParameterException;
-import javaintern.exceptions.NonValidIdException;
-import javaintern.exceptions.WrongParameterException;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,39 +15,39 @@ public class ReservationService {
 		this.reservationDao = reservationDao;
 	}
 
-	public Reservation readById(Integer id) throws NonValidIdException {
-		validateId(id);
+	public Reservation readById(Integer id) {
+		//validateId(id);
 		return reservationDao.readById(id);
 	}
 
-	public Reservation create(Reservation reservation) throws MissingParameterException, WrongParameterException {
+	public Reservation create(Reservation reservation) {
 		if (Objects.isNull(reservation)) {
 			return null;
 		}
-		validateReservationCreation(reservation);
+		//validateReservationCreation(reservation);
 		return reservationDao.create(reservation);
 	}
 
-	public Reservation update(Reservation reservation) throws NonValidIdException {
+	public Reservation update(Reservation reservation) {
 		if (Objects.isNull(reservation)) {
 			return null;
 		}
-		validateId(reservation.getId());
+		//validateId(reservation.getId());
 		return reservationDao.update(reservation);
 	}
 
-	public Boolean delete(Integer id) throws NonValidIdException {
-		validateId(id);
+	public Boolean delete(Integer id) {
+		//validateId(id);
 		return reservationDao.delete(id);
 	}
-
-	private void validateId(Integer id) throws NonValidIdException {
+/*
+	private void validateId(Integer id) {
 		if (Objects.isNull(id) || id < 0) {
 			throw new NonValidIdException();
 		}
 	}
 
-	private void validateReservationCreation(Reservation reservation) throws MissingParameterException, WrongParameterException {
+	private void validateReservationCreation(Reservation reservation) {
 		if (ObjectUtils.anyNull(reservation.getOrganizationId(), reservation.getCustomerId(), reservation.getAgentId(), reservation.getProductId(),
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new MissingParameterException();
@@ -61,4 +57,6 @@ public class ReservationService {
 			throw new WrongParameterException();
 		}
 	}
+
+ */
 }
