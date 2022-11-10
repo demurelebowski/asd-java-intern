@@ -1,7 +1,9 @@
 package javaintern.dao;
 
 import javaintern.entity.Reservation;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class TestReservationDao implements ReservationDao {
 	@Override
 	public Reservation readById(Integer id) {

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ReservationServiceTest {
 	private Reservation reservation;
 	private static ReservationService reservationService;
-	private static TestReservationDao testReservationDao = new TestReservationDao();
+	private static final TestReservationDao testReservationDao = new TestReservationDao();
 
 	@Test
 	void testReadByIdInCaseWhenIdParameterIsNull() {

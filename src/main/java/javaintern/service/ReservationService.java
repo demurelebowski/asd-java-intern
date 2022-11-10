@@ -6,13 +6,16 @@ import javaintern.exceptions.MissingParameterException;
 import javaintern.exceptions.NonValidIdException;
 import javaintern.exceptions.WrongParameterException;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+@Service
 public class ReservationService {
 	private final ReservationDao reservationDao;
 
-	public ReservationService(ReservationDao reservationDao) {
+	public ReservationService(@Autowired ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
 	}
 
@@ -53,8 +56,8 @@ public class ReservationService {
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new MissingParameterException();
 		}
-		if (reservation.getOrganizationId() < 1 || reservation.getAgentId() < 1 || reservation.getPrice() < 1
-				|| reservation.getQuote() < 1 || reservation.getCustomerId() < 1 || reservation.getProductId() < 1) {
+		if (reservation.getOrganizationId() < 1 || reservation.getAgentId() < 1 || reservation.getPrice() < 1 || reservation.getQuote() < 1
+				|| reservation.getCustomerId() < 1 || reservation.getProductId() < 1) {
 			throw new WrongParameterException();
 		}
 	}

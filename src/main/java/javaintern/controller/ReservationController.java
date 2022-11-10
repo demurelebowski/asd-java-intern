@@ -1,10 +1,10 @@
 package javaintern.controller;
 
-import javaintern.dao.TestReservationDao;
 import javaintern.dto.ReservationDto;
 import javaintern.entity.Reservation;
 import javaintern.service.ReservationService;
 import javaintern.util.ConverterUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/reservation")
 public class ReservationController {
-	private final ReservationService reservationService = new ReservationService(new TestReservationDao());
-
+	private final ReservationService reservationService;
+	public ReservationController(@Autowired ReservationService reservationService) {
+		this.reservationService = reservationService;
+	}
 	@ResponseBody
 	@GetMapping("/{reservationId}")
 	public ResponseEntity<Object> readById(@PathVariable Integer reservationId) {
