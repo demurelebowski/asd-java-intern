@@ -1,10 +1,10 @@
-package javaintern.controller;
+package team.asd.controller;
 
-import javaintern.dao.TestReservationDao;
-import javaintern.dto.ReservationDto;
-import javaintern.entity.Reservation;
-import javaintern.service.ReservationService;
-import javaintern.util.ConverterUtil;
+import team.asd.dao.TestReservationDao;
+import team.asd.dto.ReservationDto;
+import team.asd.entity.Reservation;
+import team.asd.service.ReservationService;
+import team.asd.util.ConverterUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

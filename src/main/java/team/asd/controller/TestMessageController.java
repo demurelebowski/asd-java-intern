@@ -1,6 +1,6 @@
-package javaintern.controller;
+package team.asd.controller;
 
-import javaintern.entity.TestMessage;
+import team.asd.entity.TestMessage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

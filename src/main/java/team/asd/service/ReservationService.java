@@ -1,10 +1,10 @@
-package javaintern.service;
+package team.asd.service;
 
-import javaintern.dao.ReservationDao;
-import javaintern.entity.Reservation;
-import javaintern.exceptions.MissingParameterException;
-import javaintern.exceptions.NonValidIdException;
-import javaintern.exceptions.WrongParameterException;
+import team.asd.dao.ReservationDao;
+import team.asd.entity.Reservation;
+import team.asd.exceptions.MissingParameterException;
+import team.asd.exceptions.NonValidIdException;
+import team.asd.exceptions.WrongParameterException;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Objects;

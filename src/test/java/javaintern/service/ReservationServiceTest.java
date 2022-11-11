@@ -1,14 +1,15 @@
 package javaintern.service;
 
-import javaintern.dao.TestReservationDao;
-import javaintern.entity.Reservation;
-import javaintern.exceptions.MissingParameterException;
-import javaintern.exceptions.NonValidIdException;
-import javaintern.exceptions.WrongParameterException;
+import team.asd.dao.TestReservationDao;
+import team.asd.entity.Reservation;
+import team.asd.exceptions.MissingParameterException;
+import team.asd.exceptions.NonValidIdException;
+import team.asd.exceptions.WrongParameterException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import team.asd.service.ReservationService;
 
 import java.time.LocalDate;
 

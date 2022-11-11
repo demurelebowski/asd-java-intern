@@ -1,8 +1,8 @@
-package javaintern.util;
+package team.asd.util;
 
-import javaintern.constant.ReservationState;
-import javaintern.dto.ReservationDto;
-import javaintern.entity.Reservation;
+import team.asd.constant.ReservationState;
+import team.asd.dto.ReservationDto;
+import team.asd.entity.Reservation;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;

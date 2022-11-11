@@ -1,4 +1,4 @@
-package javaintern.config;
+package team.asd.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;

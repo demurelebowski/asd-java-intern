@@ -1,6 +1,6 @@
-package javaintern.entity;
+package team.asd.entity;
 
-import javaintern.constant.ReservationState;
+import team.asd.constant.ReservationState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

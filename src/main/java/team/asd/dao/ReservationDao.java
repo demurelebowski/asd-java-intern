@@ -1,6 +1,6 @@
-package javaintern.dao;
+package team.asd.dao;
 
-import javaintern.entity.Reservation;
+import team.asd.entity.Reservation;
 
 public interface ReservationDao {
 	Reservation readById(Integer id);
