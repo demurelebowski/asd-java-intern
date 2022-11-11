@@ -1,4 +1,4 @@
-package javaintern.exceptions;
+package team.asd.exceptions;
 
 public class MissingParameterException extends Exception {
 	public MissingParameterException(String errorMessage) {

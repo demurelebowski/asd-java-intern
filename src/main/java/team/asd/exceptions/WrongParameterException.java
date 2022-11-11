@@ -1,4 +1,4 @@
-package javaintern.exceptions;
+package team.asd.exceptions;
 
 public class WrongParameterException extends Exception {
 	public WrongParameterException(String errorMessage) {

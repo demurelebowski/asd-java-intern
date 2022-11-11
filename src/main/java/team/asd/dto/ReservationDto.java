@@ -1,4 +1,4 @@
-package javaintern.dto;
+package team.asd.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
