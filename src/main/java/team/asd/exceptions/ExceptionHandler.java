@@ -23,7 +23,9 @@ public class ExceptionHandler {
 	@org.springframework.web.bind.annotation.ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public AppError handleValidationExceptions(MethodArgumentNotValidException e) {
-		String message = e.getBindingResult().getAllErrors().stream()
+		String message = e.getBindingResult()
+				.getAllErrors()
+				.stream()
 				.map(DefaultMessageSourceResolvable::getDefaultMessage)
 				.collect(Collectors.joining(", "));
 		log.error(message, e);
@@ -36,5 +38,4 @@ public class ExceptionHandler {
 		log.error(e.getMessage(), e);
 		return new AppError(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
 	}
-
 }
