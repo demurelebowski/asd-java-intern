@@ -3,17 +3,17 @@ package team.asd.service;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.asd.dao.ReservationDao;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
+import team.asd.mapper.ReservationMapper;
 
 import java.util.Objects;
 
 @Service
 public class ReservationService {
-	private final ReservationDao reservationDao;
+	private final ReservationMapper reservationDao;
 
-	public ReservationService(@Autowired ReservationDao reservationDao) {
+	public ReservationService(@Autowired ReservationMapper reservationDao) {
 		this.reservationDao = reservationDao;
 	}
 

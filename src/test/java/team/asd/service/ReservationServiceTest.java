@@ -1,4 +1,4 @@
-package javaintern.service;
+package team.asd.service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import team.asd.dao.TestReservationDao;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
-import team.asd.service.ReservationService;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -53,6 +52,6 @@ class ReservationServiceTest {
 
 	@BeforeAll
 	public static void initReservationService() {
-		reservationService = new ReservationService(testReservationDao);
+		//reservationService = new ReservationService(testReservationDao);
 	}
 }

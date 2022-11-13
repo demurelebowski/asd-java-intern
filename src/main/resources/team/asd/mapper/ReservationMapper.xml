@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.asd.mapper.ReservationMapper">
+	<select id="readById" resultType="team.asd.entity.Reservation">
+
+	</select>
+	<insert id="create" parameterType="team.asd.entity.Reservation">
+		INSERT INTO reservation (organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote, currency, guests, notes)
+		VALUES (#{organizationId},#{agentId},#{customerId},#{productId},#{state},#{fromDate},#{toDate},#{price},#{quote},#{currency},#{guests},#{notes})
+	</insert>
+	<update id="update">
+
+	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM reservation
+		WHERE id =#{id}
+	</delete>
+</mapper>
