@@ -15,11 +15,11 @@
 		SELECT * FROM reservation
 		WHERE id =#{id}
 	</select>
-	<insert id="create">
+	<insert id="create" parameterType="team.asd.entity.Reservation" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO reservation (organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote, currency, guests, notes)
 		VALUES (#{organizationId},#{agentId},#{customerId},#{productId},#{state},#{fromDate},#{toDate},#{price},#{quote},#{currency},#{guests},#{notes})
 	</insert>
-	<update id="update">
+	<update id="update" parameterType="team.asd.entity.Reservation" useGeneratedKeys="true" keyProperty="id">
 		UPDATE
 		reservation
 		<set>
