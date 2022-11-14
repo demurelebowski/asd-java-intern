@@ -1,8 +1,7 @@
 package team.asd.dao;
 
-import org.springframework.stereotype.Repository;
 import team.asd.entity.Reservation;
-@Repository
+
 public class TestReservationDao implements ReservationDao {
 	@Override
 	public Reservation readById(Integer id) {
@@ -10,13 +9,11 @@ public class TestReservationDao implements ReservationDao {
 	}
 
 	@Override
-	public Reservation create(Reservation reservation) {
-		return reservation;
+	public void create(Reservation reservation) {
 	}
 
 	@Override
-	public Reservation update(Reservation reservation) {
-		return reservation;
+	public void update(Reservation reservation) {
 	}
 
 	@Override

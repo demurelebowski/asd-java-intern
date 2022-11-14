@@ -8,7 +8,6 @@ import team.asd.dao.TestReservationDao;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Test methods for ReservationService")
@@ -29,12 +28,6 @@ class ReservationServiceTest {
 	}
 
 	@Test
-	void testMethodsInCaseWhenParameterIsNull() {
-		assertNull(reservationService.create(null));
-		assertNull(reservationService.update(null));
-	}
-
-	@Test
 	void testUpdateInCaseWhenIdParameterIsNull() {
 		assertThrows(ValidationException.class, () -> reservationService.update(reservation));
 	}
@@ -52,6 +45,6 @@ class ReservationServiceTest {
 
 	@BeforeAll
 	public static void initReservationService() {
-		//reservationService = new ReservationService(testReservationDao);
+		reservationService = new ReservationService(testReservationDao);
 	}
 }

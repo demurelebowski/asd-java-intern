@@ -1,41 +1,33 @@
 package team.asd.service;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.asd.dao.ReservationDao;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
-import team.asd.mapper.ReservationMapper;
 
 import java.util.Objects;
 
 @Service
 public class ReservationService {
-	private final ReservationMapper reservationDao;
-
-	public ReservationService(@Autowired ReservationMapper reservationDao) {
-		this.reservationDao = reservationDao;
-	}
+	private final ReservationDao reservationDao;
+	public ReservationService(ReservationDao reservationDao) {
+			this.reservationDao = reservationDao;
+		}
 
 	public Reservation readById(Integer id) {
 		validateId(id);
 		return reservationDao.readById(id);
 	}
 
-	public Reservation create(Reservation reservation) {
-		if (Objects.isNull(reservation)) {
-			return null;
-		}
+	public void create(Reservation reservation) {
 		validateReservationCreation(reservation);
-		return reservationDao.create(reservation);
+		reservationDao.create(reservation);
 	}
 
-	public Reservation update(Reservation reservation) {
-		if (Objects.isNull(reservation)) {
-			return null;
-		}
+	public void update(Reservation reservation) {
 		validateId(reservation.getId());
-		return reservationDao.update(reservation);
+		reservationDao.update(reservation);
 	}
 
 	public Boolean delete(Integer id) {

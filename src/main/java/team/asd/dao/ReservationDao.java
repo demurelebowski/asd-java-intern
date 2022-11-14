@@ -5,9 +5,9 @@ import team.asd.entity.Reservation;
 public interface ReservationDao {
 	Reservation readById(Integer id);
 
-	Reservation create(Reservation reservation);
+	void create(Reservation reservation);
 
-	Reservation update(Reservation reservation);
+	void update(Reservation reservation);
 
 	Boolean delete(Integer id);
 }

@@ -24,18 +24,21 @@ public class ReservationController {
 
 	@GetMapping("/{reservationId}")
 	public ReservationDto readById(@PathVariable Integer reservationId) {
-		return ConverterUtil.convertToReservationDto(reservationService.readById(reservationId));
+		Reservation reservation = reservationService.readById(reservationId);
+		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
 	@PostMapping("/")
 	public ReservationDto createReservation(@RequestBody @Valid ReservationDto reservationDto) {
-		Reservation reservation = reservationService.create(ConverterUtil.convertToReservation(reservationDto));
+		Reservation reservation = ConverterUtil.convertToReservation(reservationDto);
+		reservationService.create(reservation);
 		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
 	@PutMapping("/")
 	public ReservationDto updateReservation(@RequestBody @Valid ReservationDto reservationDto) {
-		Reservation reservation = reservationService.update(ConverterUtil.convertToReservation(reservationDto));
+		Reservation reservation = ConverterUtil.convertToReservation(reservationDto);
+		reservationService.update(reservation);
 		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
