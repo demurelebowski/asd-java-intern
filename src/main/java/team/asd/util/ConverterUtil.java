@@ -3,6 +3,7 @@ package team.asd.util;
 import team.asd.constant.ReservationState;
 import team.asd.dto.ReservationDto;
 import team.asd.entity.Reservation;
+import team.asd.exceptions.ValidationException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -63,7 +64,11 @@ public class ConverterUtil {
 		if (Objects.isNull(str)) {
 			return null;
 		}
-		return LocalDate.parse(str, dateFormatter);
+		try {
+			return LocalDate.parse(str, dateFormatter);
+		} catch (Exception e) {
+			throw new ValidationException("Invalid date format.");
+		}
 	}
 
 	private static String getVersion(Date version) {
