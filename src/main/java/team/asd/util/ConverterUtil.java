@@ -30,7 +30,7 @@ public class ConverterUtil {
 				.price(reservationDto.getPrice())
 				.quote(reservationDto.getQuote())
 				.currency(reservationDto.getCurrency())
-				.guests(reservationDto.getGuests())
+				.guests(getGuests(reservationDto.getGuests()))
 				.notes(reservationDto.getNotes())
 				.version(dateFromString(reservationDto.getVersion()))
 				.state(reservationStateFromString(reservationDto.getState()))
@@ -54,14 +54,23 @@ public class ConverterUtil {
 				.currency(reservation.getCurrency())
 				.guests(getGuests(reservation.getGuests()))
 				.notes(reservation.getNotes())
-				.version(reservation.getVersion()
-						.toString())
+				.version(getVersion(reservation.getVersion()))
 				.state(stringFromReservationState(reservation.getState()))
 				.build();
 	}
 
 	private static LocalDate localDateFromString(String str) {
+		if (Objects.isNull(str)) {
+			return null;
+		}
 		return LocalDate.parse(str, dateFormatter);
+	}
+
+	private static String getVersion(Date version) {
+		if (Objects.isNull(version)) {
+			return null;
+		}
+		return version.toString();
 	}
 
 	private static Integer getGuests(Integer guest) {
@@ -72,10 +81,16 @@ public class ConverterUtil {
 	}
 
 	private static String stringFromLocalDate(LocalDate localDate) {
+		if (Objects.isNull(localDate)) {
+			return null;
+		}
 		return localDate.format(dateFormatter);
 	}
 
 	private static Date dateFromString(String str) {
+		if (Objects.isNull(str)) {
+			return null;
+		}
 		try {
 			return new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", Locale.ENGLISH).parse(str);
 		} catch (Exception e) {
