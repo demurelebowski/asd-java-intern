@@ -31,7 +31,7 @@ public class ConverterUtil {
 				.price(reservationDto.getPrice())
 				.quote(reservationDto.getQuote())
 				.currency(reservationDto.getCurrency())
-				.guests(getGuests(reservationDto.getGuests()))
+				.guests(reservationDto.getGuests())
 				.notes(reservationDto.getNotes())
 				.version(dateFromString(reservationDto.getVersion()))
 				.state(reservationStateFromString(reservationDto.getState()))
@@ -53,7 +53,7 @@ public class ConverterUtil {
 				.price(reservation.getPrice())
 				.quote(reservation.getQuote())
 				.currency(reservation.getCurrency())
-				.guests(getGuests(reservation.getGuests()))
+				.guests(reservation.getGuests())
 				.notes(reservation.getNotes())
 				.version(getVersion(reservation.getVersion()))
 				.state(stringFromReservationState(reservation.getState()))
@@ -76,13 +76,6 @@ public class ConverterUtil {
 			return null;
 		}
 		return version.toString();
-	}
-
-	private static Integer getGuests(Integer guest) {
-		if (Objects.isNull(guest)) {
-			return null;
-		}
-		return guest;
 	}
 
 	private static String stringFromLocalDate(LocalDate localDate) {
