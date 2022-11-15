@@ -79,8 +79,8 @@ public class ConverterUtil {
 	}
 
 	private static Integer getGuests(Integer guest) {
-		if (Objects.isNull(guest) || guest < 1) {
-			return 1;
+		if (Objects.isNull(guest)) {
+			return null;
 		}
 		return guest;
 	}
@@ -117,7 +117,7 @@ public class ConverterUtil {
 
 	private static String stringFromReservationState(ReservationState reservationState) {
 		if (Objects.isNull(reservationState)) {
-			return ReservationState.Initial.name();
+			return null;
 		}
 		return reservationState.name();
 	}
