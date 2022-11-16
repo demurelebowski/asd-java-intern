@@ -3,6 +3,7 @@ package team.asd.util;
 import team.asd.constant.ReservationState;
 import team.asd.dto.ReservationDto;
 import team.asd.entity.Reservation;
+import team.asd.exceptions.ValidationException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -52,30 +53,42 @@ public class ConverterUtil {
 				.price(reservation.getPrice())
 				.quote(reservation.getQuote())
 				.currency(reservation.getCurrency())
-				.guests(getGuests(reservation.getGuests()))
+				.guests(reservation.getGuests())
 				.notes(reservation.getNotes())
-				.version(reservation.getVersion()
-						.toString())
+				.version(getVersion(reservation.getVersion()))
 				.state(stringFromReservationState(reservation.getState()))
 				.build();
 	}
 
 	private static LocalDate localDateFromString(String str) {
-		return LocalDate.parse(str, dateFormatter);
+		if (Objects.isNull(str)) {
+			return null;
+		}
+		try {
+			return LocalDate.parse(str, dateFormatter);
+		} catch (Exception e) {
+			throw new ValidationException("Invalid date format.");
+		}
 	}
 
-	private static Integer getGuests(Integer guest) {
-		if (Objects.isNull(guest) || guest < 1) {
-			return 1;
+	private static String getVersion(Date version) {
+		if (Objects.isNull(version)) {
+			return null;
 		}
-		return guest;
+		return version.toString();
 	}
 
 	private static String stringFromLocalDate(LocalDate localDate) {
+		if (Objects.isNull(localDate)) {
+			return null;
+		}
 		return localDate.format(dateFormatter);
 	}
 
 	private static Date dateFromString(String str) {
+		if (Objects.isNull(str)) {
+			return null;
+		}
 		try {
 			return new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", Locale.ENGLISH).parse(str);
 		} catch (Exception e) {
@@ -97,7 +110,7 @@ public class ConverterUtil {
 
 	private static String stringFromReservationState(ReservationState reservationState) {
 		if (Objects.isNull(reservationState)) {
-			return ReservationState.Initial.name();
+			return null;
 		}
 		return reservationState.name();
 	}

@@ -1,12 +1,6 @@
 package team.asd.controller;
 
-import team.asd.dao.TestReservationDao;
-import team.asd.dto.ReservationDto;
-import team.asd.entity.Reservation;
-import team.asd.service.ReservationService;
-import team.asd.util.ConverterUtil;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,54 +8,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import team.asd.dto.ReservationDto;
+import team.asd.entity.Reservation;
+import team.asd.service.ReservationService;
+import team.asd.util.ConverterUtil;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/reservation")
 public class ReservationController {
-	private final ReservationService reservationService = new ReservationService(new TestReservationDao());
+	@Autowired
+	public ReservationService reservationService;
 
-	@ResponseBody
 	@GetMapping("/{reservationId}")
-	public ResponseEntity<Object> readById(@PathVariable Integer reservationId) {
-		try {
-			ReservationDto reservationDto = ConverterUtil.convertToReservationDto(reservationService.readById(reservationId));
-			return new ResponseEntity<>(reservationDto, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	public ReservationDto readById(@PathVariable Integer reservationId) {
+		Reservation reservation = reservationService.readById(reservationId);
+		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
-	@ResponseBody
 	@PostMapping("/")
-	public ResponseEntity<Object> createReservation(@RequestBody ReservationDto reservationDto) {
-		try {
-			Reservation reservation = reservationService.create(ConverterUtil.convertToReservation(reservationDto));
-			return new ResponseEntity<>(ConverterUtil.convertToReservationDto(reservation), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	public ReservationDto createReservation(@RequestBody @Valid ReservationDto reservationDto) {
+		Reservation reservation = ConverterUtil.convertToReservation(reservationDto);
+		reservationService.create(reservation);
+		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
-	@ResponseBody
 	@PutMapping("/")
-	public ResponseEntity<Object> updateReservation(@RequestBody ReservationDto reservationDto) {
-		try {
-			Reservation reservation = reservationService.update(ConverterUtil.convertToReservation(reservationDto));
-			return new ResponseEntity<>(ConverterUtil.convertToReservationDto(reservation), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	public ReservationDto updateReservation(@RequestBody @Valid ReservationDto reservationDto) {
+		Reservation reservation = ConverterUtil.convertToReservation(reservationDto);
+		reservationService.update(reservation);
+		return ConverterUtil.convertToReservationDto(reservation);
 	}
 
-	@ResponseBody
 	@DeleteMapping("/{reservationId}")
-	public ResponseEntity<Object> deleteReservation(@PathVariable Integer reservationId) {
-		try {
-			return new ResponseEntity<>(reservationService.delete(reservationId), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	public Boolean deleteReservation(@PathVariable Integer reservationId) {
+		return reservationService.delete(reservationId);
 	}
 }
