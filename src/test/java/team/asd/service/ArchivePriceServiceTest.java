@@ -23,10 +23,13 @@ class ArchivePriceServiceTest {
 	@BeforeEach
 	public void initArchivePrice() {
 		archivePrice = new ArchivePrice();
+		archivePrice.setEntityId(8);
 	}
 
 	@Test
-	void readById() {
+	void testReadById() {
+		assertThrows(ValidationException.class, () -> archivePriceService.readById(null));
+		assertThrows(ValidationException.class, () -> archivePriceService.readById(-3));
 	}
 
 	@Test
@@ -38,9 +41,14 @@ class ArchivePriceServiceTest {
 
 	@Test
 	void update() {
+		assertThrows(ValidationException.class, () -> archivePriceService.update(null));
+		assertThrows(ValidationException.class, () -> archivePriceService.update(new ArchivePrice()));
+		assertThrows(ValidationException.class, () -> archivePriceService.update(archivePrice));
 	}
 
 	@Test
 	void delete() {
+		assertThrows(ValidationException.class, () -> archivePriceService.delete(null));
+		assertThrows(ValidationException.class, () -> archivePriceService.delete(-9));
 	}
 }

@@ -26,6 +26,7 @@ public class ArchivePriceService {
 	}
 
 	public void update(ArchivePrice archivePrice) {
+		validateArchivePrice(archivePrice);
 		validateId(archivePrice.getId());
 		archivePriceDao.update(archivePrice);
 	}
@@ -42,11 +43,15 @@ public class ArchivePriceService {
 	}
 
 	private void validateArchivePriceCreation(ArchivePrice archivePrice) {
-		if (Objects.isNull(archivePrice)) {
-			throw new ValidationException("Archive price is null");
-		}
+		validateArchivePrice(archivePrice);
 		if (ObjectUtils.anyNull(archivePrice.getEntityId(), archivePrice.getName())) {
 			throw new ValidationException("One of the required parameters not found.");
+		}
+	}
+
+	private void validateArchivePrice(ArchivePrice archivePrice) {
+		if (Objects.isNull(archivePrice)) {
+			throw new ValidationException("Archive price is null");
 		}
 	}
 }

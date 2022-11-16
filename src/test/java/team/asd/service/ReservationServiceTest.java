@@ -17,7 +17,7 @@ class ReservationServiceTest {
 	private static final TestReservationDao testReservationDao = new TestReservationDao();
 
 	@Test
-	void testReadByIdInCaseWhenIdParameterIsNull() {
+	void testReadByIdInCaseWhenIdParameterIsInvalid() {
 		assertThrows(ValidationException.class, () -> reservationService.readById(null));
 		assertThrows(ValidationException.class, () -> reservationService.readById(-11));
 	}
