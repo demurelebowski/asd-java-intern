@@ -42,6 +42,9 @@ public class ArchivePriceService {
 	}
 
 	private void validateArchivePriceCreation(ArchivePrice archivePrice) {
+		if (Objects.isNull(archivePrice)) {
+			throw new ValidationException("Archive price is null");
+		}
 		if (ObjectUtils.anyNull(archivePrice.getEntityId(), archivePrice.getName())) {
 			throw new ValidationException("One of the required parameters not found.");
 		}

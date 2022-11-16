@@ -42,6 +42,9 @@ public class ReservationService {
 	}
 
 	private void validateReservationCreation(Reservation reservation) {
+		if (Objects.isNull(reservation)) {
+			throw new ValidationException("Reservation is null");
+		}
 		if (ObjectUtils.anyNull(reservation.getOrganizationId(), reservation.getCustomerId(), reservation.getAgentId(), reservation.getProductId(),
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new ValidationException("One of the required parameters not found.");
