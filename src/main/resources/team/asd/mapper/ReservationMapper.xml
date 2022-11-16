@@ -40,8 +40,8 @@
 	</update>
 	<delete id="delete" parameterType="int">
 		UPDATE
-		reservation SET
-		state='Cancelled'
+		reservation
+		SET state='Cancelled'
 		WHERE id =#{id}
 	</delete>
 </mapper>
