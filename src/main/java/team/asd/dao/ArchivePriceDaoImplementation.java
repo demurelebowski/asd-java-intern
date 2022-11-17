@@ -1,8 +1,10 @@
 package team.asd.dao;
 
+import org.springframework.stereotype.Repository;
 import team.asd.entity.ArchivePrice;
 
-public class TestArchivePriceDao implements ArchivePriceDao {
+@Repository
+public class ArchivePriceDaoImplementation implements ArchivePriceDao {
 	@Override
 	public ArchivePrice readById(Integer id) {
 		return null;

@@ -1,13 +1,14 @@
 package team.asd.service;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.stereotype.Service;
 import team.asd.dao.ArchivePriceDao;
 import team.asd.entity.ArchivePrice;
-import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
 
 import java.util.Objects;
 
+@Service
 public class ArchivePriceService {
 	private final ArchivePriceDao archivePriceDao;
 
@@ -15,7 +16,7 @@ public class ArchivePriceService {
 		this.archivePriceDao = archivePriceDao;
 	}
 
-	public Reservation readById(Integer id) {
+	public ArchivePrice readById(Integer id) {
 		validateId(id);
 		return archivePriceDao.readById(id);
 	}
