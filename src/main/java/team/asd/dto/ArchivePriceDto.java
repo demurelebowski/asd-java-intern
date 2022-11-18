@@ -22,7 +22,7 @@ public class ArchivePriceDto {
 	@JsonProperty("entity_type")
 	private String entityType;
 
-	@Min(value = 1, message = "id {javax.validation.constraints.Min.message}")
+	@Min(value = 1, message = "entity_id {javax.validation.constraints.Min.message}")
 	@JsonProperty("entity_id")
 	private Integer entityId;
 

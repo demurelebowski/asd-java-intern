@@ -1,15 +1,15 @@
 package team.asd.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import team.asd.entity.Reservation;
+import team.asd.entity.ArchivePrice;
 
 @Mapper
 public interface ArchivePriceMapper {
-	Reservation readById(Integer id);
+	ArchivePrice readById(Integer id);
 
-	void create(Reservation reservation);
+	void create(ArchivePrice archivePrice);
 
-	void update(Reservation reservation);
+	void update(ArchivePrice archivePrice);
 
 	Boolean delete(Integer id);
 }
