@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.asd.mapper.ArchivePriceMapper">
+	<resultMap id="ResultMap" type="team.asd.entity.ArchivePrice">
+		<id column="id" property="id"/>
+		<result column="entity_type" property="entityType"/>
+		<result column="entity_id" property="entityId"/>
+	</resultMap>
+	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT * FROM archive_price
+		WHERE id =#{id}
+	</select>
+	<insert id="create" parameterType="team.asd.entity.ArchivePrice" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO archive_price (<if test="entityType != null">entity_type</if>, entity_id, name, <if test="state != null">, state</if>, type, value)
+		VALUES (<if test="entityType != null">#{entity_type},</if>#{entity_id},#{name},<if test="state != null">#{state},</if>#{type},#{value})
+	</insert>
+	<update id="update" parameterType="team.asd.entity.ArchivePrice">
+		UPDATE
+		archive_price
+		<set>
+			<if test="entityType!=null">entity_type=#{entityType},</if>
+			<if test="entityId!=null">entity_id=#{entityId},</if>
+			<if test="name!=null">name=#{name},</if>
+			<if test="state!=null">state=#{state},</if>
+			<if test="type!=null">type=#{type},</if>
+			<if test="value!=null">value=#{value},</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		UPDATE
+		archive_price
+		SET state='Final'
+		WHERE id =#{id}
+	</delete>
+</mapper>
