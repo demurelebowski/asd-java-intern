@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import team.asd.dao.TestArchivePriceDao;
+import team.asd.dao.ArchivePriceDaoDummy;
 import team.asd.entity.ArchivePrice;
 import team.asd.exceptions.ValidationException;
 
@@ -17,7 +17,7 @@ class ArchivePriceServiceTest {
 
 	@BeforeAll
 	public static void setUpClass() {
-		archivePriceService = new ArchivePriceService(new TestArchivePriceDao());
+		archivePriceService = new ArchivePriceService(new ArchivePriceDaoDummy());
 	}
 
 	@BeforeEach

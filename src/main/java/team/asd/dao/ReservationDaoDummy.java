@@ -2,7 +2,7 @@ package team.asd.dao;
 
 import team.asd.entity.Reservation;
 
-public class TestReservationDao implements ReservationDao {
+public class ReservationDaoDummy implements ReservationDao {
 	@Override
 	public Reservation readById(Integer id) {
 		return null;

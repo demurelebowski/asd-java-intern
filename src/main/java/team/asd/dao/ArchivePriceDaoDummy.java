@@ -2,7 +2,7 @@ package team.asd.dao;
 
 import team.asd.entity.ArchivePrice;
 
-public class TestArchivePriceDao implements ArchivePriceDao {
+public class ArchivePriceDaoDummy implements ArchivePriceDao {
 	@Override
 	public ArchivePrice readById(Integer id) {
 		return null;
