@@ -12,7 +12,8 @@
 		<result column="to_date" property="toDate"/>
 	</resultMap>
 	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
-		SELECT * FROM reservation
+		SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote, currency, guests, notes, version
+		FROM reservation
 		WHERE id =#{id}
 	</select>
 	<insert id="create" parameterType="team.asd.entity.Reservation" useGeneratedKeys="true" keyProperty="id">
