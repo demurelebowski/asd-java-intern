@@ -10,6 +10,13 @@
 		<result column="product_id" property="productId"/>
 		<result column="from_date" property="fromDate"/>
 		<result column="to_date" property="toDate"/>
+		<result column="state" property="state"/>
+		<result column="price" property="price"/>
+		<result column="quote" property="quote"/>
+		<result column="currency" property="currency"/>
+		<result column="guests" property="guests"/>
+		<result column="notes" property="notes"/>
+		<result column="version" property="version"/>
 	</resultMap>
 	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
 		SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote, currency, guests, notes, version
