@@ -1,5 +1,7 @@
 package team.asd.constant;
 
+import java.util.Arrays;
+
 public enum ArchivePriceType {
 	Tax("TAX"), Fee("FEE"), Price("PRICE"), Info("INFO"), Commission("COMMISSION");
 	private String value;
@@ -13,12 +15,10 @@ public enum ArchivePriceType {
 	}
 
 	public static ArchivePriceType getByString(String str) {
-		for (ArchivePriceType archivePriceType : ArchivePriceType.values()) {
-			if (archivePriceType.getValue()
-					.equals(str)) {
-				return archivePriceType;
-			}
-		}
-		return null;
+		return Arrays.stream(ArchivePriceType.values())
+				.filter(e -> e.getValue()
+						.equals(str))
+				.findAny()
+				.orElse(null);
 	}
 }
