@@ -11,9 +11,10 @@ import java.util.Objects;
 @Service
 public class ReservationService {
 	private final ReservationDao reservationDao;
+
 	public ReservationService(ReservationDao reservationDao) {
-			this.reservationDao = reservationDao;
-		}
+		this.reservationDao = reservationDao;
+	}
 
 	public Reservation readById(Integer id) {
 		validateId(id);
@@ -26,6 +27,7 @@ public class ReservationService {
 	}
 
 	public void update(Reservation reservation) {
+		validateReservation(reservation);
 		validateId(reservation.getId());
 		reservationDao.update(reservation);
 	}
@@ -42,9 +44,16 @@ public class ReservationService {
 	}
 
 	private void validateReservationCreation(Reservation reservation) {
+		validateReservation(reservation);
 		if (ObjectUtils.anyNull(reservation.getOrganizationId(), reservation.getCustomerId(), reservation.getAgentId(), reservation.getProductId(),
 				reservation.getFromDate(), reservation.getToDate(), reservation.getPrice(), reservation.getQuote(), reservation.getCurrency())) {
 			throw new ValidationException("One of the required parameters not found.");
+		}
+	}
+
+	private void validateReservation(Reservation reservation) {
+		if (Objects.isNull(reservation)) {
+			throw new ValidationException("Reservation is null");
 		}
 	}
 }

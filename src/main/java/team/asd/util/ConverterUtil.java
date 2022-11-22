@@ -1,14 +1,19 @@
 package team.asd.util;
 
+import org.apache.commons.lang3.EnumUtils;
+import team.asd.constant.ArchivePriceState;
+import team.asd.constant.ArchivePriceType;
+import team.asd.constant.EntityType;
 import team.asd.constant.ReservationState;
+import team.asd.dto.ArchivePriceDto;
 import team.asd.dto.ReservationDto;
+import team.asd.entity.ArchivePrice;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -34,7 +39,7 @@ public class ConverterUtil {
 				.guests(reservationDto.getGuests())
 				.notes(reservationDto.getNotes())
 				.version(dateFromString(reservationDto.getVersion()))
-				.state(reservationStateFromString(reservationDto.getState()))
+				.state(EnumUtils.getEnumIgnoreCase(ReservationState.class, reservationDto.getState()))
 				.build();
 	}
 
@@ -55,8 +60,40 @@ public class ConverterUtil {
 				.currency(reservation.getCurrency())
 				.guests(reservation.getGuests())
 				.notes(reservation.getNotes())
-				.version(getVersion(reservation.getVersion()))
-				.state(stringFromReservationState(reservation.getState()))
+				.version(getStringFromVersion(reservation.getVersion()))
+				.state(getStringFromEnum(reservation.getState()))
+				.build();
+	}
+
+	public static ArchivePrice convertToArchivePrice(ArchivePriceDto archivePriceDto) {
+		if (Objects.isNull(archivePriceDto)) {
+			return null;
+		}
+		return ArchivePrice.builder()
+				.id(archivePriceDto.getId())
+				.entityType(EnumUtils.getEnumIgnoreCase(EntityType.class, archivePriceDto.getEntityType()))
+				.entityId(archivePriceDto.getEntityId())
+				.name(archivePriceDto.getName())
+				.state(EnumUtils.getEnumIgnoreCase(ArchivePriceState.class, archivePriceDto.getState()))
+				.type(EnumUtils.getEnumIgnoreCase(ArchivePriceType.class, archivePriceDto.getType()))
+				.value(archivePriceDto.getValue())
+				.version(dateFromString(archivePriceDto.getVersion()))
+				.build();
+	}
+
+	public static ArchivePriceDto convertToArchivePriceDto(ArchivePrice archivePrice) {
+		if (Objects.isNull(archivePrice)) {
+			return null;
+		}
+		return ArchivePriceDto.builder()
+				.id(archivePrice.getId())
+				.entityType(getStringFromEnum(archivePrice.getEntityType()))
+				.entityId(archivePrice.getEntityId())
+				.name(archivePrice.getName())
+				.state(getStringFromEnum(archivePrice.getState()))
+				.type(getStringFromEnum(archivePrice.getType()))
+				.value(archivePrice.getValue())
+				.version(getStringFromVersion(archivePrice.getVersion()))
 				.build();
 	}
 
@@ -71,7 +108,7 @@ public class ConverterUtil {
 		}
 	}
 
-	private static String getVersion(Date version) {
+	private static String getStringFromVersion(Date version) {
 		if (Objects.isNull(version)) {
 			return null;
 		}
@@ -92,26 +129,11 @@ public class ConverterUtil {
 		try {
 			return new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", Locale.ENGLISH).parse(str);
 		} catch (Exception e) {
-			return new Date();
-		}
-	}
-
-	private static ReservationState reservationStateFromString(String str) {
-		try {
-			return Arrays.stream(ReservationState.values())
-					.filter(e -> e.name()
-							.equalsIgnoreCase(str))
-					.findAny()
-					.orElse(ReservationState.Initial);
-		} catch (Exception e) {
-			return ReservationState.Initial;
-		}
-	}
-
-	private static String stringFromReservationState(ReservationState reservationState) {
-		if (Objects.isNull(reservationState)) {
 			return null;
 		}
-		return reservationState.name();
+	}
+
+	private static String getStringFromEnum(Enum obj) {
+		return obj == null ? null : obj.name();
 	}
 }

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import team.asd.dao.TestReservationDao;
+import team.asd.dao.ReservationDaoDummy;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
 
@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ReservationServiceTest {
 	private Reservation reservation;
 	private static ReservationService reservationService;
-	private static final TestReservationDao testReservationDao = new TestReservationDao();
+	private static final ReservationDaoDummy testReservationDao = new ReservationDaoDummy();
 
 	@Test
-	void testReadByIdInCaseWhenIdParameterIsNull() {
+	void testReadByIdInCaseWhenIdParameterIsInvalid() {
 		assertThrows(ValidationException.class, () -> reservationService.readById(null));
 		assertThrows(ValidationException.class, () -> reservationService.readById(-11));
 	}
