@@ -26,7 +26,7 @@ public class ReservationConfirmationDto {
 	@JsonProperty("channel_partner_id")
 	private Integer channelPartnerId;
 
-	@Size(max = 45, message = "Currency is invalid.")
+	@Size(max = 45, message = "confirmation_id is invalid.")
 	@JsonProperty("confirmation_id")
 	private String confirmationId;
 
