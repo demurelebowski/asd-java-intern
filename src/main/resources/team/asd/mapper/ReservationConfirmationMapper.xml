@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.asd.mapper.ReservationConfirmationMapper">
+	<resultMap id="ResultMap" type="team.asd.entity.ReservationConfirmation">
+		<id column="id" property="id"/>
+		<result column="reservation_id" property="reservationId"/>
+		<result column="channel_partner_id" property="channelPartnerId"/>
+		<result column="confirmation_id" property="confirmationId"/>
+		<result column="created_date" property="createdDate"/>
+		<result column="version" property="version"/>
+	</resultMap>
+	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ReservationConfirmation">
+		SELECT id, reservation_id, channel_partner_id, confirmation_id, created_date, version
+		FROM reservation_confirmation
+		WHERE id =#{id}
+	</select>
+	<insert id="create" parameterType="team.asd.entity.ReservationConfirmation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO reservation_confirmation (reservation_id, channel_partner_id, confirmation_id, <if test="createdDate != null">created_date,</if> version)
+		VALUES (#{reservationId},#{channelPartnerId},#{confirmationId},<if test="createdDate != null">#{createdDate},</if>#{version})
+	</insert>
+	<update id="update" parameterType="team.asd.entity.ReservationConfirmation">
+		UPDATE
+		reservation_confirmation
+		<set>
+			<if test="reservation_id!=null">reservation_id=#{reservationId},</if>
+			<if test="channel_partner_id!=null">channel_partner_id=#{channelPartnerId},</if>
+			<if test="confirmation_id!=null">confirmation_id=#{confirmationId},</if>
+			<if test="created_date!=null">created_date=#{createdDate},</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+</mapper>
