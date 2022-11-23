@@ -10,4 +10,6 @@ public interface ReservationConfirmationMapper {
 	void create(ReservationConfirmation reservationConfirmation);
 
 	void update(ReservationConfirmation reservationConfirmation);
+
+	Boolean delete(Integer id);
 }

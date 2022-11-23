@@ -16,18 +16,23 @@
 		WHERE id =#{id}
 	</select>
 	<insert id="create" parameterType="team.asd.entity.ReservationConfirmation" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO reservation_confirmation (reservation_id, channel_partner_id, confirmation_id, <if test="createdDate != null">created_date,</if> version)
-		VALUES (#{reservationId},#{channelPartnerId},#{confirmationId},<if test="createdDate != null">#{createdDate},</if>#{version})
+		INSERT INTO reservation_confirmation (reservation_id, channel_partner_id, confirmation_id, <if test="createdDate != null">created_date</if>)
+		VALUES (#{reservationId},#{channelPartnerId},#{confirmationId},<if test="createdDate != null">#{createdDate}</if>)
 	</insert>
 	<update id="update" parameterType="team.asd.entity.ReservationConfirmation">
 		UPDATE
 		reservation_confirmation
 		<set>
-			<if test="reservation_id!=null">reservation_id=#{reservationId},</if>
-			<if test="channel_partner_id!=null">channel_partner_id=#{channelPartnerId},</if>
-			<if test="confirmation_id!=null">confirmation_id=#{confirmationId},</if>
-			<if test="created_date!=null">created_date=#{createdDate},</if>
+			<if test="reservationId!=null">reservation_id=#{reservationId},</if>
+			<if test="channelPartnerId!=null">channel_partner_id=#{channelPartnerId},</if>
+			<if test="confirmationId!=null">confirmation_id=#{confirmationId},</if>
+			<if test="createdDate!=null">created_date=#{createdDate},</if>
 		</set>
 		WHERE id=#{id}
 	</update>
+	<delete id="delete" parameterType="int">
+		DELETE
+		FROM reservation_confirmation
+		WHERE id =#{id}
+	</delete>
 </mapper>

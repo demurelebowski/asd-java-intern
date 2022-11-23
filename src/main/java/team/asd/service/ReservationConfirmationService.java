@@ -32,6 +32,11 @@ public class ReservationConfirmationService {
 		reservationConfirmationDao.update(reservationConfirmation);
 	}
 
+	public Boolean delete(Integer id) {
+		validateId(id);
+		return reservationConfirmationDao.delete(id);
+	}
+
 	private void validateId(Integer id) {
 		if (Objects.isNull(id) || id < 0) {
 			throw new ValidationException("Invalid id.");
