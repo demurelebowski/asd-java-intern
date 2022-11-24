@@ -21,12 +21,12 @@ public class ArchivePriceTypeHandler extends EnumTypeHandler<ArchivePriceType> {
 
 	@Override
 	public ArchivePriceType getNullableResult(ResultSet rs, String columnName) throws SQLException {
-		return ArchivePriceType.getByString(rs.getString(columnName));
+		return rs.wasNull() ? null : ArchivePriceType.getByString(rs.getString(columnName));
 	}
 
 	@Override
 	public ArchivePriceType getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-		return ArchivePriceType.getByString(rs.getString(columnIndex));
+		return rs.wasNull() ? null : ArchivePriceType.getByString(rs.getString(columnIndex));
 	}
 
 	@Override

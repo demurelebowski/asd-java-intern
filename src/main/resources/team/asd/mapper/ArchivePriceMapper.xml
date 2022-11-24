@@ -10,7 +10,7 @@
 		<result column="state" property="state"/>
 		<result column="value" property="value"/>
 		<result column="version" property="version"/>
-		<result column="type" property="type" jdbcType="VARCHAR" javaType="java.lang.String" typeHandler="team.asd.handler.ArchivePriceTypeHandler"/>
+		<result column="type" property="type" typeHandler="team.asd.handler.ArchivePriceTypeHandler"/>
 	</resultMap>
 	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
 		SELECT id, entity_type, entity_id, name, state, type, value, version

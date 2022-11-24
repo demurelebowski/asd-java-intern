@@ -6,13 +6,16 @@ import team.asd.constant.ArchivePriceType;
 import team.asd.constant.EntityType;
 import team.asd.constant.ReservationState;
 import team.asd.dto.ArchivePriceDto;
+import team.asd.dto.ReservationConfirmationDto;
 import team.asd.dto.ReservationDto;
 import team.asd.entity.ArchivePrice;
 import team.asd.entity.Reservation;
+import team.asd.entity.ReservationConfirmation;
 import team.asd.exceptions.ValidationException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
@@ -20,6 +23,7 @@ import java.util.Objects;
 
 public class ConverterUtil {
 	static final private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	static final private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	public static Reservation convertToReservation(ReservationDto reservationDto) {
 		if (Objects.isNull(reservationDto)) {
@@ -97,6 +101,34 @@ public class ConverterUtil {
 				.build();
 	}
 
+	public static ReservationConfirmation convertToReservationConfirmation(ReservationConfirmationDto reservationConfirmationDto) {
+		if (Objects.isNull(reservationConfirmationDto)) {
+			return null;
+		}
+		return ReservationConfirmation.builder()
+				.id(reservationConfirmationDto.getId())
+				.confirmationId(reservationConfirmationDto.getConfirmationId())
+				.reservationId(reservationConfirmationDto.getReservationId())
+				.createdDate(localDateTimeFromString(reservationConfirmationDto.getCreatedDate()))
+				.channelPartnerId(reservationConfirmationDto.getChannelPartnerId())
+				.version(dateFromString(reservationConfirmationDto.getVersion()))
+				.build();
+	}
+
+	public static ReservationConfirmationDto convertToReservationConfirmationDto(ReservationConfirmation reservationConfirmation) {
+		if (Objects.isNull(reservationConfirmation)) {
+			return null;
+		}
+		return ReservationConfirmationDto.builder()
+				.id(reservationConfirmation.getId())
+				.confirmationId(reservationConfirmation.getConfirmationId())
+				.reservationId(reservationConfirmation.getReservationId())
+				.createdDate(stringFromLocalDateTime(reservationConfirmation.getCreatedDate()))
+				.channelPartnerId(reservationConfirmation.getChannelPartnerId())
+				.version(getStringFromVersion(reservationConfirmation.getVersion()))
+				.build();
+	}
+
 	private static LocalDate localDateFromString(String str) {
 		if (Objects.isNull(str)) {
 			return null;
@@ -105,6 +137,17 @@ public class ConverterUtil {
 			return LocalDate.parse(str, dateFormatter);
 		} catch (Exception e) {
 			throw new ValidationException("Invalid date format.");
+		}
+	}
+
+	private static LocalDateTime localDateTimeFromString(String str) {
+		if (Objects.isNull(str)) {
+			return null;
+		}
+		try {
+			return LocalDateTime.parse(str, dateTimeFormatter);
+		} catch (Exception e) {
+			throw new ValidationException("Invalid datetime format.");
 		}
 	}
 
@@ -120,6 +163,13 @@ public class ConverterUtil {
 			return null;
 		}
 		return localDate.format(dateFormatter);
+	}
+
+	private static String stringFromLocalDateTime(LocalDateTime localDateTime) {
+		if (Objects.isNull(localDateTime)) {
+			return null;
+		}
+		return localDateTime.format(dateTimeFormatter);
 	}
 
 	private static Date dateFromString(String str) {
