@@ -16,6 +16,7 @@ import team.asd.entity.ArchivePrice;
 import team.asd.exceptions.ValidationException;
 
 import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,8 +39,8 @@ class ArchivePriceServiceTest {
         MockitoAnnotations.openMocks(this);
         archivePriceService = new ArchivePriceService(archivePriceDaoDummy);
         archivePrice = new ArchivePrice();
-        archivePriceMock = null;
         archivePrice.setId(-1);
+        archivePriceMock = null;
     }
 
     @Test
@@ -86,6 +87,29 @@ class ArchivePriceServiceTest {
         assertThrows(ValidationException.class, () -> archivePriceService.update(null));
         assertThrows(ValidationException.class, () -> archivePriceService.update(new ArchivePrice()));
         assertThrows(ValidationException.class, () -> archivePriceService.update(archivePrice));
+    }
+
+    @Test
+    void testUpdateMock() {
+        doAnswer(invocation -> {
+            archivePriceMock = TestResources.getTestArchivePrice(2);
+            return null;
+        }).when(archivePriceDaoDummy).create(any(ArchivePrice.class));
+/*
+        when(archivePriceDaoDummy.readById(2)).thenAnswer(invocationOnMock -> archivePriceMock);
+        doAnswer(invocation -> Optional.ofNullable(invocation.getArgument(0, ArchivePrice.class))
+                .map(ArchivePrice::getName)
+                .map(ArchivePrice i - > upfateLocaly(i))
+                .orElse(null)).when(archivePriceDaoDummy).update(any(ArchivePrice.class));
+*/
+
+        archivePriceService.create(TestResources.getTestArchivePrice(2));
+        assertNotNull(archivePriceService.readById(2));
+        archivePriceService.update(TestResources.getTestArchivePrice(3));
+        assertNotNull(archivePriceService.readById(2));
+        Assertions.assertEquals(archivePriceService.readById(2).getName(), "Mok2");
+        verify(archivePriceDaoDummy, atLeast(2)).readById(2);
+        verify(archivePriceDaoDummy, atLeast(1)).create(any(ArchivePrice.class));
     }
 
     @Test
