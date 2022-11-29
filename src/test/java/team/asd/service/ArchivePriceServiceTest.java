@@ -8,9 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import team.asd.constant.ArchivePriceState;
 import team.asd.dao.ArchivePriceDaoDummy;
 import team.asd.entity.ArchivePrice;
 import team.asd.exceptions.ValidationException;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -99,22 +102,29 @@ class ArchivePriceServiceTest {
 
 		when(archivePriceDaoDummy.readById(2)).thenAnswer(invocationOnMock -> archivePriceMock);
 
-		doAnswer(invocation -> {
-			archivePriceMock.setName("Flute");
-			return null;
-		}).when(archivePriceDaoDummy)
+		doAnswer(invocation -> Optional.ofNullable(invocation.getArgument(0, ArchivePrice.class))
+				.map(this::updateNameArchivePrice)
+				.orElse(null)).when(archivePriceDaoDummy)
 				.update(any(ArchivePrice.class));
+
 		assertNull(archivePriceService.readById(2));
 		archivePriceService.create(TestResources.getTestArchivePrice(2));
 		assertNotNull(archivePriceService.readById(2));
 		Assertions.assertEquals(archivePriceService.readById(2)
 				.getName(), "Non");
-		archivePriceService.update(TestResources.getTestArchivePrice(2));
+		ArchivePrice archivePriceNew = TestResources.getTestArchivePrice(2);
+		archivePriceNew.setName("New");
+		archivePriceService.update(archivePriceNew);
 		assertNotNull(archivePriceService.readById(2));
 		Assertions.assertEquals(archivePriceService.readById(2)
-				.getName(), "Flute");
+				.getName(), "New");
 		verify(archivePriceDaoDummy, atLeast(1)).update(any(ArchivePrice.class));
 		verify(archivePriceDaoDummy, atLeast(3)).readById(any(Integer.class));
+	}
+
+	private ArchivePrice updateNameArchivePrice(ArchivePrice archivePrice) {
+		archivePriceMock.setName(archivePrice.getName());
+		return archivePriceMock;
 	}
 
 	@Test
@@ -123,7 +133,27 @@ class ArchivePriceServiceTest {
 		Boolean deleteSuccess = archivePriceService.delete(11);
 		Assertions.assertNotNull(deleteSuccess);
 		Assertions.assertEquals(deleteSuccess, true);
-		verify(archivePriceDaoDummy, atLeast(1)).delete(any(Integer.class));
+
+		doAnswer(invocation -> {
+			archivePriceMock = TestResources.getTestArchivePrice(2);
+			return null;
+		}).when(archivePriceDaoDummy)
+				.create(any(ArchivePrice.class));
+		doAnswer(invocation -> {
+			archivePriceMock.setState(ArchivePriceState.Final);
+			return true;
+		}).when(archivePriceDaoDummy)
+				.delete(any(Integer.class));
+		when(archivePriceDaoDummy.readById(2)).thenAnswer(invocationOnMock -> archivePriceMock);
+
+		archivePriceService.create(TestResources.getTestArchivePrice(2));
+		Assertions.assertNotEquals(archivePriceService.readById(2)
+				.getState(), ArchivePriceState.Final);
+		deleteSuccess = archivePriceService.delete(2);
+		Assertions.assertEquals(archivePriceService.readById(2)
+				.getState(), ArchivePriceState.Final);
+		Assertions.assertEquals(deleteSuccess, true);
+		verify(archivePriceDaoDummy, atLeast(2)).delete(any(Integer.class));
 	}
 
 	@Test
