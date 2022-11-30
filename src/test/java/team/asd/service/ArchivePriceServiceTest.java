@@ -76,7 +76,7 @@ class ArchivePriceServiceTest {
 			archivePriceMock = TestResources.getTestArchivePrice(1);
 			return null;
 		}).when(archivePriceDaoDummy)
-				.create(TestResources.getTestArchivePrice(1));
+				.create(any(ArchivePrice.class));
 
 		when(archivePriceDaoDummy.readById(1)).thenAnswer(invocationOnMock -> archivePriceMock);
 
