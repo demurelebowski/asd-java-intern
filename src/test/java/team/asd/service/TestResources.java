@@ -20,6 +20,9 @@ public class TestResources {
 		archivePriceMap.put(1, new ArchivePrice(1, EntityType.Payment, 4, "Mok", ArchivePriceState.Created, ArchivePriceType.Price, 9.9, new Date()));
 		archivePriceMap.put(2, new ArchivePrice(2, EntityType.Reservation, 55, "Non", ArchivePriceState.Created, ArchivePriceType.Fee, 11.0, new Date()));
 		archivePriceMap.put(3, new ArchivePrice(3, EntityType.Modification, 44, "Mok2", ArchivePriceState.Created, ArchivePriceType.Price, 19.9, new Date()));
+		archivePriceMap.put(4, new ArchivePrice(null, EntityType.Modification, 44, "Mok2", ArchivePriceState.Created, ArchivePriceType.Price, 19.9, new Date()));
+
+
 		return archivePriceMap;
 	}
 
@@ -32,6 +35,7 @@ public class TestResources {
 		reservationConfirmationMap.put(1, new ReservationConfirmation(1, 2, 34, "0345", LocalDateTime.now(), new Date()));
 		reservationConfirmationMap.put(2, new ReservationConfirmation(2, 11, 23, "234", LocalDateTime.now(), new Date()));
 		reservationConfirmationMap.put(3, new ReservationConfirmation(3, 22, 43, "5333", LocalDateTime.now(), new Date()));
+		reservationConfirmationMap.put(4, new ReservationConfirmation(null, 22, 43, "5333", LocalDateTime.now(), new Date()));
 
 		return reservationConfirmationMap;
 	}
@@ -48,6 +52,8 @@ public class TestResources {
 				new Reservation(2, 54, 45, 65, 6, ReservationState.Confirmed, LocalDate.now(), LocalDate.now(), 66.5, 77.5, "USD", 1, null, new Date()));
 		reservationMap.put(3,
 				new Reservation(3, 4, 5, 6, 7, ReservationState.FullyPaid, LocalDate.now(), LocalDate.now(), 5.6, 7.5, "USD", 1, "text", new Date()));
+		reservationMap.put(4,
+				new Reservation(null, 4, 5, 6, 7, ReservationState.FullyPaid, LocalDate.now(), LocalDate.now(), 5.6, 7.5, "USD", 1, "text", new Date()));
 
 		return reservationMap;
 	}

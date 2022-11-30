@@ -69,18 +69,25 @@ class ReservationServiceTest {
 	@Test
 	void testCreateMock() {
 		doAnswer(invocation -> {
-			reservationMock = TestResources.getTestResourcesReservation(1);
+			Reservation ReservationToCreate = invocation.getArgument(0, Reservation.class);
+			saveAndPopulateId(ReservationToCreate);
 			return null;
 		}).when(testReservationDao)
 				.create(any(Reservation.class));
 
-		when(testReservationDao.readById(1)).thenAnswer(invocationOnMock -> reservationMock);
-
-		assertNull(reservationService.readById(1));
-		reservationService.create(TestResources.getTestResourcesReservation(1));
-		assertNotNull(reservationService.readById(1));
-		verify(testReservationDao, atLeast(2)).readById(any(Integer.class));
+		assertNull(reservationMock);
+		reservationService.create(TestResources.getTestResourcesReservation(4));
+		assertNotNull(reservationMock);
+		assertNotNull(reservationMock.getId());
 		verify(testReservationDao, atLeast(1)).create(any(Reservation.class));
+	}
+
+	private void saveAndPopulateId(Reservation reservationToCreate) {
+		if (Objects.isNull(reservationToCreate)) {
+			return;
+		}
+		reservationToCreate.setId(1);
+		reservationMock = reservationToCreate;
 	}
 
 	@Test

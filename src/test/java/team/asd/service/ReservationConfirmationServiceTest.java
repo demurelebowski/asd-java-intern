@@ -76,15 +76,25 @@ class ReservationConfirmationServiceTest {
 	@Test
 	void testCreateMock() {
 		doAnswer(invocation -> {
-			reservationConfirmationMock = TestResources.getTestResourcesReservationConfirmation(1);
+			ReservationConfirmation reservationConfirmationToCreate = invocation.getArgument(0, ReservationConfirmation.class);
+			saveAndPopulateId(reservationConfirmationToCreate);
 			return null;
 		}).when(reservationConfirmationDaoImplementation)
 				.create(any(ReservationConfirmation.class));
 
 		assertNull(reservationConfirmationMock);
-		reservationConfirmationService.create(TestResources.getTestResourcesReservationConfirmation(1));
+		reservationConfirmationService.create(TestResources.getTestResourcesReservationConfirmation(4));
 		assertNotNull(reservationConfirmationMock);
+		assertNotNull(reservationConfirmationMock.getId());
 		verify(reservationConfirmationDaoImplementation, atLeast(1)).create(any(ReservationConfirmation.class));
+	}
+
+	private void saveAndPopulateId(ReservationConfirmation reservationConfirmationToCreate) {
+		if (Objects.isNull(reservationConfirmationToCreate)) {
+			return;
+		}
+		reservationConfirmationToCreate.setId(1);
+		reservationConfirmationMock = reservationConfirmationToCreate;
 	}
 
 	@Test

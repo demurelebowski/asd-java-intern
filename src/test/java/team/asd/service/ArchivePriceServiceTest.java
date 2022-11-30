@@ -73,18 +73,25 @@ class ArchivePriceServiceTest {
 	@Test
 	void testCreateMock() {
 		doAnswer(invocation -> {
-			archivePriceMock = TestResources.getTestArchivePrice(1);
+			ArchivePrice archivePriceToCreate = invocation.getArgument(0, ArchivePrice.class);
+			saveAndPopulateId(archivePriceToCreate);
 			return null;
 		}).when(archivePriceDaoDummy)
 				.create(any(ArchivePrice.class));
 
-		when(archivePriceDaoDummy.readById(1)).thenAnswer(invocationOnMock -> archivePriceMock);
-
-		assertNull(archivePriceService.readById(1));
-		archivePriceService.create(TestResources.getTestArchivePrice(1));
-		assertNotNull(archivePriceService.readById(1));
-		verify(archivePriceDaoDummy, atLeast(2)).readById(any(Integer.class));
+		assertNull(archivePriceMock);
+		archivePriceService.create(TestResources.getTestArchivePrice(4));
+		assertNotNull(archivePriceMock);
+		assertNotNull(archivePriceMock.getId());
 		verify(archivePriceDaoDummy, atLeast(1)).create(any(ArchivePrice.class));
+	}
+
+	private void saveAndPopulateId(ArchivePrice archivePriceToCreate) {
+		if (Objects.isNull(archivePriceToCreate)) {
+			return;
+		}
+		archivePriceToCreate.setId(1);
+		archivePriceMock = archivePriceToCreate;
 	}
 
 	@Test
