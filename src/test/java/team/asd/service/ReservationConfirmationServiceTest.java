@@ -12,6 +12,9 @@ import team.asd.dao.ReservationConfirmationDaoImplementation;
 import team.asd.entity.ReservationConfirmation;
 import team.asd.exceptions.ValidationException;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,7 +36,7 @@ class ReservationConfirmationServiceTest {
 	private static ReservationConfirmation reservationConfirmationMock;
 
 	@BeforeEach
-	public void initArchivePrice() {
+	public void init() {
 		MockitoAnnotations.openMocks(this);
 		reservationConfirmationService = new ReservationConfirmationService(reservationConfirmationDaoImplementation);
 		reservationConfirmation = new ReservationConfirmation();
@@ -49,7 +52,7 @@ class ReservationConfirmationServiceTest {
 
 	@Test
 	void testReadByIdNotNull() {
-		when(reservationConfirmationService.readById(1)).thenReturn(TestResources.getTestResourcesReservationConfirmation(1));
+		when(reservationConfirmationDaoImplementation.readById(1)).thenReturn(TestResources.getTestResourcesReservationConfirmation(1));
 		ReservationConfirmation reservationConfirmationMok = reservationConfirmationService.readById(1);
 		Assertions.assertNotNull(reservationConfirmationMok);
 		Assertions.assertEquals(reservationConfirmationMok.getReservationId(), 2);
@@ -78,20 +81,93 @@ class ReservationConfirmationServiceTest {
 		}).when(reservationConfirmationDaoImplementation)
 				.create(any(ReservationConfirmation.class));
 
-		when(reservationConfirmationDaoImplementation.readById(1)).thenAnswer(invocationOnMock -> reservationConfirmationMock);
-
-		assertNull(reservationConfirmationService.readById(1));
+		assertNull(reservationConfirmationMock);
 		reservationConfirmationService.create(TestResources.getTestResourcesReservationConfirmation(1));
-		assertNotNull(reservationConfirmationService.readById(1));
-		verify(reservationConfirmationDaoImplementation, atLeast(2)).readById(any(Integer.class));
+		assertNotNull(reservationConfirmationMock);
 		verify(reservationConfirmationDaoImplementation, atLeast(1)).create(any(ReservationConfirmation.class));
 	}
 
 	@Test
 	void update() {
+		assertThrows(ValidationException.class, () -> reservationConfirmationService.update(null));
+		assertThrows(ValidationException.class, () -> reservationConfirmationService.update(new ReservationConfirmation()));
+		assertThrows(ValidationException.class, () -> reservationConfirmationService.update(reservationConfirmation));
+	}
+
+	@Test
+	void testUpdateMock() {
+		reservationConfirmationMock = TestResources.getTestResourcesReservationConfirmation(3);
+
+		doAnswer(invocation -> Optional.ofNullable(invocation.getArgument(0, ReservationConfirmation.class))
+				.map(this::updateReservationConfirmation)
+				.orElse(null)).when(reservationConfirmationDaoImplementation)
+				.update(any(ReservationConfirmation.class));
+
+		reservationConfirmationService.update(TestResources.getTestResourcesReservationConfirmation(2));
+		Assertions.assertEquals(reservationConfirmationMock.getReservationId(), 22);
+		Assertions.assertEquals(reservationConfirmationMock.getConfirmationId(), "5333");
+
+		ReservationConfirmation reservationConfirmationNew = TestResources.getTestResourcesReservationConfirmation(3);
+		reservationConfirmationNew.setReservationId(55);
+		reservationConfirmationNew.setConfirmationId("666");
+		reservationConfirmationService.update(reservationConfirmationNew);
+		assertNotNull(reservationConfirmationMock);
+		Assertions.assertEquals(reservationConfirmationMock.getReservationId(), 55);
+		Assertions.assertEquals(reservationConfirmationMock.getConfirmationId(), "666");
+
+		verify(reservationConfirmationDaoImplementation, atLeast(2)).update(any(ReservationConfirmation.class));
+	}
+
+	private ReservationConfirmation updateReservationConfirmation(ReservationConfirmation reservationConfirmation) {
+		if (Objects.isNull(reservationConfirmation) || !reservationConfirmationMock.getId()
+				.equals(reservationConfirmation.getId())) {
+			return reservationConfirmation;
+		}
+		if (!Objects.isNull(reservationConfirmation.getReservationId())) {
+			reservationConfirmationMock.setReservationId(reservationConfirmation.getReservationId());
+		}
+		if (!Objects.isNull(reservationConfirmation.getConfirmationId())) {
+			reservationConfirmationMock.setConfirmationId(reservationConfirmation.getConfirmationId());
+		}
+		if (!Objects.isNull(reservationConfirmation.getChannelPartnerId())) {
+			reservationConfirmationMock.setChannelPartnerId(reservationConfirmation.getChannelPartnerId());
+		}
+		if (!Objects.isNull(reservationConfirmation.getCreatedDate())) {
+			reservationConfirmationMock.setCreatedDate(reservationConfirmation.getCreatedDate());
+		}
+
+		return reservationConfirmationMock;
+	}
+
+	@Test
+	void deleteMock() {
+		reservationConfirmationMock = TestResources.getTestResourcesReservationConfirmation(3);
+
+		doAnswer(invocation -> Optional.ofNullable(invocation.getArgument(0, Integer.class))
+				.map(this::deleteReservationConfirmation)
+				.orElse(null)).when(reservationConfirmationDaoImplementation)
+				.delete(any(Integer.class));
+
+		reservationConfirmationService.delete(45);
+		assertNotNull(reservationConfirmationMock);
+
+		reservationConfirmationService.delete(3);
+		assertNull(reservationConfirmationMock);
+
+		verify(reservationConfirmationDaoImplementation, atLeast(2)).delete(any(Integer.class));
+	}
+
+	private Boolean deleteReservationConfirmation(Integer id) {
+		if (Objects.isNull(id) || !id.equals(reservationConfirmationMock.getId())) {
+			return false;
+		}
+		reservationConfirmationMock = null;
+		return true;
 	}
 
 	@Test
 	void delete() {
+		assertThrows(ValidationException.class, () -> reservationConfirmationService.delete(null));
+		assertThrows(ValidationException.class, () -> reservationConfirmationService.delete(-9));
 	}
 }

@@ -9,10 +9,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import team.asd.constant.ArchivePriceState;
+import team.asd.constant.ArchivePriceType;
 import team.asd.dao.ArchivePriceDaoDummy;
 import team.asd.entity.ArchivePrice;
 import team.asd.exceptions.ValidationException;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -47,7 +49,7 @@ class ArchivePriceServiceTest {
 
 	@Test
 	void testReadByIdNotNull() {
-		when(archivePriceService.readById(1)).thenReturn(TestResources.getTestArchivePrice(1));
+		when(archivePriceDaoDummy.readById(1)).thenReturn(TestResources.getTestArchivePrice(1));
 		ArchivePrice archivePriceMok = archivePriceService.readById(1);
 		Assertions.assertNotNull(archivePriceMok);
 		Assertions.assertEquals(archivePriceMok.getName(), "Mok");
@@ -74,7 +76,7 @@ class ArchivePriceServiceTest {
 			archivePriceMock = TestResources.getTestArchivePrice(1);
 			return null;
 		}).when(archivePriceDaoDummy)
-				.create(any(ArchivePrice.class));
+				.create(TestResources.getTestArchivePrice(1));
 
 		when(archivePriceDaoDummy.readById(1)).thenAnswer(invocationOnMock -> archivePriceMock);
 
@@ -94,66 +96,78 @@ class ArchivePriceServiceTest {
 
 	@Test
 	void testUpdateMock() {
-		doAnswer(invocation -> {
-			archivePriceMock = TestResources.getTestArchivePrice(2);
-			return null;
-		}).when(archivePriceDaoDummy)
-				.create(any(ArchivePrice.class));
-
-		when(archivePriceDaoDummy.readById(2)).thenAnswer(invocationOnMock -> archivePriceMock);
+		archivePriceMock = TestResources.getTestArchivePrice(2);
 
 		doAnswer(invocation -> Optional.ofNullable(invocation.getArgument(0, ArchivePrice.class))
-				.map(this::updateNameArchivePrice)
+				.map(this::updateArchivePrice)
 				.orElse(null)).when(archivePriceDaoDummy)
 				.update(any(ArchivePrice.class));
 
-		assertNull(archivePriceService.readById(2));
-		archivePriceService.create(TestResources.getTestArchivePrice(2));
-		assertNotNull(archivePriceService.readById(2));
-		Assertions.assertEquals(archivePriceService.readById(2)
-				.getName(), "Non");
+		archivePriceService.update(TestResources.getTestArchivePrice(3));
+		Assertions.assertEquals(archivePriceMock.getName(), "Non");
+		Assertions.assertEquals(archivePriceMock.getType(), ArchivePriceType.Fee);
+
 		ArchivePrice archivePriceNew = TestResources.getTestArchivePrice(2);
 		archivePriceNew.setName("New");
+		archivePriceNew.setType(ArchivePriceType.Price);
 		archivePriceService.update(archivePriceNew);
-		assertNotNull(archivePriceService.readById(2));
-		Assertions.assertEquals(archivePriceService.readById(2)
-				.getName(), "New");
-		verify(archivePriceDaoDummy, atLeast(1)).update(any(ArchivePrice.class));
-		verify(archivePriceDaoDummy, atLeast(3)).readById(any(Integer.class));
+		assertNotNull(archivePriceMock);
+		Assertions.assertEquals(archivePriceMock.getName(), "New");
+		Assertions.assertEquals(archivePriceMock.getType(), ArchivePriceType.Price);
+
+		verify(archivePriceDaoDummy, atLeast(2)).update(any(ArchivePrice.class));
 	}
 
-	private ArchivePrice updateNameArchivePrice(ArchivePrice archivePrice) {
-		archivePriceMock.setName(archivePrice.getName());
+	private ArchivePrice updateArchivePrice(ArchivePrice archivePrice) {
+		if (Objects.isNull(archivePrice) || !archivePriceMock.getId()
+				.equals(archivePrice.getId())) {
+			return archivePrice;
+		}
+
+		if (!Objects.isNull(archivePrice.getName())) {
+			archivePriceMock.setName(archivePrice.getName());
+		}
+		if (!Objects.isNull(archivePrice.getType())) {
+			archivePriceMock.setType(archivePrice.getType());
+		}
+		if (!Objects.isNull(archivePrice.getEntityId())) {
+			archivePriceMock.setEntityId(archivePrice.getEntityId());
+		}
+		if (!Objects.isNull(archivePrice.getValue())) {
+			archivePriceMock.setValue(archivePrice.getValue());
+		}
+		if (!Objects.isNull(archivePrice.getState())) {
+			archivePriceMock.setState(archivePrice.getState());
+		}
+		if (!Objects.isNull(archivePrice.getEntityType())) {
+			archivePriceMock.setEntityType(archivePrice.getEntityType());
+		}
 		return archivePriceMock;
 	}
 
 	@Test
-	void deleteValid() {
-		when(archivePriceService.delete(11)).thenReturn(true);
-		Boolean deleteSuccess = archivePriceService.delete(11);
-		Assertions.assertNotNull(deleteSuccess);
-		Assertions.assertEquals(deleteSuccess, true);
+	void deleteMock() {
+		archivePriceMock = TestResources.getTestArchivePrice(3);
 
-		doAnswer(invocation -> {
-			archivePriceMock = TestResources.getTestArchivePrice(2);
-			return null;
-		}).when(archivePriceDaoDummy)
-				.create(any(ArchivePrice.class));
-		doAnswer(invocation -> {
-			archivePriceMock.setState(ArchivePriceState.Final);
-			return true;
-		}).when(archivePriceDaoDummy)
+		doAnswer(invocation -> Optional.ofNullable(invocation.getArgument(0, Integer.class))
+				.map(this::deleteArchivePrice)
+				.orElse(null)).when(archivePriceDaoDummy)
 				.delete(any(Integer.class));
-		when(archivePriceDaoDummy.readById(2)).thenAnswer(invocationOnMock -> archivePriceMock);
 
-		archivePriceService.create(TestResources.getTestArchivePrice(2));
-		Assertions.assertNotEquals(archivePriceService.readById(2)
-				.getState(), ArchivePriceState.Final);
-		deleteSuccess = archivePriceService.delete(2);
-		Assertions.assertEquals(archivePriceService.readById(2)
-				.getState(), ArchivePriceState.Final);
-		Assertions.assertEquals(deleteSuccess, true);
+		Assertions.assertEquals(archivePriceMock.getState(), ArchivePriceState.Created);
+		Assertions.assertEquals(archivePriceService.delete(3), true);
+		Assertions.assertEquals(archivePriceMock.getState(), ArchivePriceState.Final);
+		Assertions.assertEquals(archivePriceService.delete(1), false);
+
 		verify(archivePriceDaoDummy, atLeast(2)).delete(any(Integer.class));
+	}
+
+	private Boolean deleteArchivePrice(Integer id) {
+		if (Objects.isNull(id) || !id.equals(archivePriceMock.getId())) {
+			return false;
+		}
+		archivePriceMock.setState(ArchivePriceState.Final);
+		return true;
 	}
 
 	@Test
