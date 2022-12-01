@@ -107,6 +107,14 @@ public class ConverterUtil {
                 .build();
     }
 
+    public static List<ArchivePrice> convertToArchivePriceList(List<ArchivePriceDto> archivePriceDtoList) {
+        return archivePriceDtoList.stream().map(ConverterUtil::convertToArchivePrice).collect(Collectors.toList());
+    }
+
+    public static List<ArchivePriceDto> convertToArchivePriceDtoList(List<ArchivePrice> archivePriceList) {
+        return archivePriceList.stream().map(ConverterUtil::convertToArchivePriceDto).collect(Collectors.toList());
+    }
+
     public static ReservationConfirmation convertToReservationConfirmation(ReservationConfirmationDto reservationConfirmationDto) {
         if (Objects.isNull(reservationConfirmationDto)) {
             return null;
@@ -192,4 +200,5 @@ public class ConverterUtil {
     private static String getStringFromEnum(Enum obj) {
         return obj == null ? null : obj.name();
     }
+
 }
