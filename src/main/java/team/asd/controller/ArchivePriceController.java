@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.asd.dto.ArchivePriceDto;
 import team.asd.entity.ArchivePrice;
@@ -22,38 +23,51 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/archive_price")
 public class ArchivePriceController {
-    @Autowired
-    public ArchivePriceService archivePriceService;
+	@Autowired
+	public ArchivePriceService archivePriceService;
 
-    @GetMapping("/{archivePriceId}")
-    public ArchivePriceDto readById(@PathVariable Integer archivePriceId) {
-        ArchivePrice archivePrice = archivePriceService.readById(archivePriceId);
-        return ConverterUtil.convertToArchivePriceDto(archivePrice);
-    }
+	@GetMapping("/{archivePriceId}")
+	public ArchivePriceDto readById(@PathVariable Integer archivePriceId) {
+		ArchivePrice archivePrice = archivePriceService.readById(archivePriceId);
+		return ConverterUtil.convertToArchivePriceDto(archivePrice);
+	}
 
-    @PostMapping("/")
-    public ArchivePriceDto create(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
-        ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
-        archivePriceService.create(archivePrice);
-        return ConverterUtil.convertToArchivePriceDto(archivePrice);
-    }
+	@PostMapping("/")
+	public ArchivePriceDto create(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
+		ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
+		archivePriceService.create(archivePrice);
+		return ConverterUtil.convertToArchivePriceDto(archivePrice);
+	}
 
-    @PutMapping("/")
-    public ArchivePriceDto update(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
-        ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
-        archivePriceService.update(archivePrice);
-        return ConverterUtil.convertToArchivePriceDto(archivePrice);
-    }
+	@PutMapping("/")
+	public ArchivePriceDto update(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
+		ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
+		archivePriceService.update(archivePrice);
+		return ConverterUtil.convertToArchivePriceDto(archivePrice);
+	}
 
-    @DeleteMapping("/{archivePriceId}")
-    public Boolean delete(@PathVariable Integer archivePriceId) {
-        return archivePriceService.delete(archivePriceId);
-    }
+	@DeleteMapping("/{archivePriceId}")
+	public Boolean delete(@PathVariable Integer archivePriceId) {
+		return archivePriceService.delete(archivePriceId);
+	}
 
-    @PostMapping("/list")
-    public List<ArchivePriceDto> createList(@RequestBody List<@Valid ArchivePriceDto> archivePriceDtoList) {
-        List<ArchivePrice> archivePriceList = ConverterUtil.convertToArchivePriceList(archivePriceDtoList);
-        archivePriceService.createList(archivePriceList);
-        return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
-    }
+	@PostMapping("/list")
+	public List<ArchivePriceDto> createList(@RequestBody List<@Valid ArchivePriceDto> archivePriceDtoList) {
+		List<ArchivePrice> archivePriceList = ConverterUtil.convertToArchivePriceList(archivePriceDtoList);
+		archivePriceService.createList(archivePriceList);
+		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
+	}
+
+	@GetMapping("/list/reservation_id/{reservationId}")
+	public List<ArchivePriceDto> getListByReservationId(@PathVariable Integer reservationId) {
+		List<ArchivePrice> archivePriceList = archivePriceService.getListByReservationId(reservationId);
+		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
+	}
+
+	@GetMapping("/list")
+	public List<ArchivePriceDto> getListByParameters(@RequestParam(required = false) String type, @RequestParam(required = false) String state,
+			@RequestParam(required = false) String name) {
+		List<ArchivePrice> archivePriceList = archivePriceService.getListByParameters(type, state, name);
+		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
+	}
 }

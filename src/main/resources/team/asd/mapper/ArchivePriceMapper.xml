@@ -1,75 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.asd.mapper.ArchivePriceMapper">
-    <resultMap id="ResultMap" type="team.asd.entity.ArchivePrice">
-        <id column="id" property="id"/>
-        <result column="entity_type" property="entityType"/>
-        <result column="entity_id" property="entityId"/>
-        <result column="name" property="name"/>
-        <result column="state" property="state"/>
-        <result column="value" property="value"/>
-        <result column="version" property="version"/>
-        <result column="type" property="type" typeHandler="team.asd.handler.ArchivePriceTypeHandler"/>
-    </resultMap>
-    <select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
-        SELECT id, entity_type, entity_id, name, state, type, value, version
-        FROM archive_price
-        WHERE id =#{id}
-    </select>
-    <insert id="create" parameterType="team.asd.entity.ArchivePrice" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO archive_price (<if test="entityType != null">entity_type,</if> entity_id, name
-        <if test="state != null">, state</if>
-        <if test="type != null">, type</if>
-        <if test="value != null">, value</if>)
-        VALUES (<if test="entityType != null">#{entityType},</if>#{entityId},#{name}
-        <if test="state != null">,#{state}</if>
-        <if test="type != null">,#{type}</if>
-        <if test="value != null">,#{value}</if>)
-    </insert>
-    <update id="update" parameterType="team.asd.entity.ArchivePrice">
-        UPDATE
-        archive_price
-        <set>
-            <if test="entityType!=null">entity_type=#{entityType},</if>
-            <if test="entityId!=null">entity_id=#{entityId},</if>
-            <if test="name!=null">name=#{name},</if>
-            <if test="state!=null">state=#{state},</if>
-            <if test="type!=null">type=#{type},</if>
-            <if test="value!=null">value=#{value},</if>
-        </set>
-        WHERE id=#{id}
-    </update>
-    <delete id="delete" parameterType="int">
-        UPDATE
-        archive_price
-        SET state='Final'
-        WHERE id =#{id}
-    </delete>
-    <insert id="createList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO archive_price (entity_type, entity_id, name ,state ,type ,value)
-        VALUES
-        <foreach collection="list" item="element" index="index" open="(" separator="),(" close=")">
-            <choose>
-                <when test="element.entityType != null">
-                    #{element.entityType},
-                </when>
-                <otherwise>
-                    'Reservation',
-                </otherwise>
-            </choose>
-            #{element.entityId},
-            #{element.name},
-            <choose>
-                <when test="element.state != null">
-                    #{element.state},
-                </when>
-                <otherwise>
-                    'Created',
-                </otherwise>
-            </choose>
-            #{element.type},
-            #{element.value}
-        </foreach>
-    </insert>
+	<resultMap id="ResultMap" type="team.asd.entity.ArchivePrice">
+		<id column="id" property="id"/>
+		<result column="entity_type" property="entityType"/>
+		<result column="entity_id" property="entityId"/>
+		<result column="name" property="name"/>
+		<result column="state" property="state"/>
+		<result column="value" property="value"/>
+		<result column="version" property="version"/>
+		<result column="type" property="type" typeHandler="team.asd.handler.ArchivePriceTypeHandler"/>
+	</resultMap>
+	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT id, entity_type, entity_id, name, state, type, value, version
+		FROM archive_price
+		WHERE id =#{id}
+	</select>
+	<insert id="create" parameterType="team.asd.entity.ArchivePrice" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO archive_price (<if test="entityType != null">entity_type,</if> entity_id, name
+		<if test="state != null">, state</if>
+		<if test="type != null">, type</if>
+		<if test="value != null">, value</if>)
+		VALUES (<if test="entityType != null">#{entityType},</if>#{entityId},#{name}
+		<if test="state != null">,#{state}</if>
+		<if test="type != null">,#{type}</if>
+		<if test="value != null">,#{value}</if>)
+	</insert>
+	<update id="update" parameterType="team.asd.entity.ArchivePrice">
+		UPDATE
+		archive_price
+		<set>
+			<if test="entityType!=null">entity_type=#{entityType},</if>
+			<if test="entityId!=null">entity_id=#{entityId},</if>
+			<if test="name!=null">name=#{name},</if>
+			<if test="state!=null">state=#{state},</if>
+			<if test="type!=null">type=#{type},</if>
+			<if test="value!=null">value=#{value},</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		UPDATE
+		archive_price
+		SET state='Final'
+		WHERE id =#{id}
+	</delete>
+	<insert id="createList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO archive_price (entity_type, entity_id, name ,state ,type ,value)
+		VALUES
+		<foreach collection="list" item="element" index="index" open="(" separator="),(" close=")">
+			<choose>
+				<when test="element.entityType != null">
+					#{element.entityType},
+				</when>
+				<otherwise>
+					'Reservation',
+				</otherwise>
+			</choose>
+			#{element.entityId},
+			#{element.name},
+			<choose>
+				<when test="element.state != null">
+					#{element.state},
+				</when>
+				<otherwise>
+					'Created',
+				</otherwise>
+			</choose>
+			#{element.type},
+			#{element.value}
+		</foreach>
+	</insert>
+	<select id="getListByReservationId" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT id, entity_type, entity_id, name, state, type, value, version
+		FROM archive_price
+		WHERE entity_id = #{entityId}
+		and entity_type = 'Reservation'
+	</select>
+	<select id="getListByParameters" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT id, entity_type, entity_id, name, state, type, value, version
+		FROM archive_price
+		<where>
+			<if test="state != null">
+				state = #{state}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+		</where>
+	</select>
 </mapper>
