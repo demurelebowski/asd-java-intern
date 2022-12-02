@@ -28,12 +28,11 @@ import static org.mockito.Mockito.when;
 @DisplayName("Test methods for ReservationService")
 @ExtendWith(MockitoExtension.class)
 class ReservationServiceTest {
-	private Reservation reservation;
 	private static ReservationService reservationService;
+	private static Reservation reservationMock;
+	private Reservation reservation;
 	@Mock
 	private ReservationDaoDummy testReservationDao;
-
-	private static Reservation reservationMock;
 
 	@BeforeEach
 	public void initArchivePrice() {
@@ -126,40 +125,40 @@ class ReservationServiceTest {
 			return reservation;
 		}
 
-		if (!Objects.isNull(reservation.getOrganizationId())) {
+		if (Objects.nonNull(reservation.getOrganizationId())) {
 			reservationMock.setOrganizationId(reservation.getOrganizationId());
 		}
-		if (!Objects.isNull(reservation.getAgentId())) {
+		if (Objects.nonNull(reservation.getAgentId())) {
 			reservationMock.setAgentId(reservation.getAgentId());
 		}
-		if (!Objects.isNull(reservation.getCustomerId())) {
+		if (Objects.nonNull(reservation.getCustomerId())) {
 			reservationMock.setCustomerId(reservation.getCustomerId());
 		}
-		if (!Objects.isNull(reservation.getProductId())) {
+		if (Objects.nonNull(reservation.getProductId())) {
 			reservationMock.setProductId(reservation.getProductId());
 		}
-		if (!Objects.isNull(reservation.getState())) {
+		if (Objects.nonNull(reservation.getState())) {
 			reservationMock.setState(reservation.getState());
 		}
-		if (!Objects.isNull(reservation.getFromDate())) {
+		if (Objects.nonNull(reservation.getFromDate())) {
 			reservationMock.setFromDate(reservation.getFromDate());
 		}
-		if (!Objects.isNull(reservation.getToDate())) {
+		if (Objects.nonNull(reservation.getToDate())) {
 			reservationMock.setToDate(reservation.getToDate());
 		}
-		if (!Objects.isNull(reservation.getPrice())) {
+		if (Objects.nonNull(reservation.getPrice())) {
 			reservationMock.setPrice(reservation.getPrice());
 		}
-		if (!Objects.isNull(reservation.getQuote())) {
+		if (Objects.nonNull(reservation.getQuote())) {
 			reservationMock.setQuote(reservation.getQuote());
 		}
-		if (!Objects.isNull(reservation.getGuests())) {
+		if (Objects.nonNull(reservation.getGuests())) {
 			reservationMock.setGuests(reservation.getGuests());
 		}
-		if (!Objects.isNull(reservation.getCurrency())) {
+		if (Objects.nonNull(reservation.getCurrency())) {
 			reservationMock.setCurrency(reservation.getCurrency());
 		}
-		if (!Objects.isNull(reservation.getNotes())) {
+		if (Objects.nonNull(reservation.getNotes())) {
 			reservationMock.setNotes(reservation.getNotes());
 		}
 		return reservationMock;
