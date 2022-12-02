@@ -30,13 +30,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ArchivePriceServiceTest {
 
+	private static ArchivePrice archivePriceMock;
 	private ArchivePriceService archivePriceService;
-
 	private ArchivePrice archivePrice;
 	@Mock
 	private ArchivePriceDaoDummy archivePriceDaoDummy;
-
-	private static ArchivePrice archivePriceMock;
 
 	@BeforeEach
 	public void initArchivePrice() {
@@ -131,22 +129,22 @@ class ArchivePriceServiceTest {
 			return archivePrice;
 		}
 
-		if (!Objects.isNull(archivePrice.getName())) {
+		if (Objects.nonNull(archivePrice.getName())) {
 			archivePriceMock.setName(archivePrice.getName());
 		}
-		if (!Objects.isNull(archivePrice.getType())) {
+		if (Objects.nonNull(archivePrice.getType())) {
 			archivePriceMock.setType(archivePrice.getType());
 		}
-		if (!Objects.isNull(archivePrice.getEntityId())) {
+		if (Objects.nonNull(archivePrice.getEntityId())) {
 			archivePriceMock.setEntityId(archivePrice.getEntityId());
 		}
-		if (!Objects.isNull(archivePrice.getValue())) {
+		if (Objects.nonNull(archivePrice.getValue())) {
 			archivePriceMock.setValue(archivePrice.getValue());
 		}
-		if (!Objects.isNull(archivePrice.getState())) {
+		if (Objects.nonNull(archivePrice.getState())) {
 			archivePriceMock.setState(archivePrice.getState());
 		}
-		if (!Objects.isNull(archivePrice.getEntityType())) {
+		if (Objects.nonNull(archivePrice.getEntityType())) {
 			archivePriceMock.setEntityType(archivePrice.getEntityType());
 		}
 		return archivePriceMock;

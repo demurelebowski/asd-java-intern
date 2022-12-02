@@ -27,13 +27,11 @@ import static org.mockito.Mockito.when;
 @DisplayName("Test methods for ReservationConfirmationService")
 @ExtendWith(MockitoExtension.class)
 class ReservationConfirmationServiceTest {
+	private static ReservationConfirmation reservationConfirmationMock;
 	private ReservationConfirmationService reservationConfirmationService;
-
 	private ReservationConfirmation reservationConfirmation;
 	@Mock
 	private ReservationConfirmationDaoImplementation reservationConfirmationDaoImplementation;
-
-	private static ReservationConfirmation reservationConfirmationMock;
 
 	@BeforeEach
 	public void init() {
@@ -133,16 +131,16 @@ class ReservationConfirmationServiceTest {
 				.equals(reservationConfirmation.getId())) {
 			return reservationConfirmation;
 		}
-		if (!Objects.isNull(reservationConfirmation.getReservationId())) {
+		if (Objects.nonNull(reservationConfirmation.getReservationId())) {
 			reservationConfirmationMock.setReservationId(reservationConfirmation.getReservationId());
 		}
-		if (!Objects.isNull(reservationConfirmation.getConfirmationId())) {
+		if (Objects.nonNull(reservationConfirmation.getConfirmationId())) {
 			reservationConfirmationMock.setConfirmationId(reservationConfirmation.getConfirmationId());
 		}
-		if (!Objects.isNull(reservationConfirmation.getChannelPartnerId())) {
+		if (Objects.nonNull(reservationConfirmation.getChannelPartnerId())) {
 			reservationConfirmationMock.setChannelPartnerId(reservationConfirmation.getChannelPartnerId());
 		}
-		if (!Objects.isNull(reservationConfirmation.getCreatedDate())) {
+		if (Objects.nonNull(reservationConfirmation.getCreatedDate())) {
 			reservationConfirmationMock.setCreatedDate(reservationConfirmation.getCreatedDate());
 		}
 

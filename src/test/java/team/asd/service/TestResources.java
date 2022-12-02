@@ -20,8 +20,8 @@ public class TestResources {
 		archivePriceMap.put(1, new ArchivePrice(1, EntityType.Payment, 4, "Mok", ArchivePriceState.Created, ArchivePriceType.Price, 9.9, new Date()));
 		archivePriceMap.put(2, new ArchivePrice(2, EntityType.Reservation, 55, "Non", ArchivePriceState.Created, ArchivePriceType.Fee, 11.0, new Date()));
 		archivePriceMap.put(3, new ArchivePrice(3, EntityType.Modification, 44, "Mok2", ArchivePriceState.Created, ArchivePriceType.Price, 19.9, new Date()));
-		archivePriceMap.put(4, new ArchivePrice(null, EntityType.Modification, 44, "Mok2", ArchivePriceState.Created, ArchivePriceType.Price, 19.9, new Date()));
-
+		archivePriceMap.put(4,
+				new ArchivePrice(null, EntityType.Modification, 44, "Mok2", ArchivePriceState.Created, ArchivePriceType.Price, 19.9, new Date()));
 
 		return archivePriceMap;
 	}
