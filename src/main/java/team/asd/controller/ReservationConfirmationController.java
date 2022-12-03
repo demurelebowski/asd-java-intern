@@ -15,6 +15,7 @@ import team.asd.service.ReservationConfirmationService;
 import team.asd.util.ConverterUtil;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/reservation_confirmation")
@@ -45,5 +46,11 @@ public class ReservationConfirmationController {
 	@DeleteMapping("/{reservationConfirmationId}")
 	public Boolean deleteReservationConfirmation(@PathVariable Integer reservationConfirmationId) {
 		return reservationConfirmationService.delete(reservationConfirmationId);
+	}
+
+	@GetMapping("reservation/{reservationId}")
+	public List<ReservationConfirmationDto> getListByReservationId(@PathVariable Integer reservationId) {
+		List<ReservationConfirmation> reservationConfirmationList = reservationConfirmationService.getListByReservationId(reservationId);
+		return ConverterUtil.convertToReservationConfirmationDtoList(reservationConfirmationList);
 	}
 }

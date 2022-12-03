@@ -6,6 +6,7 @@ import team.asd.dao.ReservationConfirmationDao;
 import team.asd.entity.ReservationConfirmation;
 import team.asd.exceptions.ValidationException;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -35,6 +36,10 @@ public class ReservationConfirmationService {
 	public Boolean delete(Integer id) {
 		validateId(id);
 		return reservationConfirmationDao.delete(id);
+	}
+
+	public List<ReservationConfirmation> getListByReservationId(Integer reservationId) {
+		return reservationConfirmationDao.getListByReservationId(reservationId);
 	}
 
 	private void validateId(Integer id) {

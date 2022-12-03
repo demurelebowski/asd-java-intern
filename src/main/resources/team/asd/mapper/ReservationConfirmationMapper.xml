@@ -35,4 +35,9 @@
 		FROM reservation_confirmation
 		WHERE id =#{id}
 	</delete>
+	<select id="getListByReservationId" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ReservationConfirmation">
+		SELECT id, reservation_id, channel_partner_id, confirmation_id, created_date, version
+		FROM reservation_confirmation
+		WHERE reservation_id =#{reservationId}
+	</select>
 </mapper>
