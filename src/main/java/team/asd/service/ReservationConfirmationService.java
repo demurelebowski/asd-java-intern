@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team.asd.dao.ReservationConfirmationDao;
 import team.asd.entity.ReservationConfirmation;
 import team.asd.exceptions.ValidationException;
+import team.asd.util.ConverterUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +43,11 @@ public class ReservationConfirmationService {
 		return reservationConfirmationDao.getListByReservationId(reservationId);
 	}
 
+	public List<ReservationConfirmation> getListByConfirmationIdAndDateRange(String confirmationId, String dateStart, String dateEnd) {
+		return reservationConfirmationDao.getListByConfirmationIdAndDateRange(confirmationId, ConverterUtil.localDateTimeFromString(dateStart),
+				ConverterUtil.localDateTimeFromString(dateEnd));
+	}
+
 	private void validateId(Integer id) {
 		if (Objects.isNull(id) || id < 0) {
 			throw new ValidationException("Invalid id.");
@@ -61,4 +67,5 @@ public class ReservationConfirmationService {
 			throw new ValidationException("reservation_confirmation is null");
 		}
 	}
+
 }

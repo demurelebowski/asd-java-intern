@@ -16,8 +16,8 @@
 		WHERE id =#{id}
 	</select>
 	<insert id="create" parameterType="team.asd.entity.ReservationConfirmation" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO reservation_confirmation (reservation_id, channel_partner_id, confirmation_id, <if test="createdDate != null">created_date</if>)
-		VALUES (#{reservationId},#{channelPartnerId},#{confirmationId},<if test="createdDate != null">#{createdDate}</if>)
+		INSERT INTO reservation_confirmation (reservation_id, channel_partner_id, confirmation_id <if test="createdDate != null">, created_date</if>)
+		VALUES (#{reservationId},#{channelPartnerId},#{confirmationId}<if test="createdDate != null">,#{createdDate}</if>)
 	</insert>
 	<update id="update" parameterType="team.asd.entity.ReservationConfirmation">
 		UPDATE
@@ -39,5 +39,16 @@
 		SELECT id, reservation_id, channel_partner_id, confirmation_id, created_date, version
 		FROM reservation_confirmation
 		WHERE reservation_id =#{reservationId}
+	</select>
+	<select id="getListByConfirmationIdAndDateRange" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ReservationConfirmation">
+		SELECT id, reservation_id, channel_partner_id, confirmation_id, created_date, version
+		FROM reservation_confirmation
+		WHERE confirmation_id =#{confirmationId}
+		<if test="dateStart != null">
+			and created_date <![CDATA[ >= ]]> #{dateStart}
+		</if>
+		<if test="dateEnd != null">
+			and created_date <![CDATA[ <= ]]> #{dateEnd}
+		</if>
 	</select>
 </mapper>

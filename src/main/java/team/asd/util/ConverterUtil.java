@@ -166,7 +166,7 @@ public class ConverterUtil {
 		}
 	}
 
-	private static LocalDateTime localDateTimeFromString(String str) {
+	public static LocalDateTime localDateTimeFromString(String str) {
 		if (Objects.isNull(str)) {
 			return null;
 		}
