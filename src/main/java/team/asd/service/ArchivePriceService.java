@@ -1,11 +1,15 @@
 package team.asd.service;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+import team.asd.constant.ArchivePriceState;
+import team.asd.constant.ArchivePriceType;
 import team.asd.dao.ArchivePriceDao;
 import team.asd.entity.ArchivePrice;
 import team.asd.exceptions.ValidationException;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -54,5 +58,23 @@ public class ArchivePriceService {
 		if (Objects.isNull(archivePrice)) {
 			throw new ValidationException("Archive price is null");
 		}
+	}
+
+	public void createList(List<ArchivePrice> archivePriceList) {
+		archivePriceList.forEach(this::validateArchivePriceCreation);
+		archivePriceDao.createList(archivePriceList);
+	}
+
+	public List<ArchivePrice> getListByReservationId(Integer reservationId) {
+		return archivePriceDao.getListByReservationId(reservationId);
+	}
+
+	public List<ArchivePrice> getListByParameters(String type, String state, String name) {
+		if (ObjectUtils.allNull(type, state, name)) {
+			throw new ValidationException("At least one parameter should be not null");
+		}
+
+		return archivePriceDao.getListByParameters(EnumUtils.getEnumIgnoreCase(ArchivePriceType.class, type),
+				EnumUtils.getEnumIgnoreCase(ArchivePriceState.class, state), name);
 	}
 }

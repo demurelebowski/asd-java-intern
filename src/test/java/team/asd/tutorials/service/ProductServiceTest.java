@@ -31,7 +31,8 @@ public class ProductServiceTest {
 		Reflections reflections = new Reflections("team.asd.tutorials.service");
 		Set<Class<? extends IsProductService>> classes = reflections.getSubTypesOf(IsProductService.class);
 		ServicesScannerUtils<IsProductService> servicesScanner = new ServicesScannerUtils<>();
-		return classes.stream().map(servicesScanner::defineServiceImplementations);
+		return classes.stream()
+				.map(servicesScanner::defineServiceImplementations);
 	}
 
 	//List<String> defineProductNames(List<IsProduct> productList);
@@ -40,7 +41,8 @@ public class ProductServiceTest {
 	@MethodSource("defineProductServices")
 	public void testDefineProductNames(IsProductService productService) throws WrongProductException {
 		final int productCount = 19;
-		assertEquals(productCount, productService.defineProductNames(ProductData.defineProductList(productCount)).size(), "Wrong product's name list size");
+		assertEquals(productCount, productService.defineProductNames(ProductData.defineProductList(productCount))
+				.size(), "Wrong product's name list size");
 	}
 
 	@ParameterizedTest
@@ -56,13 +58,15 @@ public class ProductServiceTest {
 	@ParameterizedTest
 	@MethodSource("defineProductServices")
 	public void testDefineProductNamesWithNullParameter(IsProductService productService) throws WrongProductException {
-		assertEquals(0, productService.defineProductNames(null).size(), "Wrong product's name list size. Null objects should be ignored");
+		assertEquals(0, productService.defineProductNames(null)
+				.size(), "Wrong product's name list size. Null objects should be ignored");
 	}
 
 	@ParameterizedTest
 	@MethodSource("defineProductServices")
 	public void testDefineProductNamesWithEmptyListParameter(IsProductService productService) throws WrongProductException {
-		assertEquals(0, productService.defineProductNames(new ArrayList<>()).size(), "Wrong product's name list size. Null objects should be ignored");
+		assertEquals(0, productService.defineProductNames(new ArrayList<>())
+				.size(), "Wrong product's name list size. Null objects should be ignored");
 	}
 
 	//List<IsProduct> defineProductsWithCreatedState(List<IsProduct> productList);
@@ -76,13 +80,15 @@ public class ProductServiceTest {
 		IsProduct suspendedProduct = ProductData.defineProduct("Suspended product", ProductState.Suspended);
 		IsProduct createdProduct = ProductData.defineProduct("Created product", ProductState.Created);
 		productList.addAll(Arrays.asList(finalProduct, suspendedProduct, createdProduct, null));
-		assertEquals(createdProductSize, productService.defineProductsWithCreatedState(productList).size(), "Wrong product's list size.");
+		assertEquals(createdProductSize, productService.defineProductsWithCreatedState(productList)
+				.size(), "Wrong product's list size.");
 	}
 
 	@ParameterizedTest
 	@MethodSource("defineProductServices")
 	public void testDefineProductsWithCreatedStateWithNullParameter(IsProductService productService) {
-		assertEquals(0, productService.defineProductsWithCreatedState(null).size(), "Wrong product's list size.");
+		assertEquals(0, productService.defineProductsWithCreatedState(null)
+				.size(), "Wrong product's list size.");
 	}
 
 	//Map<ProductState, Integer> calculateProductCountByState(List<IsProduct> productList) throws WrongProductException;
@@ -91,8 +97,8 @@ public class ProductServiceTest {
 	@MethodSource("defineProductServices")
 	public void testCalculateProductCountByStateWithNullParameter(IsProductService productService) throws WrongProductException {
 		final int productStateCount = ProductState.values().length;
-		assertEquals(productStateCount, productService.calculateProductCountByState(null).size(),
-				"Should be map with each TestProduct State as a key and zero values");
+		assertEquals(productStateCount, productService.calculateProductCountByState(null)
+				.size(), "Should be map with each TestProduct State as a key and zero values");
 	}
 
 	@ParameterizedTest
@@ -105,14 +111,19 @@ public class ProductServiceTest {
 
 		List<IsProduct> createdProducts = ProductData.defineProductList(productCountWithCreatedState);
 		List<IsProduct> finalProducts = IntStream.range(0, productCountWithFinalState)
-				.mapToObj(number -> ProductData.defineProduct("Final " + number, ProductState.Final)).collect(Collectors.toList());
+				.mapToObj(number -> ProductData.defineProduct("Final " + number, ProductState.Final))
+				.collect(Collectors.toList());
 		List<IsProduct> deprecatedProducts = IntStream.range(0, productCountWithDeprecatedState)
-				.mapToObj(number -> ProductData.defineProduct("Deprecated " + number, ProductState.Deprecated)).collect(Collectors.toList());
+				.mapToObj(number -> ProductData.defineProduct("Deprecated " + number, ProductState.Deprecated))
+				.collect(Collectors.toList());
 
-		Map<ProductState, Integer> resultMap = productService.calculateProductCountByState(
-				Stream.of(createdProducts, finalProducts, deprecatedProducts).flatMap(Collection::stream).collect(Collectors.toList()));
+		Map<ProductState, Integer> resultMap = productService.calculateProductCountByState(Stream.of(createdProducts, finalProducts, deprecatedProducts)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList()));
 		assertEquals(productCountWithCreatedState, resultMap.get(ProductState.Created), "Incorrect count of Created products");
-		assertEquals(totalProductsCount, resultMap.values().stream().reduce(0, Integer::sum), "Incorrect count of product in map");
+		assertEquals(totalProductsCount, resultMap.values()
+				.stream()
+				.reduce(0, Integer::sum), "Incorrect count of product in map");
 		assertEquals(productCountWithFinalState, resultMap.get(ProductState.Final), "Incorrect count of Final products");
 		assertEquals(0, resultMap.get(ProductState.Suspended), "Incorrect count of Suspended products");
 	}
@@ -129,9 +140,10 @@ public class ProductServiceTest {
 	@ParameterizedTest
 	@MethodSource("defineProductServices")
 	public void testFilterProductsByProvidedObjectWithNullProductsList(IsProductService productService) throws WrongProductException {
-		assertEquals(0, productService.filterProductsByProvidedObject(null, new TestProduct()).size(),
-				"Empty list should be return if null product list was provided");
-		assertEquals(0, productService.filterProductsByProvidedObject(null, null).size(), "Empty list should be return if null product list was provided");
+		assertEquals(0, productService.filterProductsByProvidedObject(null, new TestProduct())
+				.size(), "Empty list should be return if null product list was provided");
+		assertEquals(0, productService.filterProductsByProvidedObject(null, null)
+				.size(), "Empty list should be return if null product list was provided");
 	}
 
 	@ParameterizedTest
@@ -149,30 +161,34 @@ public class ProductServiceTest {
 
 		List<IsProduct> createdProducts = ProductData.defineProductList(productCountWithCreatedState);
 		List<IsProduct> finalProducts = IntStream.range(0, productCountWithFinalState)
-				.mapToObj(number -> ProductData.defineProduct("Final " + number, ProductState.Final)).collect(Collectors.toList());
+				.mapToObj(number -> ProductData.defineProduct("Final " + number, ProductState.Final))
+				.collect(Collectors.toList());
 		List<IsProduct> deprecatedProducts = IntStream.range(0, productCountWithDeprecatedState)
-				.mapToObj(number -> ProductData.defineProduct(defaultNameForDeprecatedProducts, ProductState.Deprecated)).collect(Collectors.toList());
+				.mapToObj(number -> ProductData.defineProduct(defaultNameForDeprecatedProducts, ProductState.Deprecated))
+				.collect(Collectors.toList());
 		List<IsProduct> suspendedProducts = IntStream.range(0, productCountWithSuspendedState)
-				.mapToObj(number -> ProductData.defineProduct(defaultNameForDeprecatedProducts, ProductState.Suspended)).collect(Collectors.toList());
-
-		List<IsProduct> mergedProductList = Stream.of(createdProducts, finalProducts, deprecatedProducts, suspendedProducts).flatMap(Collection::stream)
+				.mapToObj(number -> ProductData.defineProduct(defaultNameForDeprecatedProducts, ProductState.Suspended))
 				.collect(Collectors.toList());
 
-		assertEquals(totalProductsCount, productService.filterProductsByProvidedObject(mergedProductList, new TestProduct()).size(),
-				"Should be map with each TestProduct State as a key and zero values");
+		List<IsProduct> mergedProductList = Stream.of(createdProducts, finalProducts, deprecatedProducts, suspendedProducts)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
+
+		assertEquals(totalProductsCount, productService.filterProductsByProvidedObject(mergedProductList, new TestProduct())
+				.size(), "Should be map with each TestProduct State as a key and zero values");
 
 		IsProduct productWithStandardNameForDeprecatedItems = ProductData.defineProduct(defaultNameForDeprecatedProducts, null);
 		assertEquals(productCountWithDeprecatedState + productCountWithSuspendedState,
-				productService.filterProductsByProvidedObject(mergedProductList, productWithStandardNameForDeprecatedItems).size(),
-				"Incorrect products count on name filtering");
+				productService.filterProductsByProvidedObject(mergedProductList, productWithStandardNameForDeprecatedItems)
+						.size(), "Incorrect products count on name filtering");
 
 		IsProduct productWithCreatedState = ProductData.defineProduct(null, ProductState.Created);
-		assertEquals(productCountWithCreatedState, productService.filterProductsByProvidedObject(mergedProductList, productWithCreatedState).size(),
-				"Incorrect product count on state filtering");
+		assertEquals(productCountWithCreatedState, productService.filterProductsByProvidedObject(mergedProductList, productWithCreatedState)
+				.size(), "Incorrect product count on state filtering");
 
 		IsProduct firstFinalProduct = ProductData.defineProduct("Final 1", ProductState.Final);
-		assertEquals(1, productService.filterProductsByProvidedObject(mergedProductList, firstFinalProduct).size(),
-				"Incorrect product count on name and state filtering");
+		assertEquals(1, productService.filterProductsByProvidedObject(mergedProductList, firstFinalProduct)
+				.size(), "Incorrect product count on name and state filtering");
 	}
 
 }

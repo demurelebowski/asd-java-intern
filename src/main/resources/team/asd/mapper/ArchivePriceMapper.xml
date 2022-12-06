@@ -46,4 +46,51 @@
 		SET state='Final'
 		WHERE id =#{id}
 	</delete>
+	<insert id="createList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO archive_price (entity_type, entity_id, name ,state ,type ,value)
+		VALUES
+		<foreach collection="list" item="element" index="index" open="(" separator="),(" close=")">
+			<choose>
+				<when test="element.entityType != null">
+					#{element.entityType},
+				</when>
+				<otherwise>
+					'Reservation',
+				</otherwise>
+			</choose>
+			#{element.entityId},
+			#{element.name},
+			<choose>
+				<when test="element.state != null">
+					#{element.state},
+				</when>
+				<otherwise>
+					'Created',
+				</otherwise>
+			</choose>
+			#{element.type},
+			#{element.value}
+		</foreach>
+	</insert>
+	<select id="getListByReservationId" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT id, entity_type, entity_id, name, state, type, value, version
+		FROM archive_price
+		WHERE entity_id = #{entityId}
+		and entity_type = 'Reservation'
+	</select>
+	<select id="getListByParameters" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT id, entity_type, entity_id, name, state, type, value, version
+		FROM archive_price
+		<where>
+			<if test="state != null">
+				state = #{state}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+		</where>
+	</select>
 </mapper>

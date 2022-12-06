@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 import team.asd.entity.ReservationConfirmation;
 import team.asd.mapper.ReservationConfirmationMapper;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Repository
 public class ReservationConfirmationDaoImplementation implements ReservationConfirmationDao {
 	private final ReservationConfirmationMapper reservationConfirmationMapper;
@@ -31,5 +34,15 @@ public class ReservationConfirmationDaoImplementation implements ReservationConf
 	@Override
 	public Boolean delete(Integer id) {
 		return reservationConfirmationMapper.delete(id);
+	}
+
+	@Override
+	public List<ReservationConfirmation> getListByReservationId(Integer reservationId) {
+		return reservationConfirmationMapper.getListByReservationId(reservationId);
+	}
+
+	@Override
+	public List<ReservationConfirmation> getListByConfirmationIdAndDateRange(String confirmationId, LocalDateTime dateStart, LocalDateTime dateEnd) {
+		return reservationConfirmationMapper.getListByConfirmationIdAndDateRange(confirmationId, dateStart, dateEnd);
 	}
 }

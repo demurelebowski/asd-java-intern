@@ -18,8 +18,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ConverterUtil {
 	static final private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -69,6 +71,12 @@ public class ConverterUtil {
 				.build();
 	}
 
+	public static List<ReservationDto> convertToReservationDtoList(List<Reservation> reservationList) {
+		return reservationList.stream()
+				.map(ConverterUtil::convertToReservationDto)
+				.collect(Collectors.toList());
+	}
+
 	public static ArchivePrice convertToArchivePrice(ArchivePriceDto archivePriceDto) {
 		if (Objects.isNull(archivePriceDto)) {
 			return null;
@@ -101,6 +109,18 @@ public class ConverterUtil {
 				.build();
 	}
 
+	public static List<ArchivePrice> convertToArchivePriceList(List<ArchivePriceDto> archivePriceDtoList) {
+		return archivePriceDtoList.stream()
+				.map(ConverterUtil::convertToArchivePrice)
+				.collect(Collectors.toList());
+	}
+
+	public static List<ArchivePriceDto> convertToArchivePriceDtoList(List<ArchivePrice> archivePriceList) {
+		return archivePriceList.stream()
+				.map(ConverterUtil::convertToArchivePriceDto)
+				.collect(Collectors.toList());
+	}
+
 	public static ReservationConfirmation convertToReservationConfirmation(ReservationConfirmationDto reservationConfirmationDto) {
 		if (Objects.isNull(reservationConfirmationDto)) {
 			return null;
@@ -129,7 +149,13 @@ public class ConverterUtil {
 				.build();
 	}
 
-	private static LocalDate localDateFromString(String str) {
+	public static List<ReservationConfirmationDto> convertToReservationConfirmationDtoList(List<ReservationConfirmation> reservationConfirmationList) {
+		return reservationConfirmationList.stream()
+				.map(ConverterUtil::convertToReservationConfirmationDto)
+				.collect(Collectors.toList());
+	}
+
+	public static LocalDate localDateFromString(String str) {
 		if (Objects.isNull(str)) {
 			return null;
 		}
@@ -140,7 +166,7 @@ public class ConverterUtil {
 		}
 	}
 
-	private static LocalDateTime localDateTimeFromString(String str) {
+	public static LocalDateTime localDateTimeFromString(String str) {
 		if (Objects.isNull(str)) {
 			return null;
 		}

@@ -1,5 +1,6 @@
 package team.asd.tutorials.util;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import team.asd.tutorials.entities.BaseLocation;
@@ -8,10 +9,9 @@ import team.asd.tutorials.entities.TestLocation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class MessageBuilderTest {
 
@@ -38,20 +38,13 @@ class MessageBuilderTest {
 	}
 
 	@Test
-	void testChangeBaseLocation() throws IllegalAccessException, InvocationTargetException {
+	void testChangeBaseLocation() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		BaseLocation baseLocation = new BaseLocation();
-		MessageBuilder messageBuilder = new MessageBuilder();
 		String changeTo = "Mars";
 
-		Method method = Arrays.stream(MessageBuilder.class.getDeclaredMethods())
-				.filter(met -> met.getName()
-						.equals("changeBaseLocation"))
-				.findFirst()
-				.orElseThrow(NoSuchElementException::new);
-
-		method.setAccessible(true);
-		method.invoke(messageBuilder, baseLocation, changeTo);
-
-		assertEquals(changeTo, baseLocation.getBaseLocation());
+		Method changeBaseLocationMethod = MessageBuilder.class.getDeclaredMethod("changeBaseLocation", BaseLocation.class, String.class);
+		changeBaseLocationMethod.setAccessible(true);
+		changeBaseLocationMethod.invoke(new MessageBuilder(), baseLocation, changeTo);
+		assertEquals(changeTo, FieldUtils.readDeclaredField(baseLocation, "baseLocation", true), "Base location should be changed");
 	}
 }

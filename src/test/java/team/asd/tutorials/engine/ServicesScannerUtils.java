@@ -11,10 +11,13 @@ public class ServicesScannerUtils<T> {
 
 	public T defineServiceImplementations(Class<? extends T> classItem) {
 		try {
-			return classItem.getConstructor().newInstance();
+			return classItem.getConstructor()
+					.newInstance();
 		} catch (Exception e) {
-			LOG.error(String.format("Couldn't initialize %s implementation of %s.", classItem.getName(),
-					Arrays.stream(classItem.getInterfaces()).findFirst().map(Class::getName).orElse("interface")));
+			LOG.error(String.format("Couldn't initialize %s implementation of %s.", classItem.getName(), Arrays.stream(classItem.getInterfaces())
+					.findFirst()
+					.map(Class::getName)
+					.orElse("interface")));
 			return null;
 		}
 	}

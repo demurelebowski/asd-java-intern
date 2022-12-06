@@ -16,7 +16,8 @@ import java.util.stream.Stream;
 
 public class PriceData {
 
-	private static final LocalDate FIRST_DAY_OF_NEXT_YEAR = LocalDate.now().with(TemporalAdjusters.firstDayOfNextYear());
+	private static final LocalDate FIRST_DAY_OF_NEXT_YEAR = LocalDate.now()
+			.with(TemporalAdjusters.firstDayOfNextYear());
 
 	private static final Random random = new Random();
 
@@ -25,7 +26,8 @@ public class PriceData {
 		int randomDuration = random.nextInt(15) + 1;
 		TestPrice price = new TestPrice();
 		price.setFromDate(FIRST_DAY_OF_NEXT_YEAR.plusDays(randomFromDate));
-		price.setToDate(FIRST_DAY_OF_NEXT_YEAR.plusDays(randomFromDate).plusDays(randomDuration));
+		price.setToDate(FIRST_DAY_OF_NEXT_YEAR.plusDays(randomFromDate)
+				.plusDays(randomDuration));
 		price.setPrice(new BigDecimal(random.nextInt(200) + 50));
 		price.setCurrency(Currency.USD.name());
 		return price;
@@ -53,7 +55,9 @@ public class PriceData {
 		if (limit == null || limit < 1) {
 			limit = 1;
 		}
-		return Stream.generate(PriceData::defineDefaultPrice).limit(limit).collect(Collectors.toList());
+		return Stream.generate(PriceData::defineDefaultPrice)
+				.limit(limit)
+				.collect(Collectors.toList());
 	}
 
 	public static IsPerDayPrice defineDefaultPerDayPrice() {
@@ -85,7 +89,9 @@ public class PriceData {
 		if (limit == null || limit < 1) {
 			limit = 1;
 		}
-		return Stream.generate(PriceData::defineDefaultPerDayPrice).limit(limit).collect(Collectors.toList());
+		return Stream.generate(PriceData::defineDefaultPerDayPrice)
+				.limit(limit)
+				.collect(Collectors.toList());
 	}
 
 }

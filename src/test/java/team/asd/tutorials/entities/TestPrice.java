@@ -13,17 +13,13 @@ public class TestPrice implements IsPrice {
 
 	private String currency;
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
 	@Override
 	public BigDecimal getPrice() {
 		return this.price;
 	}
 
-	public void setFromDate(LocalDate fromDate) {
-		this.fromDate = fromDate;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	@Override
@@ -31,8 +27,8 @@ public class TestPrice implements IsPrice {
 		return this.fromDate;
 	}
 
-	public void setToDate(LocalDate toDate) {
-		this.toDate = toDate;
+	public void setFromDate(LocalDate fromDate) {
+		this.fromDate = fromDate;
 	}
 
 	@Override
@@ -40,12 +36,16 @@ public class TestPrice implements IsPrice {
 		return this.toDate;
 	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
+	public void setToDate(LocalDate toDate) {
+		this.toDate = toDate;
 	}
 
 	@Override
 	public String getCurrency() {
 		return this.currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 }

@@ -19,22 +19,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CollectionServiceTest {
 
 	private static final Class<IsCollectionService> serviceClass = IsCollectionService.class;
-	private static final List<Object> listWIthStrings = List.of("A", "BB", "CCC",  "A");
+	private static final List<Object> listWIthStrings = List.of("A", "BB", "CCC", "A");
 	private static final List<Object> listWIthDifferentObject = List.of("A", 1, 0.9, "CCC", "C", "AA");
 
 	private static Stream<IsCollectionService> defineServices() {
 		Reflections reflections = new Reflections("team.asd.tutorials.service");
 		Set<Class<? extends IsCollectionService>> classes = reflections.getSubTypesOf(serviceClass);
 		ServicesScannerUtils<IsCollectionService> servicesScanner = new ServicesScannerUtils<>();
-		return classes.stream().map(servicesScanner::defineServiceImplementations);
+		return classes.stream()
+				.map(servicesScanner::defineServiceImplementations);
 	}
 
 	@ParameterizedTest
 	@MethodSource("defineServices")
 	void testRetrieveObjectsThatPresentInBothLists(IsCollectionService collectionService) {
 		assertNotNull(collectionService.retrieveObjectsThatPresentInBothLists(null, null));
-		assertEquals(0, collectionService.retrieveObjectsThatPresentInBothLists(new HashSet<>(listWIthStrings), null).size());
-		assertEquals(0, collectionService.retrieveObjectsThatPresentInBothLists(null, new HashSet<>(listWIthStrings)).size());
+		assertEquals(0, collectionService.retrieveObjectsThatPresentInBothLists(new HashSet<>(listWIthStrings), null)
+				.size());
+		assertEquals(0, collectionService.retrieveObjectsThatPresentInBothLists(null, new HashSet<>(listWIthStrings))
+				.size());
 		assertEquals(new HashSet<>(listWIthStrings),
 				collectionService.retrieveObjectsThatPresentInBothLists(new HashSet<>(listWIthStrings), new HashSet<>(listWIthStrings)));
 		assertEquals(Set.of("A", "CCC"),
@@ -45,7 +48,8 @@ public class CollectionServiceTest {
 	@MethodSource("defineServices")
 	void testUnmodifiableList(IsCollectionService collectionService) {
 		assertNotNull(collectionService.unmodifiableList(1, 2));
-		assertThrows(UnsupportedOperationException.class, () -> collectionService.unmodifiableList(1, 5).add(2));
+		assertThrows(UnsupportedOperationException.class, () -> collectionService.unmodifiableList(1, 5)
+				.add(2));
 		assertEquals(listWIthStrings, collectionService.unmodifiableList(listWIthStrings.toArray()));
 	}
 
@@ -53,7 +57,8 @@ public class CollectionServiceTest {
 	@MethodSource("defineServices")
 	void testImmutableList(IsCollectionService collectionService) {
 		assertNotNull(collectionService.immutableList("0()", "A<>"));
-		assertThrows(UnsupportedOperationException.class, () -> collectionService.immutableList("<>B", "C!").add("ASD"));
+		assertThrows(UnsupportedOperationException.class, () -> collectionService.immutableList("<>B", "C!")
+				.add("ASD"));
 		assertEquals(listWIthStrings, collectionService.immutableList(listWIthStrings.toArray()));
 	}
 

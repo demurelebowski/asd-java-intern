@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -34,8 +35,16 @@ public class ExceptionHandler {
 
 	@org.springframework.web.bind.annotation.ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public AppError handleValidationExceptions(ConstraintViolationException e) {
+		String message = e.getMessage();
+		log.error(message, e);
+		return new AppError(HttpStatus.BAD_REQUEST.value(), message);
+	}
+
+	@org.springframework.web.bind.annotation.ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public AppError catchException(Exception e) {
 		log.error(e.getMessage(), e);
-		return new AppError(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
+		return new AppError(HttpStatus.BAD_REQUEST.value(), "Something went wrong. ");
 	}
 }

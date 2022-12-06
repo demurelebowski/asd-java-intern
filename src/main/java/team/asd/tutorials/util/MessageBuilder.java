@@ -16,12 +16,15 @@ public class MessageBuilder {
 			return add(value);
 		}
 		addSpaceIfNeeded();
-		messageBuilder.append(fieldName).append(": ");
+		messageBuilder.append(fieldName)
+				.append(": ");
 		if (value == null) {
 			messageBuilder.append("null");
 		} else {
 			if (value instanceof String) {
-				messageBuilder.append('"').append(value).append('"');
+				messageBuilder.append('"')
+						.append(value)
+						.append('"');
 			} else {
 				messageBuilder.append(value);
 			}
@@ -31,7 +34,7 @@ public class MessageBuilder {
 
 	public <T> MessageBuilder add(T value) {
 		if (value instanceof String && StringUtils.isBlank((String) value)) {
-				return this;
+			return this;
 		}
 		if (value != null) {
 			addSpaceIfNeeded();
@@ -42,7 +45,8 @@ public class MessageBuilder {
 
 	public MessageBuilder add(Throwable exception) {
 		if (exception != null) {
-			exceptionInformation = exception.getClass().getCanonicalName() + ": " + exception.getMessage();
+			exceptionInformation = exception.getClass()
+					.getCanonicalName() + ": " + exception.getMessage();
 		}
 		return this;
 	}
@@ -56,7 +60,8 @@ public class MessageBuilder {
 	public String getMessage() {
 		if (exceptionInformation != null) {
 			addSpaceIfNeeded();
-			messageBuilder.append("exception ").append(exceptionInformation);
+			messageBuilder.append("exception ")
+					.append(exceptionInformation);
 		}
 		return messageBuilder.toString();
 	}
@@ -65,8 +70,10 @@ public class MessageBuilder {
 		if (locationSearchRequest == null) {
 			return this;
 		}
-		return add(locationSearchRequest.getName(), "name").add(locationSearchRequest.getCountry(), "country").add(locationSearchRequest.getRegion(), "region")
-				.add(locationSearchRequest.getLongitude(), "longitude").add(locationSearchRequest.getLatitude(), "latitude")
+		return add(locationSearchRequest.getName(), "name").add(locationSearchRequest.getCountry(), "country")
+				.add(locationSearchRequest.getRegion(), "region")
+				.add(locationSearchRequest.getLongitude(), "longitude")
+				.add(locationSearchRequest.getLatitude(), "latitude")
 				.add(locationSearchRequest.getZipCode(), "zip code");
 	}
 
@@ -80,11 +87,13 @@ public class MessageBuilder {
 	/**
 	 * Change string value in BaseLocation using reflection.
 	 * ! Warning ! do not use in real projects.
+	 *
 	 * @param baseLocation object that should be changed
-	 * @param changeTo String value to what should be change baseLocation
+	 * @param changeTo     String value to what should be change baseLocation
 	 */
-	private void changeBaseLocation(BaseLocation baseLocation, String changeTo) throws Exception{
-		Field stringValue = baseLocation.getClass().getDeclaredField("baseLocation");
+	private void changeBaseLocation(BaseLocation baseLocation, String changeTo) throws Exception {
+		Field stringValue = baseLocation.getClass()
+				.getDeclaredField("baseLocation");
 		stringValue.setAccessible(true);
 		stringValue.set(baseLocation, changeTo);
 	}

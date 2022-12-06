@@ -4,7 +4,7 @@ public enum TaxState {
 
 	Created("Created"), Final("Final");
 
-	private String state;
+	private final String state;
 
 	TaxState(String state) {
 		this.state = state;

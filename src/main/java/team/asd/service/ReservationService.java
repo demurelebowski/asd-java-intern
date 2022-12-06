@@ -1,11 +1,15 @@
 package team.asd.service;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+import team.asd.constant.ReservationState;
 import team.asd.dao.ReservationDao;
 import team.asd.entity.Reservation;
 import team.asd.exceptions.ValidationException;
+import team.asd.util.ConverterUtil;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -35,6 +39,18 @@ public class ReservationService {
 	public Boolean delete(Integer id) {
 		validateId(id);
 		return reservationDao.delete(id);
+	}
+
+	public List<Reservation> getListByParameters(Integer productId, Integer organizationId, Integer agentId) {
+		if (Objects.isNull(productId)) {
+			throw new ValidationException("product_id not provided.");
+		}
+		return reservationDao.getListByParameters(productId, organizationId, agentId);
+	}
+
+	public List<Reservation> getListByDates(String fromDate, String toDate, String state) {
+		return reservationDao.getListByDates(ConverterUtil.localDateFromString(fromDate), ConverterUtil.localDateFromString(toDate),
+				EnumUtils.getEnumIgnoreCase(ReservationState.class, state));
 	}
 
 	private void validateId(Integer id) {
