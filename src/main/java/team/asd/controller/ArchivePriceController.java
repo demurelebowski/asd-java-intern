@@ -1,5 +1,7 @@
 package team.asd.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,16 +24,19 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping(value = "/archive_price")
+@ApiOperation("Archive price API")
 public class ArchivePriceController {
 	@Autowired
 	public ArchivePriceService archivePriceService;
 
+	@ApiOperation(value = "Get an archive price by id", notes = "Returns an archive price as per the id")
 	@GetMapping("/{archivePriceId}")
-	public ArchivePriceDto readById(@PathVariable Integer archivePriceId) {
+	public ArchivePriceDto readById(@PathVariable @ApiParam(value = "Archive price id", example = "2") Integer archivePriceId) {
 		ArchivePrice archivePrice = archivePriceService.readById(archivePriceId);
 		return ConverterUtil.convertToArchivePriceDto(archivePrice);
 	}
 
+	@ApiOperation(value = "Create an archive price", notes = "Returns an archive price with created id")
 	@PostMapping("/")
 	public ArchivePriceDto create(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
 		ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
@@ -39,6 +44,7 @@ public class ArchivePriceController {
 		return ConverterUtil.convertToArchivePriceDto(archivePrice);
 	}
 
+	@ApiOperation(value = "Update an archive price", notes = "Returns updated archive price")
 	@PutMapping("/")
 	public ArchivePriceDto update(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
 		ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
@@ -46,11 +52,13 @@ public class ArchivePriceController {
 		return ConverterUtil.convertToArchivePriceDto(archivePrice);
 	}
 
+	@ApiOperation(value = "Delete an archive price", notes = "Sets archive price state to 'Final'")
 	@DeleteMapping("/{archivePriceId}")
-	public Boolean delete(@PathVariable Integer archivePriceId) {
+	public Boolean delete(@PathVariable @ApiParam(value = "Archive price id", example = "2") Integer archivePriceId) {
 		return archivePriceService.delete(archivePriceId);
 	}
 
+	@ApiOperation(value = "Create a list of archive prices", notes = "Returns a list of archive prices with created id")
 	@PostMapping("/list")
 	public List<ArchivePriceDto> createList(@RequestBody List<@Valid ArchivePriceDto> archivePriceDtoList) {
 		List<ArchivePrice> archivePriceList = ConverterUtil.convertToArchivePriceList(archivePriceDtoList);
@@ -58,15 +66,18 @@ public class ArchivePriceController {
 		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
 	}
 
+	@ApiOperation(value = "Get a list of archive prices by reservationId", notes = "Returns a list of archive prices")
 	@GetMapping("/list/reservation_id/{reservationId}")
-	public List<ArchivePriceDto> getListByReservationId(@PathVariable Integer reservationId) {
+	public List<ArchivePriceDto> getListByReservationId(@PathVariable @ApiParam(value = "Reservation id", example = "4") Integer reservationId) {
 		List<ArchivePrice> archivePriceList = archivePriceService.getListByReservationId(reservationId);
 		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
 	}
 
+	@ApiOperation(value = "Get a list of archive prices by provided parameters", notes = "Returns a list of archive prices")
 	@GetMapping("/list")
-	public List<ArchivePriceDto> getListByParameters(@RequestParam(required = false) String type, @RequestParam(required = false) String state,
-			@RequestParam(required = false) String name) {
+	public List<ArchivePriceDto> getListByParameters(@RequestParam(required = false) @ApiParam(value = "Type", example = "TAX") String type,
+			@RequestParam(required = false) @ApiParam(value = "State", example = "Created") String state,
+			@RequestParam(required = false) @ApiParam(value = "Name", example = "Name") String name) {
 		List<ArchivePrice> archivePriceList = archivePriceService.getListByParameters(type, state, name);
 		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
 	}
