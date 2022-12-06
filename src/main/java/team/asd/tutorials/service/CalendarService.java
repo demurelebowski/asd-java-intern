@@ -7,8 +7,8 @@ import team.asd.tutorials.exceptions.WrongArgumentException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -60,17 +60,17 @@ public class CalendarService implements IsCalendarService {
 		case DAY_OF_WEEK:
 			return date.getDayOfWeek()
 					.toString();
+		case WEEK_NUMBER:
+			return String.valueOf((int) Math.ceil((date.get(ChronoField.DAY_OF_YEAR) + LocalDate.ofYearDay(date.getYear(), 1)
+					.getDayOfWeek()
+					.getValue() - 1) / 7.0));
 		case MONTH:
 			return date.getMonth()
 					.toString();
-		case WEEK_NUMBER:
-			return String.valueOf(date.get(WeekFields.of(Locale.getDefault())
-					.weekOfWeekBasedYear()));
 		case IS_LEAP_YEAR:
 			return date.isLeapYear() ? "Yes" : "No";
-		default:
-			throw new WrongArgumentException("Parameter is wrong");
 		}
+		return null;
 	}
 
 	@Override
