@@ -1,6 +1,5 @@
 package team.asd.tutorials.data;
 
-
 import team.asd.tutorials.constants.ProductState;
 import team.asd.tutorials.entities.IsProduct;
 import team.asd.tutorials.entities.TestProduct;
@@ -14,7 +13,7 @@ public class ProductData {
 
 	private static final Integer PRODUCT_NUMBER_LIMIT = 1000000;
 
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	public static IsProduct defineProduct(String name, ProductState state) {
 		TestProduct product = new TestProduct();
@@ -37,6 +36,8 @@ public class ProductData {
 		} else {
 			limitForProducts = limit;
 		}
-		return Stream.generate(ProductData::defineDefaultProduct).limit(limitForProducts).collect(Collectors.toList());
+		return Stream.generate(ProductData::defineDefaultProduct)
+				.limit(limitForProducts)
+				.collect(Collectors.toList());
 	}
 }

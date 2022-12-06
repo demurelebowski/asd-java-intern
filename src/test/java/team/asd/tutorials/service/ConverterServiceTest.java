@@ -18,7 +18,6 @@ public class ConverterServiceTest {
 
 	private static final Class<IsConverterService> serviceClass = IsConverterService.class;
 
-
 	private static final Integer INT_VALUE = 19748;
 	private static final String STRING_VALUE = "19748";
 
@@ -26,7 +25,8 @@ public class ConverterServiceTest {
 		Reflections reflections = new Reflections("team.asd.tutorials.service");
 		Set<Class<? extends IsConverterService>> classes = reflections.getSubTypesOf(serviceClass);
 		ServicesScannerUtils<IsConverterService> servicesScanner = new ServicesScannerUtils<>();
-		return classes.stream().map(servicesScanner::defineServiceImplementations);
+		return classes.stream()
+				.map(servicesScanner::defineServiceImplementations);
 	}
 
 	//String convertIntegerIntoString(Integer value);
@@ -56,7 +56,8 @@ public class ConverterServiceTest {
 	void testConvertStringIntoInteger(IsConverterService converterService) {
 		assertNull(converterService.convertStringIntoInteger(null), "For null value converter should return null");
 		assertNotNull(converterService.convertStringIntoInteger("123"), "Value should be converted");
-		assertThrows(NumberFormatException.class, () -> converterService.convertStringIntoInteger("A"), "For wrong numeric values converter should throw a NumberFormatException exception");
+		assertThrows(NumberFormatException.class, () -> converterService.convertStringIntoInteger("A"),
+				"For wrong numeric values converter should throw a NumberFormatException exception");
 	}
 
 	//Double convertStringIntoDouble(String value);

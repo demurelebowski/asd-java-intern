@@ -14,37 +14,37 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public AppError catchValidationException(ValidationException e) {
-        log.error(e.getMessage(), e);
-        return new AppError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-    }
+	@org.springframework.web.bind.annotation.ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public AppError catchValidationException(ValidationException e) {
+		log.error(e.getMessage(), e);
+		return new AppError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+	}
 
-    @org.springframework.web.bind.annotation.ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public AppError handleValidationExceptions(MethodArgumentNotValidException e) {
-        String message = e.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining(", "));
-        log.error(message, e);
-        return new AppError(HttpStatus.BAD_REQUEST.value(), message);
-    }
+	@org.springframework.web.bind.annotation.ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public AppError handleValidationExceptions(MethodArgumentNotValidException e) {
+		String message = e.getBindingResult()
+				.getAllErrors()
+				.stream()
+				.map(DefaultMessageSourceResolvable::getDefaultMessage)
+				.collect(Collectors.joining(", "));
+		log.error(message, e);
+		return new AppError(HttpStatus.BAD_REQUEST.value(), message);
+	}
 
-    @org.springframework.web.bind.annotation.ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public AppError handleValidationExceptions(ConstraintViolationException e) {
-        String message = e.getMessage();
-        log.error(message, e);
-        return new AppError(HttpStatus.BAD_REQUEST.value(), message);
-    }
+	@org.springframework.web.bind.annotation.ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public AppError handleValidationExceptions(ConstraintViolationException e) {
+		String message = e.getMessage();
+		log.error(message, e);
+		return new AppError(HttpStatus.BAD_REQUEST.value(), message);
+	}
 
-    @org.springframework.web.bind.annotation.ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public AppError catchException(Exception e) {
-        log.error(e.getMessage(), e);
-        return new AppError(HttpStatus.BAD_REQUEST.value(), "Something went wrong. ");
-    }
+	@org.springframework.web.bind.annotation.ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public AppError catchException(Exception e) {
+		log.error(e.getMessage(), e);
+		return new AppError(HttpStatus.BAD_REQUEST.value(), "Something went wrong. ");
+	}
 }

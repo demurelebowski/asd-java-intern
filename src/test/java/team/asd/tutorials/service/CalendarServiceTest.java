@@ -29,7 +29,8 @@ class CalendarServiceTest {
 		Reflections reflections = new Reflections("team.asd.tutorials.service");
 		Set<Class<? extends IsCalendarService>> classes = reflections.getSubTypesOf(serviceClass);
 		ServicesScannerUtils<IsCalendarService> servicesScanner = new ServicesScannerUtils<>();
-		return classes.stream().map(servicesScanner::defineServiceImplementations);
+		return classes.stream()
+				.map(servicesScanner::defineServiceImplementations);
 	}
 
 	@ParameterizedTest
@@ -71,12 +72,15 @@ class CalendarServiceTest {
 		assertEquals(0L, calendarService.defineCountInRange(pastSaturdayDate, pastTuesdayDate, ChronoUnit.WEEKS));
 
 		long secondsInDay = 60 * 60 * 24;
-		assertEquals(3 * secondsInDay, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now().plusDays(3), ChronoUnit.SECONDS));
-		assertEquals(2 * secondsInDay / 60, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now().plusDays(2), ChronoUnit.MINUTES));
-		assertEquals(1L, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now().plusDays(7), ChronoUnit.WEEKS));
-		assertEquals(7L, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now().plusDays(7), ChronoUnit.DAYS));
+		assertEquals(3 * secondsInDay, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now()
+				.plusDays(3), ChronoUnit.SECONDS));
+		assertEquals(2 * secondsInDay / 60, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now()
+				.plusDays(2), ChronoUnit.MINUTES));
+		assertEquals(1L, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now()
+				.plusDays(7), ChronoUnit.WEEKS));
+		assertEquals(7L, calendarService.defineCountInRange(LocalDate.now(), LocalDate.now()
+				.plusDays(7), ChronoUnit.DAYS));
 	}
-
 
 	@ParameterizedTest
 	@MethodSource("defineServices")
@@ -89,17 +93,24 @@ class CalendarServiceTest {
 		assertEquals("Yes", calendarService.getInfo(LocalDate.of(2020, 1, 1), DateElement.IS_LEAP_YEAR));
 		assertEquals("No", calendarService.getInfo(LocalDate.of(2022, 1, 1), DateElement.IS_LEAP_YEAR));
 
-		assertTrue(calendarService.getInfo(LocalDate.of(2022, 1, 12), DateElement.MONTH).toLowerCase().startsWith("jan"));
-		assertTrue(calendarService.getInfo(LocalDate.of(2002, 12, 12), DateElement.MONTH).toLowerCase().startsWith("dec"));
+		assertTrue(calendarService.getInfo(LocalDate.of(2022, 1, 12), DateElement.MONTH)
+				.toLowerCase()
+				.startsWith("jan"));
+		assertTrue(calendarService.getInfo(LocalDate.of(2002, 12, 12), DateElement.MONTH)
+				.toLowerCase()
+				.startsWith("dec"));
 
 		assertEquals("1", calendarService.getInfo(LocalDate.of(1999, 1, 1), DateElement.WEEK_NUMBER));
 		assertEquals("6", calendarService.getInfo(LocalDate.of(2000, 1, 31), DateElement.WEEK_NUMBER));
 		assertEquals("5", calendarService.getInfo(LocalDate.of(2001, 1, 31), DateElement.WEEK_NUMBER));
 
-		assertTrue(calendarService.getInfo(LocalDate.of(2000, 1, 3), DateElement.DAY_OF_WEEK).toLowerCase().startsWith("mon"));
-		assertTrue(calendarService.getInfo(LocalDate.of(2004, 1, 31), DateElement.DAY_OF_WEEK).toLowerCase().startsWith("sat"));
+		assertTrue(calendarService.getInfo(LocalDate.of(2000, 1, 3), DateElement.DAY_OF_WEEK)
+				.toLowerCase()
+				.startsWith("mon"));
+		assertTrue(calendarService.getInfo(LocalDate.of(2004, 1, 31), DateElement.DAY_OF_WEEK)
+				.toLowerCase()
+				.startsWith("sat"));
 	}
-
 
 	@ParameterizedTest
 	@MethodSource("defineServices")

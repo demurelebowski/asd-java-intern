@@ -1,10 +1,10 @@
 package team.asd.entity;
 
-import team.asd.constant.ReservationState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import team.asd.constant.ReservationState;
 
 import java.time.LocalDate;
 import java.util.Date;

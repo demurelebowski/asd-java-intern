@@ -35,10 +35,26 @@ public class StreamApiServiceTest {
 		Reflections reflections = new Reflections("team.asd.tutorials.service");
 		Set<Class<? extends IsStreamApiService>> classes = reflections.getSubTypesOf(IsStreamApiService.class);
 		ServicesScannerUtils<IsStreamApiService> servicesScanner = new ServicesScannerUtils<>();
-		return classes.stream().map(servicesScanner::defineServiceImplementations);
+		return classes.stream()
+				.map(servicesScanner::defineServiceImplementations);
 	}
 
 	//Stream<?> getNonNullStreamItems(Collection<?> collection);
+
+	private static boolean isSorted(List<LocalDate> listOfStrings) {
+		return isSorted(listOfStrings, listOfStrings.size());
+	}
+
+	private static boolean isSorted(List<LocalDate> listOfStrings, int index) {
+		if (index < 2) {
+			return true;
+		} else if (listOfStrings.get(index - 2)
+				.isAfter(listOfStrings.get(index - 1))) {
+			return false;
+		} else {
+			return isSorted(listOfStrings, index - 1);
+		}
+	}
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -56,12 +72,15 @@ public class StreamApiServiceTest {
 		assertEquals(0, resultStream.count(), "Result should be an empty list when empty list was provided");
 	}
 
+	//List<Integer> defineListFromRange(Integer start, Integer end) throws NumberFormatException;
+
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testGetNonNullStreamItemsWithOneElement(IsStreamApiService streamApiService) {
 		final int productSize = 1;
 		Stream<?> resultStream = streamApiService.getNonNullStreamItems(ProductData.defineProductList(productSize));
-		Object product = resultStream.findFirst().orElse(null);
+		Object product = resultStream.findFirst()
+				.orElse(null);
 		assertNotNull(product, "No objects in result stream");
 		assertTrue(product instanceof IsProduct, "Object is not equals to the provided type");
 	}
@@ -73,8 +92,6 @@ public class StreamApiServiceTest {
 		Stream<?> resultStream = streamApiService.getNonNullStreamItems(ProductData.defineProductList(productSize));
 		assertEquals(productSize, resultStream.count(), "Result should be an empty list when empty list was provided");
 	}
-
-	//List<Integer> defineListFromRange(Integer start, Integer end) throws NumberFormatException;
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -91,9 +108,11 @@ public class StreamApiServiceTest {
 		final Integer secondValue = random.nextInt(20) + firstValue;
 		List<Integer> resultList = streamApiService.defineListFromRange(firstValue, secondValue);
 		assertEquals(Math.abs(secondValue - firstValue) + 1, resultList.size(), "Wrong size of result list");
-		assertEquals((firstValue + secondValue) * (secondValue - firstValue + 1) / 2, resultList.stream().reduce(0, Integer::sum),
-				"Range of numbers is incorrect");
+		assertEquals((firstValue + secondValue) * (secondValue - firstValue + 1) / 2, resultList.stream()
+				.reduce(0, Integer::sum), "Range of numbers is incorrect");
 	}
+
+	//List<Integer> convertStringListToIntegerList(List<String> stringList);
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -110,10 +129,10 @@ public class StreamApiServiceTest {
 		Integer firstValue = random.nextInt(100);
 		List<Integer> resultList = streamApiService.defineListFromRange(firstValue, firstValue);
 		assertEquals(1, resultList.size(), "Wrong size of result list");
-		assertEquals(firstValue, resultList.stream().findFirst().orElse(null), "Incorrect value");
+		assertEquals(firstValue, resultList.stream()
+				.findFirst()
+				.orElse(null), "Incorrect value");
 	}
-
-	//List<Integer> convertStringListToIntegerList(List<String> stringList);
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -136,8 +155,11 @@ public class StreamApiServiceTest {
 		List<String> stringList = Arrays.asList("2", "0", "76498", "0x9a2f", null, "", "4", "-78", "09", "8.9", "4_000", "22");
 		List<Integer> convertedIntegerList = streamApiService.convertStringListToIntegerList(stringList);
 		assertEquals(correctValuesCount, convertedIntegerList.size(), "Wrong size for converted list");
-		assertTrue(convertedIntegerList.stream().allMatch(Objects::nonNull), "There should not be a null values in result list");
+		assertTrue(convertedIntegerList.stream()
+				.allMatch(Objects::nonNull), "There should not be a null values in result list");
 	}
+
+	//IntStream convertStringToLegalChars(String value);
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -146,7 +168,8 @@ public class StreamApiServiceTest {
 		List<String> stringList = List.of("329124942389234892348934289342892348923489234892348923489");
 		List<Integer> convertedIntegerList = streamApiService.convertStringListToIntegerList(stringList);
 		assertEquals(correctValuesCount, convertedIntegerList.size(), "Wrong size for converted list");
-		assertTrue(convertedIntegerList.stream().allMatch(Objects::nonNull), "There should not be a null values in result list");
+		assertTrue(convertedIntegerList.stream()
+				.allMatch(Objects::nonNull), "There should not be a null values in result list");
 	}
 
 	@ParameterizedTest
@@ -156,11 +179,9 @@ public class StreamApiServiceTest {
 		List<String> stringList = List.of("-00001");
 		List<Integer> convertedIntegerList = streamApiService.convertStringListToIntegerList(stringList);
 		assertEquals(correctValuesCount, convertedIntegerList.size(), "Wrong size for converted list");
-		assertTrue(convertedIntegerList.stream().allMatch(Objects::nonNull), "There should not be a null values in result list");
+		assertTrue(convertedIntegerList.stream()
+				.allMatch(Objects::nonNull), "There should not be a null values in result list");
 	}
-
-
-	//IntStream convertStringToLegalChars(String value);
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -174,21 +195,27 @@ public class StreamApiServiceTest {
 		assertNotNull(streamApiService.convertStringToLegalChars(""));
 	}
 
+	//BigDecimal sumAllValues(List<BigDecimal> values);
+
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testConvertStringToLegalCharsWithAllWrongCharacters(IsStreamApiService streamApiService) {
-		assertEquals(0, streamApiService.convertStringToLegalChars("日本語のキーボード").count(), "Wrong character wasn't skipped");
+		assertEquals(0, streamApiService.convertStringToLegalChars("日本語のキーボード")
+				.count(), "Wrong character wasn't skipped");
 	}
+
+	//Stream<LocalDate> sortLocalDateList(List<LocalDate> listOfDates);
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testConvertStringToLegalCharsWithSomeWrongCharacters(IsStreamApiService streamApiService) {
 		final String correctLetters = "TheseLetter5AreC0rRect";
 		final String wrongLetters = "βüτ τηéšė äρę ńòτ =(";
-		assertEquals(correctLetters.length(), streamApiService.convertStringToLegalChars(correctLetters + wrongLetters).count(), "Wrong character size");
+		assertEquals(correctLetters.length(), streamApiService.convertStringToLegalChars(correctLetters + wrongLetters)
+				.count(), "Wrong character size");
 	}
 
-	//BigDecimal sumAllValues(List<BigDecimal> values);
+	//Stream<LocalDate> skipDaysFromSpecifiedDate(List<LocalDate> listOfDates, LocalDate date, Integer daysToSkip)
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
@@ -198,55 +225,69 @@ public class StreamApiServiceTest {
 		assertEquals(BigDecimal.ZERO, streamApiService.sumAllValues(nullObjects));
 		assertEquals(BigDecimal.ZERO, streamApiService.sumAllValues(new ArrayList<>()));
 		List<BigDecimal> bigDecimals = Arrays.asList(null, BigDecimal.ONE, new BigDecimal("-9"), new BigDecimal("10"));
-		assertEquals(new BigDecimal("2").setScale(2, RoundingMode.HALF_UP), streamApiService.sumAllValues(bigDecimals).setScale(2, RoundingMode.HALF_UP));
+		assertEquals(new BigDecimal("2").setScale(2, RoundingMode.HALF_UP), streamApiService.sumAllValues(bigDecimals)
+				.setScale(2, RoundingMode.HALF_UP));
 	}
-
-	//Stream<LocalDate> sortLocalDateList(List<LocalDate> listOfDates);
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testSortLocalDateList(IsStreamApiService streamApiService) {
-		assertEquals(0, streamApiService.sortLocalDateList(null).count());
-		List<LocalDate> dates = Arrays.asList(LocalDate.now(), LocalDate.now().plusDays(-10), LocalDate.now().plusDays(-1), null, LocalDate.MAX);
-		assertEquals(4, streamApiService.sortLocalDateList(dates).count(), "Null values should be skipped");
-		assertTrue(isSorted(streamApiService.sortLocalDateList(dates).collect(Collectors.toList())));
+		assertEquals(0, streamApiService.sortLocalDateList(null)
+				.count());
+		List<LocalDate> dates = Arrays.asList(LocalDate.now(), LocalDate.now()
+				.plusDays(-10), LocalDate.now()
+				.plusDays(-1), null, LocalDate.MAX);
+		assertEquals(4, streamApiService.sortLocalDateList(dates)
+				.count(), "Null values should be skipped");
+		assertTrue(isSorted(streamApiService.sortLocalDateList(dates)
+				.collect(Collectors.toList())));
 	}
-
-	//Stream<LocalDate> skipDaysFromSpecifiedDate(List<LocalDate> listOfDates, LocalDate date, Integer daysToSkip)
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testSkipDaysFromSpecifiedDate(IsStreamApiService streamApiService) {
-		List<LocalDate> dates = Arrays
-				.asList(LocalDate.now(), LocalDate.now().plusDays(-10), LocalDate.now().plusDays(-1), null, LocalDate.MAX, LocalDate.now().plusDays(4));
-		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(null, LocalDate.now(), 1).count());
-		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(dates, null, 2).count());
-		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), null).count());
-		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), -2).count());
-		assertEquals(1, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), 2).count());
-		assertEquals(3, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), 0).count());
+		List<LocalDate> dates = Arrays.asList(LocalDate.now(), LocalDate.now()
+				.plusDays(-10), LocalDate.now()
+				.plusDays(-1), null, LocalDate.MAX, LocalDate.now()
+				.plusDays(4));
+		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(null, LocalDate.now(), 1)
+				.count());
+		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(dates, null, 2)
+				.count());
+		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), null)
+				.count());
+		assertEquals(0, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), -2)
+				.count());
+		assertEquals(1, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), 2)
+				.count());
+		assertEquals(3, streamApiService.skipDaysFromSpecifiedDate(dates, LocalDate.now(), 0)
+				.count());
 	}
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testCollectLists(IsStreamApiService streamApiService) {
-		assertEquals(0, streamApiService.collectLists().size());
+		assertEquals(0, streamApiService.collectLists()
+				.size());
 		List<Integer> firstList = Arrays.asList(1, 2, 3);
-		assertEquals(firstList.size(), streamApiService.collectLists(firstList).size());
+		assertEquals(firstList.size(), streamApiService.collectLists(firstList)
+				.size());
 		List<Integer> secondList = Arrays.asList(2, 4, 5);
 		List<Integer> thirdList = Arrays.asList(5, 6, 7);
 		List<Integer> combinedList = new ArrayList<>(firstList);
 		combinedList.addAll(secondList);
-		assertEquals(3, streamApiService.collectLists(firstList, secondList).lastIndexOf(2));
+		assertEquals(3, streamApiService.collectLists(firstList, secondList)
+				.lastIndexOf(2));
 		combinedList.addAll(thirdList);
-		assertEquals(combinedList.size(), streamApiService.collectLists(firstList, secondList, thirdList).size());
+		assertEquals(combinedList.size(), streamApiService.collectLists(firstList, secondList, thirdList)
+				.size());
 	}
 
 	@ParameterizedTest
 	@MethodSource("defineStreamApiServices")
 	public void testRemoveDuplicates(IsStreamApiService streamApiService) {
 		String letterA = "A", letterB = "B", group = "ABBA";
-		List<String> listWithDuplicates = Arrays.asList(letterA, letterB, letterA, letterA+letterB+letterB+letterA, group);
+		List<String> listWithDuplicates = Arrays.asList(letterA, letterB, letterA, letterA + letterB + letterB + letterA, group);
 		List<String> listWithoutDuplicates = Arrays.asList(letterA, letterB, group);
 		List<?> resultList = streamApiService.removeDuplicates(listWithDuplicates);
 		assertEquals(listWithoutDuplicates.size(), resultList.size());
@@ -255,19 +296,5 @@ public class StreamApiServiceTest {
 		assertTrue(resultList.contains(group));
 		assertTrue(CollectionUtils.isEmpty(streamApiService.removeDuplicates(null)));
 		assertNotNull(streamApiService.removeDuplicates(null));
-	}
-
-	private static boolean isSorted(List<LocalDate> listOfStrings) {
-		return isSorted(listOfStrings, listOfStrings.size());
-	}
-
-	private static boolean isSorted(List<LocalDate> listOfStrings, int index) {
-		if (index < 2) {
-			return true;
-		} else if (listOfStrings.get(index - 2).compareTo(listOfStrings.get(index - 1)) > 0) {
-			return false;
-		} else {
-			return isSorted(listOfStrings, index - 1);
-		}
 	}
 }

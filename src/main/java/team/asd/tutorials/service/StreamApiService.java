@@ -93,7 +93,7 @@ public class StreamApiService implements IsStreamApiService {
 		if (CollectionUtils.isEmpty(listOfDates) || ObjectUtils.anyNull(date, daysToSkip) || daysToSkip < 0) {
 			return Stream.empty();
 		}
-		
+
 		return sortLocalDateList(listOfDates).filter(dayIn -> dayIn.isAfter(date) || dayIn.equals(date))
 				.skip(daysToSkip);
 	}

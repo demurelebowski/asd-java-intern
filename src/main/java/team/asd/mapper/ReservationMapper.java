@@ -9,15 +9,15 @@ import java.util.List;
 
 @Mapper
 public interface ReservationMapper {
-    Reservation readById(Integer id);
+	Reservation readById(Integer id);
 
-    void create(Reservation reservation);
+	void create(Reservation reservation);
 
-    void update(Reservation reservation);
+	void update(Reservation reservation);
 
-    Boolean delete(Integer id);
+	Boolean delete(Integer id);
 
-    List<Reservation> getListByParameters(Integer productId, Integer organizationId, Integer agentId);
+	List<Reservation> getListByParameters(Integer productId, Integer organizationId, Integer agentId);
 
-    List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state);
+	List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state);
 }

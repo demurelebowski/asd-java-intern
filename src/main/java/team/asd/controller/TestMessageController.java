@@ -1,9 +1,9 @@
 package team.asd.controller;
 
-import team.asd.entity.TestMessage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.asd.entity.TestMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;

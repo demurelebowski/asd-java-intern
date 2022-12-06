@@ -15,12 +15,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 public class ArchivePrice {
-    private Integer id;
-    private EntityType entityType;
-    private Integer entityId;
-    private String name;
-    private ArchivePriceState state;
-    private ArchivePriceType type;
-    private Double value;
-    private Date version;
+	private Integer id;
+	private EntityType entityType;
+	private Integer entityId;
+	private String name;
+	private ArchivePriceState state;
+	private ArchivePriceType type;
+	private Double value;
+	private Date version;
 }
