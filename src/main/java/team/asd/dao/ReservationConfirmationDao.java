@@ -18,4 +18,5 @@ public interface ReservationConfirmationDao {
 
 	List<ReservationConfirmation> getListByConfirmationIdAndDateRange(String confirmationId, LocalDateTime dateStart, LocalDateTime dateEnd);
 
+	List<ReservationConfirmation> getListByFailedReservation();
 }

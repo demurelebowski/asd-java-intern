@@ -20,4 +20,5 @@ public interface ReservationConfirmationMapper {
 
 	List<ReservationConfirmation> getListByConfirmationIdAndDateRange(String confirmationId, LocalDateTime dateStart, LocalDateTime dateEnd);
 
+	List<ReservationConfirmation> getListByFailedReservation();
 }

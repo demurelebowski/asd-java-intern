@@ -93,4 +93,12 @@
 			</if>
 		</where>
 	</select>
+	<select id="getListByReservationFromDateAtLeast" parameterType="java.time.LocalDate" resultMap="ResultMap" resultType="team.asd.entity.ArchivePrice">
+		SELECT ap.id, ap.entity_type, ap.entity_id, ap.name, ap.state, ap.type, ap.value, ap.version
+		FROM archive_price AS ap
+		INNER JOIN reservation AS r ON ap.entity_id = r.id
+		WHERE ap.entity_type = 'Reservation'
+		AND r.state IN ('Confirmed', 'FullyPaid')
+		AND r.from_date <![CDATA[ > ]]> #{dateStart}
+	</select>
 </mapper>

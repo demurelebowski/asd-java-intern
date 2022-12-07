@@ -55,7 +55,7 @@ public class ArchivePriceDaoImplementation implements ArchivePriceDao {
 	}
 
 	@Override
-	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate localDateFromString) {
-		return null;
+	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate date) {
+		return archivePriceMapper.getListByReservationFromDateAtLeast(date);
 	}
 }
