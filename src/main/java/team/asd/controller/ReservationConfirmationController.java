@@ -2,6 +2,8 @@ package team.asd.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,8 @@ public class ReservationConfirmationController {
 	public ReservationConfirmationService reservationConfirmationService;
 
 	@ApiOperation(value = "Get a reservation confirmation by id", notes = "Returns a reservation confirmation as per the id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
 	@GetMapping("/{reservationConfirmationId}")
 	public ReservationConfirmationDto readById(
 			@PathVariable @ApiParam(value = "Reservation confirmation id", example = "7") Integer reservationConfirmationId) {
@@ -36,6 +40,7 @@ public class ReservationConfirmationController {
 	}
 
 	@ApiOperation(value = "Create a reservation confirmation", notes = "Returns a reservation confirmation with created id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully created"), @ApiResponse(code = 400, message = "Invalid object was provided") })
 	@PostMapping("/")
 	public ReservationConfirmationDto createReservationConfirmation(@RequestBody @Valid ReservationConfirmationDto reservationConfirmationDto) {
 		ReservationConfirmation reservationConfirmation = ConverterUtil.convertToReservationConfirmation(reservationConfirmationDto);
@@ -44,6 +49,7 @@ public class ReservationConfirmationController {
 	}
 
 	@ApiOperation(value = "Update a reservation confirmation", notes = "Returns updated reservation confirmation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated"), @ApiResponse(code = 400, message = "Invalid object was provided") })
 	@PutMapping("/")
 	public ReservationConfirmationDto updateReservationConfirmation(@RequestBody @Valid ReservationConfirmationDto reservationConfirmationDto) {
 		ReservationConfirmation reservationConfirmation = ConverterUtil.convertToReservationConfirmation(reservationConfirmationDto);
@@ -52,6 +58,7 @@ public class ReservationConfirmationController {
 	}
 
 	@ApiOperation(value = "Delete a reservation confirmation", notes = "Deletes reservation confirmation record by provided id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted"), @ApiResponse(code = 400, message = "Invalid parameter was provided") })
 	@DeleteMapping("/{reservationConfirmationId}")
 	public Boolean deleteReservationConfirmation(
 			@PathVariable @ApiParam(value = "Reservation confirmation id", example = "5") Integer reservationConfirmationId) {
@@ -59,6 +66,8 @@ public class ReservationConfirmationController {
 	}
 
 	@ApiOperation(value = "Get a list of reservation confirmations by reservation id", notes = "Returns a list of reservation confirmations")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
 	@GetMapping("reservation/{reservationId}")
 	public List<ReservationConfirmationDto> getListByReservationId(@PathVariable @ApiParam(value = "Reservation id", example = "44") Integer reservationId) {
 		List<ReservationConfirmation> reservationConfirmationList = reservationConfirmationService.getListByReservationId(reservationId);
@@ -66,6 +75,8 @@ public class ReservationConfirmationController {
 	}
 
 	@ApiOperation(value = "Get a list of reservation confirmations by confirmation id and range of dates", notes = "Returns a list of reservation confirmations")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
 	@GetMapping("/confirmationId")
 	public List<ReservationConfirmationDto> getListByConfirmationIdAndDateRange(
 			@RequestParam(name = "confirmation_id") @ApiParam(value = "Confirmation id", example = "7") String confirmationId,

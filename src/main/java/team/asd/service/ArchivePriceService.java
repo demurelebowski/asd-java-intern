@@ -8,6 +8,7 @@ import team.asd.constant.ArchivePriceType;
 import team.asd.dao.ArchivePriceDao;
 import team.asd.entity.ArchivePrice;
 import team.asd.exceptions.ValidationException;
+import team.asd.util.ConverterUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -76,5 +77,9 @@ public class ArchivePriceService {
 
 		return archivePriceDao.getListByParameters(EnumUtils.getEnumIgnoreCase(ArchivePriceType.class, type),
 				EnumUtils.getEnumIgnoreCase(ArchivePriceState.class, state), name);
+	}
+
+	public List<ArchivePrice> getListByReservationFromDateAtLeast(String reservationFromDateAtLeast) {
+		return archivePriceDao.getListByReservationFromDateAtLeast(ConverterUtil.localDateFromString(reservationFromDateAtLeast));
 	}
 }
