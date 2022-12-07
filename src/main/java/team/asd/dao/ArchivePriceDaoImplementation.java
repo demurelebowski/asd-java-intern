@@ -8,6 +8,7 @@ import team.asd.constant.ArchivePriceType;
 import team.asd.entity.ArchivePrice;
 import team.asd.mapper.ArchivePriceMapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -51,5 +52,10 @@ public class ArchivePriceDaoImplementation implements ArchivePriceDao {
 	@Override
 	public List<ArchivePrice> getListByParameters(ArchivePriceType type, ArchivePriceState state, String name) {
 		return archivePriceMapper.getListByParameters(type, state, name);
+	}
+
+	@Override
+	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate localDateFromString) {
+		return null;
 	}
 }

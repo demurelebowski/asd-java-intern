@@ -4,6 +4,7 @@ import team.asd.constant.ArchivePriceState;
 import team.asd.constant.ArchivePriceType;
 import team.asd.entity.ArchivePrice;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ArchivePriceDaoDummy implements ArchivePriceDao {
@@ -39,6 +40,11 @@ public class ArchivePriceDaoDummy implements ArchivePriceDao {
 
 	@Override
 	public List<ArchivePrice> getListByParameters(ArchivePriceType type, ArchivePriceState state, String name) {
+		return null;
+	}
+
+	@Override
+	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate localDateFromString) {
 		return null;
 	}
 }

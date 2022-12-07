@@ -4,6 +4,7 @@ import team.asd.constant.ArchivePriceState;
 import team.asd.constant.ArchivePriceType;
 import team.asd.entity.ArchivePrice;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ArchivePriceDao {
@@ -20,4 +21,6 @@ public interface ArchivePriceDao {
 	List<ArchivePrice> getListByReservationId(Integer reservationId);
 
 	List<ArchivePrice> getListByParameters(ArchivePriceType type, ArchivePriceState state, String name);
+
+	List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate localDateFromString);
 }
