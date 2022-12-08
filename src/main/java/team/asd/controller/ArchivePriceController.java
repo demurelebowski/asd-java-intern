@@ -103,4 +103,12 @@ public class ArchivePriceController {
 		List<ArchivePrice> archivePriceList = archivePriceService.getListByReservationFromDateAtLeast(reservationFromDateAtLeast);
 		return ConverterUtil.convertToArchivePriceDtoList(archivePriceList);
 	}
+
+	@ApiOperation(value = "Update an archive price (delay)", notes = "Returns updated archive price")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated"), @ApiResponse(code = 400, message = "Invalid object was provided") })
+	@PutMapping("/delay")
+	public String updateDelay(@RequestBody @Valid ArchivePriceDto archivePriceDto) {
+		ArchivePrice archivePrice = ConverterUtil.convertToArchivePrice(archivePriceDto);
+		return archivePriceService.updateDelay(archivePrice);
+	}
 }

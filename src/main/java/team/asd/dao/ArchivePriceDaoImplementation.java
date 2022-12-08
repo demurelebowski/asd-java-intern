@@ -10,6 +10,7 @@ import team.asd.mapper.ArchivePriceMapper;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Repository
 public class ArchivePriceDaoImplementation implements ArchivePriceDao {
@@ -57,5 +58,17 @@ public class ArchivePriceDaoImplementation implements ArchivePriceDao {
 	@Override
 	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate date) {
 		return archivePriceMapper.getListByReservationFromDateAtLeast(date);
+	}
+
+	@Override
+	public String updateDelay(ArchivePrice archivePrice) {
+		try {
+			TimeUnit.SECONDS.sleep(15);
+		} catch (InterruptedException ie) {
+			Thread.currentThread()
+					.interrupt();
+		}
+		archivePriceMapper.update(archivePrice);
+		return null;
 	}
 }

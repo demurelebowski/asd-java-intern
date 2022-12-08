@@ -1,7 +1,9 @@
 package team.asd.service;
 
+import com.antkorwin.xsync.XSync;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.asd.constant.ArchivePriceState;
 import team.asd.constant.ArchivePriceType;
@@ -12,10 +14,14 @@ import team.asd.util.ConverterUtil;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class ArchivePriceService {
 	private final ArchivePriceDao archivePriceDao;
+	@Autowired
+	private XSync<Integer> xSync;
 
 	public ArchivePriceService(ArchivePriceDao archivePriceDao) {
 		this.archivePriceDao = archivePriceDao;
@@ -55,6 +61,16 @@ public class ArchivePriceService {
 		}
 	}
 
+	public String updateDelay(ArchivePrice archivePrice) {
+		xSync.execute(archivePrice.getId(), () -> {
+
+			ExecutorService executorService = Executors.newSingleThreadExecutor();
+			executorService.execute(() -> archivePriceDao.updateDelay(archivePrice));
+
+		});
+		return "Updating in progress.";
+	}
+
 	private void validateArchivePrice(ArchivePrice archivePrice) {
 		if (Objects.isNull(archivePrice)) {
 			throw new ValidationException("Archive price is null");
@@ -82,4 +98,5 @@ public class ArchivePriceService {
 	public List<ArchivePrice> getListByReservationFromDateAtLeast(String reservationFromDateAtLeast) {
 		return archivePriceDao.getListByReservationFromDateAtLeast(ConverterUtil.localDateFromString(reservationFromDateAtLeast));
 	}
+
 }
