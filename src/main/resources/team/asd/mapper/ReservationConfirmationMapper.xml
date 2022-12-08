@@ -51,4 +51,11 @@
 			and created_date <![CDATA[ <= ]]> #{dateEnd}
 		</if>
 	</select>
+	<select id="getListByFailedReservation" resultMap="ResultMap" resultType="team.asd.entity.ReservationConfirmation">
+		SELECT rc.id, rc.reservation_id, rc.channel_partner_id, rc.confirmation_id, rc.created_date, rc.version
+		FROM reservation_confirmation AS rc
+		INNER JOIN reservation AS r ON rc.reservation_id = r.id
+		WHERE r.state = 'Failed'
+		AND r.version <![CDATA[ < ]]> rc.version
+	</select>
 </mapper>

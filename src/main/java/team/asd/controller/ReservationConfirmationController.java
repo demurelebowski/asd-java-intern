@@ -86,4 +86,12 @@ public class ReservationConfirmationController {
 				dateStart, dateEnd);
 		return ConverterUtil.convertToReservationConfirmationDtoList(reservationConfirmationList);
 	}
+
+	@ApiOperation(value = "Get a list of reservation confirmations where reservation state 'Failed'", notes = "Returns a list of reservation confirmations")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"), @ApiResponse(code = 400, message = "Unknown error") })
+	@GetMapping("/reservation")
+	public List<ReservationConfirmationDto> getListByFailedReservation() {
+		List<ReservationConfirmation> reservationConfirmationList = reservationConfirmationService.getListByFailedReservation();
+		return ConverterUtil.convertToReservationConfirmationDtoList(reservationConfirmationList);
+	}
 }

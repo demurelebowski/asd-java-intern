@@ -48,6 +48,10 @@ public class ReservationConfirmationService {
 				ConverterUtil.localDateTimeFromString(dateEnd));
 	}
 
+	public List<ReservationConfirmation> getListByFailedReservation() {
+		return reservationConfirmationDao.getListByFailedReservation();
+	}
+
 	private void validateId(Integer id) {
 		if (Objects.isNull(id) || id < 0) {
 			throw new ValidationException("Invalid id.");

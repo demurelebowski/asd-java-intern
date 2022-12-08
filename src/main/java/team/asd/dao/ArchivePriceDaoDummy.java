@@ -44,7 +44,7 @@ public class ArchivePriceDaoDummy implements ArchivePriceDao {
 	}
 
 	@Override
-	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate localDateFromString) {
+	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate date) {
 		return null;
 	}
 }

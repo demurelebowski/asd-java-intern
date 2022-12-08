@@ -45,4 +45,9 @@ public class ReservationConfirmationDaoImplementation implements ReservationConf
 	public List<ReservationConfirmation> getListByConfirmationIdAndDateRange(String confirmationId, LocalDateTime dateStart, LocalDateTime dateEnd) {
 		return reservationConfirmationMapper.getListByConfirmationIdAndDateRange(confirmationId, dateStart, dateEnd);
 	}
+
+	@Override
+	public List<ReservationConfirmation> getListByFailedReservation() {
+		return reservationConfirmationMapper.getListByFailedReservation();
+	}
 }

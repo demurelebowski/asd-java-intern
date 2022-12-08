@@ -5,6 +5,7 @@ import team.asd.constant.ArchivePriceState;
 import team.asd.constant.ArchivePriceType;
 import team.asd.entity.ArchivePrice;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -22,4 +23,6 @@ public interface ArchivePriceMapper {
 	List<ArchivePrice> getListByReservationId(Integer reservationId);
 
 	List<ArchivePrice> getListByParameters(ArchivePriceType type, ArchivePriceState state, String name);
+
+	List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate dateStart);
 }
