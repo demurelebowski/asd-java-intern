@@ -68,7 +68,7 @@ public class ArchivePriceService {
 			executorService.execute(() -> archivePriceDao.updateDelay(archivePrice));
 
 		});
-		return "Updating in progress.";
+		return "Update is in progress.";
 	}
 
 	private void validateArchivePrice(ArchivePrice archivePrice) {
