@@ -61,11 +61,11 @@ public class ArchivePriceService {
 		}
 	}
 
-	public String updateDelay(ArchivePrice archivePrice) {
+	public String delayedUpdate(ArchivePrice archivePrice) {
 		xSync.execute(archivePrice.getId(), () -> {
 
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
-			executorService.execute(() -> archivePriceDao.updateDelay(archivePrice));
+			executorService.execute(() -> archivePriceDao.delayedUpdate(archivePrice));
 
 		});
 		return "Update is in progress.";

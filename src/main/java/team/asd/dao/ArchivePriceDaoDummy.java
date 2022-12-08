@@ -48,7 +48,7 @@ public class ArchivePriceDaoDummy implements ArchivePriceDao {
 	}
 
 	@Override
-	public String updateDelay(ArchivePrice archivePrice) {
+	public String delayedUpdate(ArchivePrice archivePrice) {
 		return null;
 	}
 }

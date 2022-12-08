@@ -24,5 +24,5 @@ public interface ArchivePriceDao {
 
 	List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate date);
 
-	String updateDelay(ArchivePrice archivePrice);
+	String delayedUpdate(ArchivePrice archivePrice);
 }

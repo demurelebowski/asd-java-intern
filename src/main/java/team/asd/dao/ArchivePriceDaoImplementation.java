@@ -61,7 +61,7 @@ public class ArchivePriceDaoImplementation implements ArchivePriceDao {
 	}
 
 	@Override
-	public String updateDelay(ArchivePrice archivePrice) {
+	public String delayedUpdate(ArchivePrice archivePrice) {
 		try {
 			TimeUnit.SECONDS.sleep(15);
 		} catch (InterruptedException ie) {
