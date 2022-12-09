@@ -62,6 +62,8 @@ public class ArchivePriceService {
 	}
 
 	public String delayedUpdate(ArchivePrice archivePrice) {
+		validateArchivePrice(archivePrice);
+		validateId(archivePrice.getId());
 		xSync.execute(archivePrice.getId(), () -> {
 
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
