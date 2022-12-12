@@ -1,7 +1,9 @@
 package team.asd.dao;
 
 import team.asd.constant.ReservationState;
+import team.asd.entity.ArchivePrice;
 import team.asd.entity.Reservation;
+import team.asd.entity.ReservationConfirmation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,6 +34,16 @@ public class ReservationDaoDummy implements ReservationDao {
 
 	@Override
 	public List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state) {
+		return null;
+	}
+
+	@Override
+	public List<ArchivePrice> getArchivePriceList(Integer reservationId) {
+		return null;
+	}
+
+	@Override
+	public ReservationConfirmation getReservationConfirmation(Integer reservationId) {
 		return null;
 	}
 }

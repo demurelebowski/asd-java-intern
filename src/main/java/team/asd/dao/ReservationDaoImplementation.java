@@ -3,7 +3,9 @@ package team.asd.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.asd.constant.ReservationState;
+import team.asd.entity.ArchivePrice;
 import team.asd.entity.Reservation;
+import team.asd.entity.ReservationConfirmation;
 import team.asd.mapper.ReservationMapper;
 
 import java.time.LocalDate;
@@ -46,5 +48,15 @@ public class ReservationDaoImplementation implements ReservationDao {
 	@Override
 	public List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state) {
 		return reservationMapper.getListByDates(fromDate, toDate, state);
+	}
+
+	@Override
+	public List<ArchivePrice> getArchivePriceList(Integer reservationId) {
+		return reservationMapper.getArchivePrice(reservationId);
+	}
+
+	@Override
+	public ReservationConfirmation getReservationConfirmation(Integer reservationId) {
+		return reservationMapper.getReservationConfirmation(reservationId);
 	}
 }
