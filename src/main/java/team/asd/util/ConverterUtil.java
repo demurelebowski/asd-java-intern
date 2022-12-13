@@ -9,7 +9,6 @@ import team.asd.dto.*;
 import team.asd.entity.ArchivePrice;
 import team.asd.entity.Reservation;
 import team.asd.entity.ReservationConfirmation;
-import team.asd.entity.ReservationReport;
 import team.asd.exceptions.ValidationException;
 
 import java.text.SimpleDateFormat;
@@ -158,38 +157,6 @@ public class ConverterUtil {
         return reservationConfirmationList.stream()
                 .map(ConverterUtil::convertToReservationConfirmationDto)
                 .collect(Collectors.toList());
-    }
-
-    public static ReservationReportDto convertToReservationReportDto(ReservationReport reservationReport) {
-        return ReservationReportDto.builder().reservationDto(convertToReservationDto(reservationReport.getReservation()))
-                .archivePriceDtoList(convertToArchivePriceInfoDtoList(reservationReport.getArchivePriceList()))
-                .reservationConfirmationInfoDto(convertToReservationConfirmationInfoDto(reservationReport.getReservationConfirmation())).build();
-    }
-
-    private static List<ArchivePriceInfoDto> convertToArchivePriceInfoDtoList(List<ArchivePrice> archivePriceList) {
-        if (Objects.isNull(archivePriceList)) {
-            return null;
-        }
-        return archivePriceList.stream()
-                .map(ConverterUtil::convertToArchivePriceInfoDto)
-                .collect(Collectors.toList());
-    }
-
-    private static ArchivePriceInfoDto convertToArchivePriceInfoDto(ArchivePrice archivePrice) {
-        return ArchivePriceInfoDto.builder().value(archivePrice.getValue())
-                .type(getStringFromEnum(archivePrice.getType()))
-                .entityType(getStringFromEnum(archivePrice.getEntityType()))
-                .name(archivePrice.getName()).build();
-    }
-
-    public static ReservationConfirmationInfoDto convertToReservationConfirmationInfoDto(ReservationConfirmation reservationConfirmation) {
-        if (Objects.isNull(reservationConfirmation)) {
-            return null;
-        }
-        return ReservationConfirmationInfoDto.builder()
-                .confirmationId(reservationConfirmation.getConfirmationId())
-                .createdDate(stringFromLocalDateTime(reservationConfirmation.getCreatedDate()))
-                .build();
     }
 
     public static LocalDate localDateFromString(String str) {

@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class ReservationReportDto {
-    ReservationDto reservationDto;
-    ReservationConfirmationInfoDto reservationConfirmationInfoDto;
-    List<ArchivePriceInfoDto> archivePriceDtoList;
+    ReservationDto reservation;
+    ReservationConfirmationInfoDto reservationConfirmation;
+    List<ArchivePriceInfoDto> archivePrice;
 }

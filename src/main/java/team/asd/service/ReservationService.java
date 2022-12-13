@@ -5,8 +5,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import team.asd.constant.ReservationState;
 import team.asd.dao.ReservationDao;
+import team.asd.dto.ReservationReportDto;
 import team.asd.entity.Reservation;
-import team.asd.entity.ReservationReport;
 import team.asd.exceptions.ValidationException;
 import team.asd.util.ConverterUtil;
 
@@ -54,13 +54,9 @@ public class ReservationService {
                 EnumUtils.getEnumIgnoreCase(ReservationState.class, state));
     }
 
-    public ReservationReport getReservationReport(Integer reservationId) {
+    public ReservationReportDto getReservationReport(Integer reservationId) {
         validateId(reservationId);
-
-        return ReservationReport.builder().reservation(reservationDao.readById(reservationId)).
-                archivePriceList(reservationDao.getArchivePriceList(reservationId))
-                .reservationConfirmation(reservationDao.getReservationConfirmation(reservationId))
-                .build();
+        return reservationDao.getReservationReport(reservationId);
     }
 
     private void validateId(Integer id) {

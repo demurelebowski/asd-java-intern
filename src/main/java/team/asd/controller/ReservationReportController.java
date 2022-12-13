@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.asd.dto.ReservationReportDto;
-import team.asd.entity.ReservationReport;
 import team.asd.service.ReservationService;
-import team.asd.util.ConverterUtil;
 
 @RestController
 @RequestMapping(value = "/reservation_report")
@@ -26,7 +24,6 @@ public class ReservationReportController {
             @ApiResponse(code = 400, message = "Invalid parameter was provided")})
     @GetMapping("/{reservationId}")
     public ReservationReportDto readById(@PathVariable @ApiParam(value = "Reservation id", example = "12") Integer reservationId) {
-        ReservationReport reservationReport = reservationService.getReservationReport(reservationId);
-        return ConverterUtil.convertToReservationReportDto(reservationReport);
+        return reservationService.getReservationReport(reservationId);
     }
 }
