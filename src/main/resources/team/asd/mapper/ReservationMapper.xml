@@ -114,8 +114,9 @@
         FROM reservation AS r
         LEFT JOIN reservation_confirmation AS rc ON r.id = rc.reservation_id
         LEFT JOIN archive_price AS ap ON r.id = ap.entity_id
-        WHERE r.id =#{id}
+        WHERE r.id =#{reservationId}
         AND ap.entity_type = 'Reservation'
         AND ap.state = 'Created'
+        LIMIT #{firstRow}, #{limit}
     </select>
 </mapper>

@@ -54,9 +54,13 @@ public class ReservationService {
                 EnumUtils.getEnumIgnoreCase(ReservationState.class, state));
     }
 
-    public ReservationReportDto getReservationReport(Integer reservationId) {
+    public ReservationReportDto getReservationReport(Integer reservationId, Integer page, Integer itemsPerPage) {
         validateId(reservationId);
-        return reservationDao.getReservationReport(reservationId);
+        if (0 == page || 0 == itemsPerPage) {
+            throw new ValidationException("page and itemsPerPage shouldn't be 0");
+        }
+        Integer firstRow = (page * itemsPerPage) - itemsPerPage;
+        return reservationDao.getReservationReport(reservationId, firstRow, itemsPerPage);
     }
 
     private void validateId(Integer id) {

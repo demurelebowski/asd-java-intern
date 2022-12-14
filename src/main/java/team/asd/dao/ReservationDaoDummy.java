@@ -37,7 +37,7 @@ public class ReservationDaoDummy implements ReservationDao {
     }
 
     @Override
-    public ReservationReportDto getReservationReport(Integer reservationId) {
+    public ReservationReportDto getReservationReport(Integer reservationId, Integer firstRow, Integer limit) {
         return null;
     }
 }

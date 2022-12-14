@@ -50,7 +50,7 @@ public class ReservationDaoImplementation implements ReservationDao {
     }
 
     @Override
-    public ReservationReportDto getReservationReport(Integer reservationId) {
-        return reservationMapper.getReservationReport(reservationId);
+    public ReservationReportDto getReservationReport(Integer reservationId, Integer firstRow, Integer limit) {
+        return reservationMapper.getReservationReport(reservationId, firstRow, limit);
     }
 }
