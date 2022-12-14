@@ -19,22 +19,20 @@
         <result column="version" property="version"/>
     </resultMap>
     <resultMap id="ReservationReportResultMap" type="team.asd.dto.ReservationReportDto">
-        <association property="reservation" javaType="team.asd.dto.ReservationDto">
-            <id property='id' column='r_id'/>
-            <result property='organizationId' column='r_organization_id'/>
-            <result property='agentId' column='r_agent_id'/>
-            <result property='customerId' column='r_customer_id'/>
-            <result property='productId' column='r_product_id'/>
-            <result property='fromDate' column='r_from_date'/>
-            <result property='toDate' column='r_to_date'/>
-            <result property='state' column='r_state'/>
-            <result property='price' column='r_price'/>
-            <result property='quote' column='r_quote'/>
-            <result property='currency' column='r_currency'/>
-            <result property='guests' column='r_guests'/>
-            <result property='notes' column='r_notes'/>
-            <result property='version' column='r_version'/>
-        </association>
+        <id property="id" column="r_id"/>
+        <result property='organizationId' column='r_organization_id'/>
+        <result property='agentId' column='r_agent_id'/>
+        <result property='customerId' column='r_customer_id'/>
+        <result property='productId' column='r_product_id'/>
+        <result property='fromDate' column='r_from_date'/>
+        <result property='toDate' column='r_to_date'/>
+        <result property='state' column='r_state'/>
+        <result property='price' column='r_price'/>
+        <result property='quote' column='r_quote'/>
+        <result property='currency' column='r_currency'/>
+        <result property='guests' column='r_guests'/>
+        <result property='notes' column='r_notes'/>
+        <result property='version' column='r_version'/>
         <association property="reservationConfirmation" javaType="team.asd.dto.ReservationConfirmationInfoDto">
             <result property='createdDate' column='rc_created_date'/>
             <result property='confirmationId' column='rc_confirmation_id'/>
@@ -114,8 +112,8 @@
         rc_created_date, rc.confirmation_id AS rc_confirmation_id, ap.name AS ap_name, ap.type AS ap_type,
         ap.entity_type AS ap_entity_type, ap.value AS ap_value
         FROM reservation AS r
-        LEFT JOIN reservation_confirmation AS rc ON rc.reservation_id = r.id
-        LEFT JOIN archive_price AS ap ON ap.entity_id = r.id
+        LEFT JOIN reservation_confirmation AS rc ON r.id = rc.reservation_id
+        LEFT JOIN archive_price AS ap ON r.id = ap.entity_id
         WHERE r.id =#{id}
         AND ap.entity_type = 'Reservation'
         AND ap.state = 'Created'
