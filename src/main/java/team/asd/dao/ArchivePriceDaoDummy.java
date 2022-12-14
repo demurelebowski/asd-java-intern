@@ -30,7 +30,6 @@ public class ArchivePriceDaoDummy implements ArchivePriceDao {
 
 	@Override
 	public void createList(List<ArchivePrice> archivePriceList) {
-
 	}
 
 	@Override
@@ -45,6 +44,11 @@ public class ArchivePriceDaoDummy implements ArchivePriceDao {
 
 	@Override
 	public List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate date) {
+		return null;
+	}
+
+	@Override
+	public String delayedUpdate(ArchivePrice archivePrice) {
 		return null;
 	}
 }

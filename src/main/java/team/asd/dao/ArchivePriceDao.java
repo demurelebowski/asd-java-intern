@@ -23,4 +23,6 @@ public interface ArchivePriceDao {
 	List<ArchivePrice> getListByParameters(ArchivePriceType type, ArchivePriceState state, String name);
 
 	List<ArchivePrice> getListByReservationFromDateAtLeast(LocalDate date);
+
+	String delayedUpdate(ArchivePrice archivePrice);
 }
