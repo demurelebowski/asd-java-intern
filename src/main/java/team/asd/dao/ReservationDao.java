@@ -20,5 +20,5 @@ public interface ReservationDao {
 
     List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state);
 
-    ReservationReportDto getReservationReport(Integer reservationId);
+    List<ReservationReportDto> getReservationReport(Integer reservationId, Integer firstRow, Integer limit);
 }

@@ -104,6 +104,7 @@
             and state = #{state}
         </if>
     </select>
+
     <select id="getReservationReport" parameterType="int" resultMap="ReservationReportResultMap">
         SELECT r.id AS r_id, r.organization_id AS r_organization_id, r.agent_id AS r_agent_id, r.customer_id AS
         r_customer_id, r.product_id AS r_product_id, r.state AS r_state, r.from_date AS r_from_date, r.to_date AS
@@ -114,8 +115,18 @@
         FROM reservation AS r
         LEFT JOIN reservation_confirmation AS rc ON r.id = rc.reservation_id
         LEFT JOIN archive_price AS ap ON r.id = ap.entity_id
-        WHERE r.id =#{id}
-        AND ap.entity_type = 'Reservation'
-        AND ap.state = 'Created'
+        INNER JOIN (SELECT DISTINCT r.id
+        FROM reservation r
+        LEFT JOIN reservation_confirmation rc ON r.id = rc.reservation_id
+        LEFT JOIN archive_price ap on r.id = ap.entity_id
+        WHERE r.state = 'Confirmed'
+        <if test="reservationId != null">
+            AND r.id =#{reservationId}
+        </if>
+        ORDER BY r.id
+        <if test="firstRow != null and limit != null">
+            LIMIT #{firstRow}, #{limit}
+        </if>
+        ) AS pagination_select ON pagination_select.id = r.id;
     </select>
 </mapper>
