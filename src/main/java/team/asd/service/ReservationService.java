@@ -55,7 +55,10 @@ public class ReservationService {
     }
 
     public List<ReservationReportDto> getReservationReport(Integer reservationId, Integer page, Integer itemsPerPage) {
-        Integer firstRow = page != null && itemsPerPage != null ? (page * itemsPerPage) - itemsPerPage : null;
+        Integer firstRow = null;
+        if (ObjectUtils.allNotNull(page, itemsPerPage)) {
+            firstRow = (page * itemsPerPage) - itemsPerPage;
+        }
         return reservationDao.getReservationReport(reservationId, firstRow, itemsPerPage);
     }
 
