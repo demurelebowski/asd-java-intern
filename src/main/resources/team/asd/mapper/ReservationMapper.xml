@@ -115,12 +115,18 @@
         FROM reservation AS r
         LEFT JOIN reservation_confirmation AS rc ON r.id = rc.reservation_id
         LEFT JOIN archive_price AS ap ON r.id = ap.entity_id
+        INNER JOIN (SELECT DISTINCT r.id
+        FROM reservation r
+        LEFT JOIN reservation_confirmation rc ON r.id = rc.reservation_id
+        LEFT JOIN archive_price ap on r.id = ap.entity_id
         WHERE r.state = 'Confirmed'
         <if test="reservationId != null">
             AND r.id =#{reservationId}
         </if>
+        ORDER BY r.id
         <if test="firstRow != null and limit != null">
             LIMIT #{firstRow}, #{limit}
         </if>
+        ) AS pagination_select ON pagination_select.id = r.id;
     </select>
 </mapper>
