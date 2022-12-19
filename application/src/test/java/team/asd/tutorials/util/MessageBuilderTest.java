@@ -17,7 +17,7 @@ class MessageBuilderTest {
 
 	@Test
 	void add() {
-		Assertions.assertEquals("fieldTest: 123", new MessageBuilder().add(123, "fieldTest")
+		assertEquals("fieldTest: 123", new MessageBuilder().add(123, "fieldTest")
 				.getMessage());
 		assertEquals("123", new MessageBuilder().add(123, null)
 				.getMessage());
