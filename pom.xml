@@ -38,13 +38,37 @@
 			<url>http://51.89.6.109:8081/repository/maven-snapshots</url>
 		</repository>
 	</repositories>
+	<profiles>
+		<profile>
+			<id>test</id>
+			<properties>
+				<app.profiles>test</app.profiles>
+				<spring.application.name>test</spring.application.name>
+			</properties>
+		</profile>
 
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<app.profiles>prod</app.profiles>
+				<spring.application.name>prod</spring.application.name>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<profiles>
+						<profile>
+							${app.profiles}
+						</profile>
+					</profiles>
 					<skip>true</skip>
 				</configuration>
 			</plugin>

@@ -14,12 +14,12 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan({ "team.asd" })
 @MapperScan({ "team.asd.mapper" })
+@Profile({ "prod", "default" })
 public class DataSourceConfig {
 
 	@Bean
 	@Primary
 	@ConfigurationProperties(prefix = "spring.datasource")
-	@Profile({ "prod", "default" })
 	public DataSource dataSource() {
 		return DataSourceBuilder.create()
 				.driverClassName("com.mysql.cj.jdbc.Driver")

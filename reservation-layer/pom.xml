@@ -33,26 +33,7 @@
 			<version>1.18.24</version>
 		</dependency>
 	</dependencies>
-	<profiles>
-		<profile>
-			<id>test</id>
-			<properties>
-				<app.profiles>test</app.profiles>
-				<spring.application.name>test</spring.application.name>
-			</properties>
-		</profile>
 
-		<profile>
-			<id>prod</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<app.profiles>prod</app.profiles>
-				<spring.application.name>prod</spring.application.name>
-			</properties>
-		</profile>
-	</profiles>
 	<build>
 		<plugins>
 			<plugin>
