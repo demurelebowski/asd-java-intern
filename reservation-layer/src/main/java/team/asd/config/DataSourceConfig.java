@@ -25,5 +25,4 @@ public class DataSourceConfig {
 				.driverClassName("com.mysql.cj.jdbc.Driver")
 				.build();
 	}
-
 }

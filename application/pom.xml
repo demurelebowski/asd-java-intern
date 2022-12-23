@@ -123,7 +123,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>team.asd.InternApplication</mainClass>
+					<mainClass>team.asd.JavaInternApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
