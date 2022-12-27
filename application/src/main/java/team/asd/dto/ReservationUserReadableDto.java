@@ -2,10 +2,18 @@ package team.asd.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ReservationUserReadableDto {
 	@Min(value = 1, message = "id {javax.validation.constraints.Min.message}")
 	@ApiModelProperty(notes = "Reservation ID", example = "1", required = true)

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.asd.dto.ReservationDto;
+import team.asd.dto.ReservationUserReadableDto;
 import team.asd.entity.Reservation;
 import team.asd.service.ReservationService;
 import team.asd.util.ConverterUtil;
@@ -36,6 +37,14 @@ public class ReservationController {
 	public ReservationDto readById(@PathVariable @ApiParam(value = "Reservation id", example = "3") Integer reservationId) {
 		Reservation reservation = reservationService.readById(reservationId);
 		return ConverterUtil.convertToReservationDto(reservation);
+	}
+
+	@ApiOperation(value = "Get a reservation by id", notes = "Returns reservation as per the id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@GetMapping("/user_readable/{reservationId}")
+	public ReservationUserReadableDto readReservationUserReadableDtoById(@PathVariable @ApiParam(value = "Reservation id", example = "3") Integer reservationId) {
+		return reservationService.readReservationUserReadableDtoById(reservationId);
 	}
 
 	@ApiOperation(value = "Create a reservation", notes = "Returns a reservation with created id")
