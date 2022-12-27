@@ -109,12 +109,8 @@ public class ReservationService {
 		Product product = productDao.readById(reservation.getProductId());
 
 		ReservationDto reservationDto = ConverterUtil.convertToReservationDto(reservation);
-		return ReservationUserReadableDto.builder()
+		ReservationUserReadableDto reservationUserReadableDto = ReservationUserReadableDto.builder()
 				.id(reservationDto.getId())
-				.organizationName(organization.getName())
-				.agentName(agent.getName())
-				.customerName(customer.getName())
-				.productName(product.getName())
 				.price(reservationDto.getPrice())
 				.currency(reservationDto.getCurrency())
 				.quote(reservationDto.getQuote())
@@ -122,7 +118,20 @@ public class ReservationService {
 				.toDate(reservationDto.getToDate())
 				.guests(reservationDto.getGuests())
 				.notes(reservationDto.getNotes())
-				.version(reservationDto.getVersion())
 				.build();
+
+		if (organization != null) {
+			reservationUserReadableDto.setOrganizationName(organization.getName());
+		}
+		if (agent != null) {
+			reservationUserReadableDto.setAgentName(agent.getName());
+		}
+		if (customer != null) {
+			reservationUserReadableDto.setCustomerName(customer.getName());
+		}
+		if (product != null) {
+			reservationUserReadableDto.setProductName(product.getName());
+		}
+		return reservationUserReadableDto;
 	}
 }

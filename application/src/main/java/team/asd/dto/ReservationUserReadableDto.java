@@ -71,8 +71,4 @@ public class ReservationUserReadableDto {
 	@JsonProperty("notes")
 	@ApiModelProperty(notes = "Notes or exceptions related to reservation or its processing")
 	private String notes;
-
-	@JsonProperty("version")
-	@ApiModelProperty(notes = "Date when record was updated last time", example = "2022-12-03 16:26:39")
-	private String version;
 }
