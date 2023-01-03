@@ -2,6 +2,7 @@ package team.asd.service;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.asd.constant.ReservationState;
 import team.asd.dao.PartyDao;
@@ -26,14 +27,10 @@ public class ReservationService {
 	private PartyDao partyDao;
 	private ProductDao productDao;
 
-	public ReservationService(ReservationDao reservationDao, PartyDao partyDao, ProductDao productDao) {
+	public ReservationService(@Autowired ReservationDao reservationDao, @Autowired PartyDao partyDao, @Autowired ProductDao productDao) {
 		this.reservationDao = reservationDao;
 		this.partyDao = partyDao;
 		this.productDao = productDao;
-	}
-
-	public ReservationService(ReservationDao reservationDao) {
-		this.reservationDao = reservationDao;
 	}
 
 	public Reservation readById(Integer id) {
