@@ -7,7 +7,9 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.asd.service.RedisClientService;
 
@@ -26,4 +28,12 @@ public class RedisController {
 		return redisClientService.readByKey(key);
 	}
 
+	@ApiOperation(value = "Saves value by key")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@PostMapping("/")
+	public String saveValueByKey(@RequestParam(name = "key") @ApiParam(value = "key", example = "keyTemp") String key,
+			@RequestParam(name = "value") @ApiParam(value = "value", example = "My value") String value) {
+		return redisClientService.saveValueByKey(key, value);
+	}
 }

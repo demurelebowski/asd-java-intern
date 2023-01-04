@@ -15,4 +15,8 @@ public class RedisClientService {
 	public String readByKey(String key) {
 		return redisClientDao.readByKey(key);
 	}
+
+	public String saveValueByKey(String key, String value) {
+		return redisClientDao.saveValueByKey(key, value);
+	}
 }
