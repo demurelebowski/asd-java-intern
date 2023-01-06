@@ -12,4 +12,6 @@ public interface RedisClientDao {
 	List<String> retrieveList(String keyList);
 
 	Long saveElementIntoList(String keyList, String value);
+
+	Long saveValueInHashMap(String primaryKey, String secondaryKey, String value);
 }

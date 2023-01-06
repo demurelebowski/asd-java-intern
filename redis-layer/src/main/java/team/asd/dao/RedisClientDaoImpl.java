@@ -35,4 +35,9 @@ public class RedisClientDaoImpl implements RedisClientDao {
 	public Long saveElementIntoList(String keyList, String value) {
 		return jedisPooled.lpush(keyList, value);
 	}
+
+	@Override
+	public Long saveValueInHashMap(String primaryKey, String secondaryKey, String value) {
+		return jedisPooled.hset(primaryKey,secondaryKey,value);
+	}
 }
