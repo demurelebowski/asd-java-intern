@@ -42,8 +42,8 @@ public class RedisController {
 	@ApiOperation(value = "Saves list by key")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved"), @ApiResponse(code = 400, message = "Invalid parameter was provided") })
 	@PostMapping("/list")
-	public String saveList(@RequestParam(name = "key") @ApiParam(value = "key", example = "keyTemp") String key, @RequestBody List<String> list) {
-		return redisClientService.saveList(key, list);
+	public void saveList(@RequestParam(name = "key") @ApiParam(value = "key", example = "keyTemp") String key, @RequestBody List<String> list) {
+		redisClientService.saveList(key, list);
 	}
 
 	@ApiOperation(value = "Get a list by key", notes = "Returns list as per the key")
@@ -52,5 +52,13 @@ public class RedisController {
 	@GetMapping("/list/{key}")
 	List<String> retrieveList(@PathVariable @ApiParam(value = "key", example = "keyTest") String key) {
 		return redisClientService.retrieveList(key);
+	}
+
+	@ApiOperation(value = "Saves element into a list by key")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved"), @ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@PostMapping("/list/{key}")
+	public Long saveElementIntoList(@PathVariable @ApiParam(value = "key", example = "keyTest") String key,
+			@RequestParam(name = "value") @ApiParam(value = "value", example = "3") String value) {
+		return redisClientService.saveElementIntoList(key, value);
 	}
 }

@@ -7,7 +7,9 @@ public interface RedisClientDao {
 
 	String saveValueByKey(String key, String value);
 
-	String saveList(String keyList, List<String> list);
+	void saveList(String keyList, List<String> list);
 
 	List<String> retrieveList(String keyList);
+
+	Long saveElementIntoList(String keyList, String value);
 }

@@ -1,8 +1,5 @@
 package team.asd.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.JedisPooled;
@@ -13,7 +10,6 @@ import java.util.List;
 public class RedisClientDaoImpl implements RedisClientDao {
 	@Autowired
 	JedisPooled jedisPooled;
-	ObjectMapper mapper = new ObjectMapper();
 
 	@Override
 	public String readByKey(String key) {
@@ -26,24 +22,17 @@ public class RedisClientDaoImpl implements RedisClientDao {
 	}
 
 	@Override
-	public String saveList(String keyList, List<String> list) {
-		try {
-			String jsonInString = mapper.writeValueAsString(list);
-			return jedisPooled.set(keyList, jsonInString);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
+	public void saveList(String keyList, List<String> list) {
+		list.forEach(element -> jedisPooled.lpush(keyList, element));
 	}
 
 	@Override
 	public List<String> retrieveList(String keyList) {
-		String jsonString = jedisPooled.get(keyList);
-		try {
-			return mapper.readValue(jsonString, new TypeReference<>() {
-			});
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
+		return jedisPooled.lrange(keyList, 0, -1);
+	}
 
+	@Override
+	public Long saveElementIntoList(String keyList, String value) {
+		return jedisPooled.lpush(keyList, value);
 	}
 }
