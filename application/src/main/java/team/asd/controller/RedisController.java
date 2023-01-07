@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import team.asd.service.RedisClientService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/cache")
@@ -78,5 +79,13 @@ public class RedisController {
 	String retrieveValueFromHashMap(@PathVariable @ApiParam(value = "primaryKey", example = "keyTest") String primaryKey,
 			@RequestParam(name = "secondaryKey") @ApiParam(value = "secondaryKey", example = "secondaryKey") String secondaryKey) {
 		return redisClientService.retrieveValueFromHashMap(primaryKey, secondaryKey);
+	}
+
+	@ApiOperation(value = "Get a HashMap by key", notes = "Returns HashMap as per the key")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@GetMapping("/get_hashmap/{primaryKey}")
+	Map<String, String> retrieveValueFromHashMap(@PathVariable @ApiParam(value = "primaryKey", example = "keyTest") String primaryKey) {
+		return redisClientService.retrieveValueFromHashMap(primaryKey);
 	}
 }

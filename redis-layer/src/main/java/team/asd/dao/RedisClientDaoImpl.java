@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import redis.clients.jedis.JedisPooled;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class RedisClientDaoImpl implements RedisClientDao {
@@ -38,11 +39,16 @@ public class RedisClientDaoImpl implements RedisClientDao {
 
 	@Override
 	public Long saveValueInHashMap(String primaryKey, String secondaryKey, String value) {
-		return jedisPooled.hset(primaryKey,secondaryKey,value);
+		return jedisPooled.hset(primaryKey, secondaryKey, value);
 	}
 
 	@Override
 	public String retrieveValueFromHashMap(String primaryKey, String secondaryKey) {
-		return jedisPooled.;
+		return jedisPooled.hget(primaryKey, secondaryKey);
+	}
+
+	@Override
+	public Map<String, String> retrieveValueFromHashMap(String primaryKey) {
+		return jedisPooled.hgetAll(primaryKey);
 	}
 }

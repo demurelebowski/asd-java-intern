@@ -8,6 +8,7 @@ import team.asd.dao.RedisClientDao;
 import team.asd.exceptions.ValidationException;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RedisClientService {
@@ -59,6 +60,11 @@ public class RedisClientService {
 		validateKey(primaryKey);
 		validateKey(secondaryKey);
 		return redisClientDao.retrieveValueFromHashMap(primaryKey, secondaryKey);
+	}
+
+	public Map<String, String> retrieveValueFromHashMap(String primaryKey) {
+		validateKey(primaryKey);
+		return redisClientDao.retrieveValueFromHashMap(primaryKey);
 	}
 
 	private void validateKey(String keyList) {

@@ -1,6 +1,7 @@
 package team.asd.dao;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RedisClientDao {
 	String readByKey(String key);
@@ -16,4 +17,5 @@ public interface RedisClientDao {
 	Long saveValueInHashMap(String primaryKey, String secondaryKey, String value);
 
 	String retrieveValueFromHashMap(String primaryKey, String secondaryKey);
+	Map<String, String> retrieveValueFromHashMap(String primaryKey);
 }
