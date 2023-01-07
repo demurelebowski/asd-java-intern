@@ -47,12 +47,18 @@ public class RedisClientService {
 		return redisClientDao.saveElementIntoList(keyList, value);
 	}
 
-	Long saveValueInHashMap(String primaryKey, String secondaryKey, String value) {
+	public Long saveValueInHashMap(String primaryKey, String secondaryKey, String value) {
 		validateKey(primaryKey);
 		if (Strings.isEmpty(secondaryKey) || Strings.isEmpty(value)) {
 			throw new ValidationException("Parameter is empty");
 		}
 		return redisClientDao.saveValueInHashMap(primaryKey, secondaryKey, value);
+	}
+
+	public String retrieveValueFromHashMap(String primaryKey, String secondaryKey) {
+		validateKey(primaryKey);
+		validateKey(secondaryKey);
+		return redisClientDao.retrieveValueFromHashMap(primaryKey, secondaryKey);
 	}
 
 	private void validateKey(String keyList) {

@@ -61,4 +61,22 @@ public class RedisController {
 			@RequestParam(name = "value") @ApiParam(value = "value", example = "3") String value) {
 		return redisClientService.saveElementIntoList(key, value);
 	}
+
+	@ApiOperation(value = "Saves value in a HashMap by key")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved"), @ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@PostMapping("/hashmap/{primaryKey}")
+	public Long saveValueInHashMap(@PathVariable @ApiParam(value = "primaryKey", example = "keyTest") String primaryKey,
+			@RequestParam(name = "value") @ApiParam(value = "value", example = "3") String value,
+			@RequestParam(name = "secondaryKey") @ApiParam(value = "secondaryKey", example = "secondaryKey") String secondaryKey) {
+		return redisClientService.saveValueInHashMap(primaryKey, secondaryKey, value);
+	}
+
+	@ApiOperation(value = "Get a value from HashMap by key", notes = "Returns value as per the key")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
+			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@GetMapping("/hashmap/{primaryKey}")
+	String retrieveValueFromHashMap(@PathVariable @ApiParam(value = "primaryKey", example = "keyTest") String primaryKey,
+			@RequestParam(name = "secondaryKey") @ApiParam(value = "secondaryKey", example = "secondaryKey") String secondaryKey) {
+		return redisClientService.retrieveValueFromHashMap(primaryKey, secondaryKey);
+	}
 }
