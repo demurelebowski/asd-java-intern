@@ -34,9 +34,13 @@ public class RedisController {
 
 	@ApiOperation(value = "Saves value by key")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved"), @ApiResponse(code = 400, message = "Invalid parameter was provided") })
-	@PostMapping("/")
-	public String saveValueByKey(@RequestParam(name = "key") @ApiParam(value = "key", example = "keyTemp") String key,
-			@RequestParam(name = "value") @ApiParam(value = "value", example = "My value") String value) {
+	@PostMapping("/{key}")
+	public String saveValueByKey(@PathVariable @ApiParam(value = "key", example = "keyTest") String key,
+			@RequestParam(name = "value") @ApiParam(value = "value", example = "My value") String value,
+			@RequestParam(required = false, name = "expireDate") @ApiParam(value = "expireDate", example = "60") Long expireDate) {
+		if (expireDate != null) {
+			return redisClientService.saveValueWithExpireDate(key, value, expireDate);
+		}
 		return redisClientService.saveValueByKey(key, value);
 	}
 

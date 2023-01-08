@@ -9,6 +9,7 @@ import team.asd.exceptions.ValidationException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class RedisClientService {
@@ -65,6 +66,14 @@ public class RedisClientService {
 	public Map<String, String> retrieveValueFromHashMap(String primaryKey) {
 		validateKey(primaryKey);
 		return redisClientDao.retrieveValueFromHashMap(primaryKey);
+	}
+
+	public String saveValueWithExpireDate(String key, String value, Long expireDate) {
+		validateKey(key);
+		if (Strings.isEmpty(value) || Objects.isNull(expireDate)) {
+			throw new ValidationException("Parameter is empty");
+		}
+		return redisClientDao.saveValueWithExpireDate(key, value, expireDate);
 	}
 
 	private void validateKey(String keyList) {
