@@ -37,7 +37,7 @@ class ReservationServiceTest {
 	@BeforeEach
 	public void initArchivePrice() {
 		MockitoAnnotations.openMocks(this);
-		reservationService = new ReservationService(testReservationDao);
+		reservationService = new ReservationService(testReservationDao, null, null);
 		reservation = new Reservation();
 		reservation.setId(-1);
 		reservationMock = null;
