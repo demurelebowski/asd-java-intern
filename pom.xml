@@ -7,6 +7,7 @@
 	<modules>
 		<module>reservation-layer</module>
 		<module>application</module>
+		<module>redis-layer</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
