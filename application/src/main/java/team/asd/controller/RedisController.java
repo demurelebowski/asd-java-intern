@@ -92,4 +92,13 @@ public class RedisController {
 	Map<String, String> retrieveValueFromHashMap(@PathVariable @ApiParam(value = "primaryKey", example = "keyTest") String primaryKey) {
 		return redisClientService.retrieveValueFromHashMap(primaryKey);
 	}
+
+	@ApiOperation(value = "Checks if provided dates are free and saves calculated quote in Redis.")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully saved"), @ApiResponse(code = 400, message = "Invalid parameter was provided") })
+	@PostMapping("/calculated_quote/{productId}")
+	public String saveQuoteCalculation(@PathVariable @ApiParam(value = "productId", example = "456") Integer productId,
+			@RequestParam(name = "from_date") @ApiParam(value = "from_date", example = "2022-01-01") String fromDate,
+			@RequestParam(name = "to_date") @ApiParam(value = "to_date", example = "2022-01-22") String toDate) {
+		return redisClientService.saveQuoteCalculation(productId, fromDate, toDate);
+	}
 }
