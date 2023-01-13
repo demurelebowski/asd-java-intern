@@ -3,6 +3,8 @@ package team.asd.util;
 import team.asd.exceptions.ValidationException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -22,12 +24,20 @@ public class ConvertUtil {
 		}
 	}
 
-	public static Date convertToDateViaInstant(LocalDate dateToConvert) {
+	public static Date convertToDateStart(LocalDate dateToConvert) {
 		if (Objects.isNull(dateToConvert)) {
 			return null;
 		}
 		return Date.from(dateToConvert.atStartOfDay()
 				.atZone(ZoneId.systemDefault())
 				.toInstant());
+	}
+	public static Date convertToDateEnd(LocalDate dateToConvert) {
+		if (Objects.isNull(dateToConvert)) {
+			return null;
+		}
+		LocalDateTime endOfDay = dateToConvert.atTime(LocalTime.MAX);
+
+		return Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
 	}
 }

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Date;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.math.NumberUtils;
 
 @Service
 public class RedisClientService {
@@ -111,7 +112,7 @@ public class RedisClientService {
 	}
 
 	public String saveQuoteCalculation(Integer productId, String fromDate, String toDate) {
-		if (Objects.isNull(productId) || Strings.isEmpty(fromDate) || Strings.isEmpty(toDate)){
+		if (Objects.isNull(productId) || Strings.isEmpty(fromDate) || Strings.isEmpty(toDate)) {
 			throw new ValidationException("One of the parameters is empty");
 		}
 		String primaryKey = "quote_result:" + productId;
@@ -127,8 +128,8 @@ public class RedisClientService {
 		LocalDate toDateLocalDate = ConvertUtil.localDateFromString(toDate);
 
 		if (!hasReservationCollision(productId, fromDateLocalDate, toDateLocalDate)) {
-			quoteValue = quoteCalculation(productId, ConvertUtil.convertToDateViaInstant(fromDateLocalDate),
-					ConvertUtil.convertToDateViaInstant(toDateLocalDate));
+			quoteValue = quoteCalculation(productId, ConvertUtil.convertToDateStart(fromDateLocalDate),
+					ConvertUtil.convertToDateEnd(toDateLocalDate));
 		}
 		redisClientDao.saveValueInHashMap(primaryKey, secondaryKey, quoteValue.toString(), 900L);
 
@@ -157,7 +158,7 @@ public class RedisClientService {
 				.mapToDouble(Price::getValue)
 				.sum();
 
-		if (priceSum == 0.0){
+		if (NumberUtils.DOUBLE_ZERO.equals(priceSum)) {
 			return priceSum;
 		}
 		Double feeSum = feeList.stream()
@@ -170,7 +171,7 @@ public class RedisClientService {
 				.findFirst()
 				.orElse(null);
 
-		Double percentFee = 0.0;
+		Double percentFee = NumberUtils.DOUBLE_ZERO;
 		if (feePer != null) {
 			percentFee = feePer.getValue();
 		}
