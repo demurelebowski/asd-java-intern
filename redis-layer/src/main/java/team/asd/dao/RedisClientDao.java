@@ -16,6 +16,8 @@ public interface RedisClientDao {
 
 	Long saveValueInHashMap(String primaryKey, String secondaryKey, String value);
 
+	Long saveValueInHashMap(String primaryKey, String secondaryKey, String value, Long expireDate);
+
 	String retrieveValueFromHashMap(String primaryKey, String secondaryKey);
 
 	Map<String, String> retrieveValueFromHashMap(String primaryKey);

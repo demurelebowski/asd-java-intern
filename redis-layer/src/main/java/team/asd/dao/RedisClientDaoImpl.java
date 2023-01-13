@@ -43,6 +43,12 @@ public class RedisClientDaoImpl implements RedisClientDao {
 	}
 
 	@Override
+	public Long saveValueInHashMap(String primaryKey, String secondaryKey, String value, Long expireDate) {
+		jedisPooled.hset(primaryKey, secondaryKey, value);
+		return jedisPooled.expire(primaryKey, expireDate);
+	}
+
+	@Override
 	public String retrieveValueFromHashMap(String primaryKey, String secondaryKey) {
 		return jedisPooled.hget(primaryKey, secondaryKey);
 	}
