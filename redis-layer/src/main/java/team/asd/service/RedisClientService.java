@@ -4,7 +4,11 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import team.asd.constant.FeeType;
+import team.asd.constant.PriceState;
 import team.asd.constant.ReservationState;
+import team.asd.constant.Unit;
+import team.asd.constant.ValueType;
 import team.asd.dao.FeeDao;
 import team.asd.dao.PriceDao;
 import team.asd.dao.RedisClientDao;
@@ -107,21 +111,31 @@ public class RedisClientService {
 	}
 
 	public String saveQuoteCalculation(Integer productId, String fromDate, String toDate) {
-		String value = retrieveValueFromHashMap("quote_result:"+productId, fromDate+":"+toDate);
+		if (Objects.isNull(productId) || Strings.isEmpty(fromDate) || Strings.isEmpty(toDate)){
+			throw new ValidationException("One of the parameters is empty");
+		}
+		String primaryKey = "quote_result:" + productId;
+		String secondaryKey = fromDate + ":" + toDate;
+		String value = retrieveValueFromHashMap(primaryKey, secondaryKey);
 
-		if (value!=null){
+		if (value != null) {
 			return value;
 		}
 
-		if (hasReservationCollision(productId, fromDate, toDate)){
-			return "0";
+		Double quoteValue = 0.0;
+		LocalDate fromDateLocalDate = ConvertUtil.localDateFromString(fromDate);
+		LocalDate toDateLocalDate = ConvertUtil.localDateFromString(toDate);
+
+		if (!hasReservationCollision(productId, fromDateLocalDate, toDateLocalDate)) {
+			quoteValue = quoteCalculation(productId, ConvertUtil.convertToDateViaInstant(fromDateLocalDate),
+					ConvertUtil.convertToDateViaInstant(toDateLocalDate));
 		}
-		return null;
+		redisClientDao.saveValueInHashMap(primaryKey, secondaryKey, quoteValue.toString(), 900L);
+
+		return quoteValue.toString();
 	}
 
-	public Boolean hasReservationCollision(Integer productId, String fromDateStr, String toDateStr) {
-		LocalDate fromDate = ConvertUtil.localDateFromString(fromDateStr);
-		LocalDate toDate = ConvertUtil.localDateFromString(toDateStr);
+	public Boolean hasReservationCollision(Integer productId, LocalDate fromDate, LocalDate toDate) {
 		List<Reservation> reservationList = reservationDao.getListByDates(fromDate, toDate, null);
 		List<Reservation> reservationListFiltered = reservationList.stream()
 				.filter(reservation -> productId.equals(reservation.getProductId()) && !ReservationState.Cancelled.equals(reservation.getState())
@@ -134,11 +148,36 @@ public class RedisClientService {
 		return !reservationListFiltered.isEmpty();
 	}
 
-	public Double quoteCalculation(Integer productId, Date fromDate, Date toDate){
+	public Double quoteCalculation(Integer productId, Date fromDate, Date toDate) {
+		List<Price> priceList = priceDao.readPricesByDateRange(productId, fromDate, toDate);
+		List<Fee> feeList = feeDao.readFeesByDateRange(productId, fromDate, toDate);
 
-		List<Price> priceList = priceDao.readPricesByDateRange(fromDate, toDate);
-		List<Fee> feeList = feeDao.readFeesByDateRange(fromDate, toDate);
+		Double priceSum = priceList.stream()
+				.filter(price -> PriceState.Created.equals(price.getState()))
+				.mapToDouble(Price::getValue)
+				.sum();
 
-		return null;
+		if (priceSum == 0.0){
+			return priceSum;
+		}
+		Double feeSum = feeList.stream()
+				.filter(fee -> feeFilter(fee) && ValueType.Flat.equals(fee.getValueType()))
+				.mapToDouble(Fee::getValue)
+				.sum();
+
+		Fee feePer = feeList.stream()
+				.filter(fee -> feeFilter(fee) && ValueType.Percent.equals(fee.getValueType()))
+				.findFirst()
+				.orElse(null);
+
+		Double percentFee = 0.0;
+		if (feePer != null) {
+			percentFee = feePer.getValue();
+		}
+		return (priceSum + feeSum) * percentFee;
+	}
+
+	private Boolean feeFilter(Fee fee) {
+		return FeeType.General.equals(fee.getFeeType()) && (Unit.Per_Day.equals(fee.getUnit()) || Unit.Per_Stay.equals(fee.getUnit()));
 	}
 }
