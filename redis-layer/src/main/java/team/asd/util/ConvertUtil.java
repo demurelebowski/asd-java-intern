@@ -26,7 +26,7 @@ public class ConvertUtil {
 		if (Objects.isNull(dateToConvert)) {
 			return null;
 		}
-		return java.util.Date.from(dateToConvert.atStartOfDay()
+		return Date.from(dateToConvert.atStartOfDay()
 				.atZone(ZoneId.systemDefault())
 				.toInstant());
 	}
