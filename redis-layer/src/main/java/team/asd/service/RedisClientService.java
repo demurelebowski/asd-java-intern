@@ -1,5 +1,6 @@
 package team.asd.service;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,11 @@ import team.asd.exceptions.ValidationException;
 import team.asd.util.ConvertUtil;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Date;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.math.NumberUtils;
 
 @Service
 public class RedisClientService {
@@ -128,8 +128,7 @@ public class RedisClientService {
 		LocalDate toDateLocalDate = ConvertUtil.localDateFromString(toDate);
 
 		if (!hasReservationCollision(productId, fromDateLocalDate, toDateLocalDate)) {
-			quoteValue = quoteCalculation(productId, ConvertUtil.convertToDateStart(fromDateLocalDate),
-					ConvertUtil.convertToDateEnd(toDateLocalDate));
+			quoteValue = quoteCalculation(productId, ConvertUtil.convertToDateStart(fromDateLocalDate), ConvertUtil.convertToDateEnd(toDateLocalDate));
 		}
 		redisClientDao.saveValueInHashMap(primaryKey, secondaryKey, quoteValue.toString(), 900L);
 

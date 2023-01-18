@@ -1,7 +1,6 @@
 package team.asd.tutorials.util;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import team.asd.tutorials.entities.BaseLocation;
 import team.asd.tutorials.entities.IsLocation;

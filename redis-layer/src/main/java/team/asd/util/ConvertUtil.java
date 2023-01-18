@@ -32,12 +32,14 @@ public class ConvertUtil {
 				.atZone(ZoneId.systemDefault())
 				.toInstant());
 	}
+
 	public static Date convertToDateEnd(LocalDate dateToConvert) {
 		if (Objects.isNull(dateToConvert)) {
 			return null;
 		}
 		LocalDateTime endOfDay = dateToConvert.atTime(LocalTime.MAX);
 
-		return Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return Date.from(endOfDay.atZone(ZoneId.systemDefault())
+				.toInstant());
 	}
 }

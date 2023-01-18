@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import redis.clients.jedis.JedisPooled;
 
 @Configuration
-@ComponentScan({"team.asd"})
+@ComponentScan({ "team.asd" })
 @PropertySource("redis.properties")
 public class AppConfig {
 

@@ -13,44 +13,44 @@ import java.util.List;
 @Repository
 public class ReservationDaoImplementation implements ReservationDao {
 
-    private final ReservationMapper reservationMapper;
+	private final ReservationMapper reservationMapper;
 
-    public ReservationDaoImplementation(@Autowired ReservationMapper reservationMapper) {
-        this.reservationMapper = reservationMapper;
-    }
+	public ReservationDaoImplementation(@Autowired ReservationMapper reservationMapper) {
+		this.reservationMapper = reservationMapper;
+	}
 
-    @Override
-    public Reservation readById(Integer id) {
-        return reservationMapper.readById(id);
-    }
+	@Override
+	public Reservation readById(Integer id) {
+		return reservationMapper.readById(id);
+	}
 
-    @Override
-    public void create(Reservation reservation) {
-        reservationMapper.create(reservation);
-    }
+	@Override
+	public void create(Reservation reservation) {
+		reservationMapper.create(reservation);
+	}
 
-    @Override
-    public void update(Reservation reservation) {
-        reservationMapper.update(reservation);
-    }
+	@Override
+	public void update(Reservation reservation) {
+		reservationMapper.update(reservation);
+	}
 
-    @Override
-    public Boolean delete(Integer id) {
-        return reservationMapper.delete(id);
-    }
+	@Override
+	public Boolean delete(Integer id) {
+		return reservationMapper.delete(id);
+	}
 
-    @Override
-    public List<Reservation> getListByParameters(Integer productId, Integer organizationId, Integer agentId) {
-        return reservationMapper.getListByParameters(productId, organizationId, agentId);
-    }
+	@Override
+	public List<Reservation> getListByParameters(Integer productId, Integer organizationId, Integer agentId) {
+		return reservationMapper.getListByParameters(productId, organizationId, agentId);
+	}
 
-    @Override
-    public List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state) {
-        return reservationMapper.getListByDates(fromDate, toDate, state);
-    }
+	@Override
+	public List<Reservation> getListByDates(LocalDate fromDate, LocalDate toDate, ReservationState state) {
+		return reservationMapper.getListByDates(fromDate, toDate, state);
+	}
 
-    @Override
-    public List<ReservationReportDto> getReservationReport(Integer reservationId, Integer firstRow, Integer limit) {
-        return reservationMapper.getReservationReport(reservationId, firstRow, limit);
-    }
+	@Override
+	public List<ReservationReportDto> getReservationReport(Integer reservationId, Integer firstRow, Integer limit) {
+		return reservationMapper.getReservationReport(reservationId, firstRow, limit);
+	}
 }

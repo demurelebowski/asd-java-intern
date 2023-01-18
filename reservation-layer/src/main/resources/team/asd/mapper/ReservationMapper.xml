@@ -1,132 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.asd.mapper.ReservationMapper">
-    <resultMap id="ResultMap" type="team.asd.entity.Reservation">
-        <id column="id" property="id"/>
-        <result column="organization_id" property="organizationId"/>
-        <result column="agent_id" property="agentId"/>
-        <result column="customer_id" property="customerId"/>
-        <result column="product_id" property="productId"/>
-        <result column="from_date" property="fromDate"/>
-        <result column="to_date" property="toDate"/>
-        <result column="state" property="state"/>
-        <result column="price" property="price"/>
-        <result column="quote" property="quote"/>
-        <result column="currency" property="currency"/>
-        <result column="guests" property="guests"/>
-        <result column="notes" property="notes"/>
-        <result column="version" property="version"/>
-    </resultMap>
-    <resultMap id="ReservationReportResultMap" type="team.asd.dto.ReservationReportDto">
-        <id property="id" column="r_id"/>
-        <result property='organizationId' column='r_organization_id'/>
-        <result property='agentId' column='r_agent_id'/>
-        <result property='customerId' column='r_customer_id'/>
-        <result property='productId' column='r_product_id'/>
-        <result property='fromDate' column='r_from_date'/>
-        <result property='toDate' column='r_to_date'/>
-        <result property='state' column='r_state'/>
-        <result property='price' column='r_price'/>
-        <result property='quote' column='r_quote'/>
-        <result property='currency' column='r_currency'/>
-        <result property='guests' column='r_guests'/>
-        <result property='notes' column='r_notes'/>
-        <result property='version' column='r_version'/>
-        <association property="reservationConfirmation" javaType="team.asd.dto.ReservationConfirmationInfoDto">
-            <result property='createdDate' column='rc_created_date'/>
-            <result property='confirmationId' column='rc_confirmation_id'/>
-        </association>
-        <collection property="archivePrice" ofType="team.asd.dto.ArchivePriceInfoDto">
-            <result property='name' column='ap_name'/>
-            <result property='type' column='ap_type'/>
-            <result property='entityType' column='ap_entity_type'/>
-            <result property='value' column='ap_value'/>
-        </collection>
-    </resultMap>
-    <select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
-        SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote,
-        currency, guests, notes, version
-        FROM reservation
-        WHERE id =#{id}
-    </select>
-    <insert id="create" parameterType="team.asd.entity.Reservation" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO reservation (organization_id, agent_id, customer_id, product_id <if test="state != null">,
-        state</if>, from_date, to_date, price, quote,
-        currency <if test="guests != null">, guests</if>, notes)
-        VALUES (#{organizationId},#{agentId},#{customerId},#{productId},<if test="state != null">#{state},</if>#{fromDate},#{toDate},#{price},#{quote},#{currency},<if
-            test="guests != null">#{guests},</if>#{notes})
-    </insert>
-    <update id="update" parameterType="team.asd.entity.Reservation">
-        UPDATE
-        reservation
-        <set>
-            <if test="organizationId!=null">organization_id=#{organizationId},</if>
-            <if test="agentId!=null">agent_id=#{agentId},</if>
-            <if test="customerId!=null">customer_id=#{customerId},</if>
-            <if test="productId!=null">product_id=#{productId},</if>
-            <if test="state!=null">state=#{state},</if>
-            <if test="fromDate!=null">from_date=#{fromDate},</if>
-            <if test="toDate!=null">to_date=#{toDate},</if>
-            <if test="price!=null">price=#{price},</if>
-            <if test="quote!=null">quote=#{quote},</if>
-            <if test="guests!=null">guests=#{guests},</if>
-            <if test="currency!=null">currency=#{currency},</if>
-            <if test="notes!=null">notes=#{notes}</if>
-        </set>
-        WHERE id=#{id}
-    </update>
-    <delete id="delete" parameterType="int">
-        UPDATE
-        reservation
-        SET state='Cancelled'
-        WHERE id =#{id}
-    </delete>
-    <select id="getListByParameters" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
-        SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote,
-        currency, guests, notes, version
-        FROM reservation
-        WHERE product_id = #{productId}
-        <if test="organizationId != null">
-            and organization_id = #{organizationId}
-        </if>
-        <if test="agentId != null">
-            and agent_id = #{agentId}
-        </if>
-    </select>
-    <select id="getListByDates" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
-        SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote,
-        currency, guests, notes, version
-        FROM reservation
-        WHERE from_date <![CDATA[ >= ]]> #{fromDate}
-        and to_date <![CDATA[ < ]]> #{toDate}
-        <if test="state != null">
-            and state = #{state}
-        </if>
-    </select>
+	<resultMap id="ResultMap" type="team.asd.entity.Reservation">
+		<id column="id" property="id"/>
+		<result column="organization_id" property="organizationId"/>
+		<result column="agent_id" property="agentId"/>
+		<result column="customer_id" property="customerId"/>
+		<result column="product_id" property="productId"/>
+		<result column="from_date" property="fromDate"/>
+		<result column="to_date" property="toDate"/>
+		<result column="state" property="state"/>
+		<result column="price" property="price"/>
+		<result column="quote" property="quote"/>
+		<result column="currency" property="currency"/>
+		<result column="guests" property="guests"/>
+		<result column="notes" property="notes"/>
+		<result column="version" property="version"/>
+	</resultMap>
+	<resultMap id="ReservationReportResultMap" type="team.asd.dto.ReservationReportDto">
+		<id property="id" column="r_id"/>
+		<result property='organizationId' column='r_organization_id'/>
+		<result property='agentId' column='r_agent_id'/>
+		<result property='customerId' column='r_customer_id'/>
+		<result property='productId' column='r_product_id'/>
+		<result property='fromDate' column='r_from_date'/>
+		<result property='toDate' column='r_to_date'/>
+		<result property='state' column='r_state'/>
+		<result property='price' column='r_price'/>
+		<result property='quote' column='r_quote'/>
+		<result property='currency' column='r_currency'/>
+		<result property='guests' column='r_guests'/>
+		<result property='notes' column='r_notes'/>
+		<result property='version' column='r_version'/>
+		<association property="reservationConfirmation" javaType="team.asd.dto.ReservationConfirmationInfoDto">
+			<result property='createdDate' column='rc_created_date'/>
+			<result property='confirmationId' column='rc_confirmation_id'/>
+		</association>
+		<collection property="archivePrice" ofType="team.asd.dto.ArchivePriceInfoDto">
+			<result property='name' column='ap_name'/>
+			<result property='type' column='ap_type'/>
+			<result property='entityType' column='ap_entity_type'/>
+			<result property='value' column='ap_value'/>
+		</collection>
+	</resultMap>
+	<select id="readById" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
+		SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote,
+		currency, guests, notes, version
+		FROM reservation
+		WHERE id =#{id}
+	</select>
+	<insert id="create" parameterType="team.asd.entity.Reservation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO reservation (organization_id, agent_id, customer_id, product_id <if test="state != null">,
+		state</if>, from_date, to_date, price, quote,
+		currency <if test="guests != null">, guests</if>, notes)
+		VALUES (#{organizationId},#{agentId},#{customerId},#{productId},<if test="state != null">#{state},</if>#{fromDate},#{toDate},#{price},#{quote},#{currency},<if
+			test="guests != null">#{guests},</if>#{notes})
+	</insert>
+	<update id="update" parameterType="team.asd.entity.Reservation">
+		UPDATE
+		reservation
+		<set>
+			<if test="organizationId!=null">organization_id=#{organizationId},</if>
+			<if test="agentId!=null">agent_id=#{agentId},</if>
+			<if test="customerId!=null">customer_id=#{customerId},</if>
+			<if test="productId!=null">product_id=#{productId},</if>
+			<if test="state!=null">state=#{state},</if>
+			<if test="fromDate!=null">from_date=#{fromDate},</if>
+			<if test="toDate!=null">to_date=#{toDate},</if>
+			<if test="price!=null">price=#{price},</if>
+			<if test="quote!=null">quote=#{quote},</if>
+			<if test="guests!=null">guests=#{guests},</if>
+			<if test="currency!=null">currency=#{currency},</if>
+			<if test="notes!=null">notes=#{notes}</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		UPDATE
+		reservation
+		SET state='Cancelled'
+		WHERE id =#{id}
+	</delete>
+	<select id="getListByParameters" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
+		SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote,
+		currency, guests, notes, version
+		FROM reservation
+		WHERE product_id = #{productId}
+		<if test="organizationId != null">
+			and organization_id = #{organizationId}
+		</if>
+		<if test="agentId != null">
+			and agent_id = #{agentId}
+		</if>
+	</select>
+	<select id="getListByDates" parameterType="int" resultMap="ResultMap" resultType="team.asd.entity.Reservation">
+		SELECT id, organization_id, agent_id, customer_id, product_id, state, from_date, to_date, price, quote,
+		currency, guests, notes, version
+		FROM reservation
+		WHERE from_date <![CDATA[ >= ]]> #{fromDate}
+		and to_date <![CDATA[ < ]]> #{toDate}
+		<if test="state != null">
+			and state = #{state}
+		</if>
+	</select>
 
-    <select id="getReservationReport" parameterType="int" resultMap="ReservationReportResultMap">
-        SELECT r.id AS r_id, r.organization_id AS r_organization_id, r.agent_id AS r_agent_id, r.customer_id AS
-        r_customer_id, r.product_id AS r_product_id, r.state AS r_state, r.from_date AS r_from_date, r.to_date AS
-        r_to_date, r.price AS r_price, r.quote AS r_quote,
-        r.currency AS r_currency, r.guests AS r_guests, r.notes AS r_notes, r.version AS r_version, rc.created_date AS
-        rc_created_date, rc.confirmation_id AS rc_confirmation_id, ap.name AS ap_name, ap.type AS ap_type,
-        ap.entity_type AS ap_entity_type, ap.value AS ap_value
-        FROM reservation AS r
-        LEFT JOIN reservation_confirmation AS rc ON r.id = rc.reservation_id
-        LEFT JOIN archive_price AS ap ON r.id = ap.entity_id
-        INNER JOIN (SELECT DISTINCT r.id
-        FROM reservation r
-        LEFT JOIN reservation_confirmation rc ON r.id = rc.reservation_id
-        LEFT JOIN archive_price ap on r.id = ap.entity_id
-        WHERE r.state = 'Confirmed'
-        <if test="reservationId != null">
-            AND r.id =#{reservationId}
-        </if>
-        ORDER BY r.id
-        <if test="firstRow != null and limit != null">
-            LIMIT #{firstRow}, #{limit}
-        </if>
-        ) AS pagination_select ON pagination_select.id = r.id;
-    </select>
+	<select id="getReservationReport" parameterType="int" resultMap="ReservationReportResultMap">
+		SELECT r.id AS r_id, r.organization_id AS r_organization_id, r.agent_id AS r_agent_id, r.customer_id AS
+		r_customer_id, r.product_id AS r_product_id, r.state AS r_state, r.from_date AS r_from_date, r.to_date AS
+		r_to_date, r.price AS r_price, r.quote AS r_quote,
+		r.currency AS r_currency, r.guests AS r_guests, r.notes AS r_notes, r.version AS r_version, rc.created_date AS
+		rc_created_date, rc.confirmation_id AS rc_confirmation_id, ap.name AS ap_name, ap.type AS ap_type,
+		ap.entity_type AS ap_entity_type, ap.value AS ap_value
+		FROM reservation AS r
+		LEFT JOIN reservation_confirmation AS rc ON r.id = rc.reservation_id
+		LEFT JOIN archive_price AS ap ON r.id = ap.entity_id
+		INNER JOIN (SELECT DISTINCT r.id
+		FROM reservation r
+		LEFT JOIN reservation_confirmation rc ON r.id = rc.reservation_id
+		LEFT JOIN archive_price ap on r.id = ap.entity_id
+		WHERE r.state = 'Confirmed'
+		<if test="reservationId != null">
+			AND r.id =#{reservationId}
+		</if>
+		ORDER BY r.id
+		<if test="firstRow != null and limit != null">
+			LIMIT #{firstRow}, #{limit}
+		</if>
+		) AS pagination_select ON pagination_select.id = r.id;
+	</select>
 </mapper>

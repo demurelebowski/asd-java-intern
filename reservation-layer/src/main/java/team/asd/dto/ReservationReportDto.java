@@ -12,35 +12,20 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class ReservationReportDto {
-	private Integer id;
-
-	private Integer organizationId;
-
-	private Integer agentId;
-
-	private Integer customerId;
-
-	private Integer productId;
-
-	private String state;
-
-	private String fromDate;
-
-	private String toDate;
-
-	private Double price;
-
-	private Double quote;
-
-	private String currency;
-
-	private Integer guests;
-
-	private String notes;
-
-	private String version;
-
 	ReservationConfirmationInfoDto reservationConfirmation;
-
 	List<ArchivePriceInfoDto> archivePrice;
+	private Integer id;
+	private Integer organizationId;
+	private Integer agentId;
+	private Integer customerId;
+	private Integer productId;
+	private String state;
+	private String fromDate;
+	private String toDate;
+	private Double price;
+	private Double quote;
+	private String currency;
+	private Integer guests;
+	private String notes;
+	private String version;
 }

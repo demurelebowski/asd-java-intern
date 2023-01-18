@@ -43,7 +43,8 @@ public class ReservationController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved"),
 			@ApiResponse(code = 400, message = "Invalid parameter was provided") })
 	@GetMapping("/user_readable/{reservationId}")
-	public ReservationUserReadableDto readReservationUserReadableDtoById(@PathVariable @ApiParam(value = "Reservation id", example = "3") Integer reservationId) {
+	public ReservationUserReadableDto readReservationUserReadableDtoById(
+			@PathVariable @ApiParam(value = "Reservation id", example = "3") Integer reservationId) {
 		return reservationService.readReservationUserReadableDtoById(reservationId);
 	}
 
