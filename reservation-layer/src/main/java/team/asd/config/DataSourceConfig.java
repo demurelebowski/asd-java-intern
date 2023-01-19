@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan({ "team.asd" })
 @MapperScan({ "team.asd.mapper" })
-@Profile({"prod", "default"})
+@Profile({ "prod", "default" })
 public class DataSourceConfig {
 
 	@Bean

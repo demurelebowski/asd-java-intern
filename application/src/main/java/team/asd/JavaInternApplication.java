@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class JavaInternApplication {
 
+	public static void main(String[] args) {
+		SpringApplication.run(JavaInternApplication.class, args);
+	}
+
 	@Bean
 	public XSync<Integer> xSync() {
 		return new XSync<>();
-	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(JavaInternApplication.class, args);
 	}
 
 }
